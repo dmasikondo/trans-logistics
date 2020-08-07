@@ -72,8 +72,9 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4">            
             @yield('content')
+            @yield('nav_dashboard')
         </main>
     </div>
 </body>

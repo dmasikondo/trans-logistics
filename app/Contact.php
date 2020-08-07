@@ -13,11 +13,25 @@ class Contact extends Model
      * @var array
      */
     protected $fillable = [
-        'person' ,'phone', 'whatsapp',
+        'person' ,'phone', 'whatsapp','user_id',
     ];	
-    
-    public function user()
+
+    /**
+     * A contact belongs to the user class of the 
+     */
+   	public function user()
     {
     	return $this->belongsTo(User::class);
     }
+
+    /**
+    * Get all of the organisation contacts' capturers.
+    */
+    public function capturers()
+    {
+    return $this->morphMany('App\DataCapturer', 'data_capturable');
+    } 
+
+
+
 }

@@ -6,11 +6,11 @@
 						<h3>Register</h3>
 					</div>
 					<div class="card-body">
-
+                        <p v-if="errors">
+                            <span class="text-danger">{{message}}</span>
+                        </p>
 						<form @submit.prevent="userRegistration">
-                            <p v-if="errors.length">
-                                <span class="text-danger">{{message}}</span>
-                            </p>
+
 							<div class="form-group input-group">
                                 <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-user"></i></span> 
@@ -125,11 +125,12 @@
                 }).then((response) =>{
                     window.location.href='/home';
                     this.errors = new Errors();
+                    this.message = '',
                     this.organisation= '';
                     this.email = '';
                     this.password ='';
                     this.password_confirmation ='';                    
-                }).catch(e =>{
+                }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' User not Registered';                    
                 });

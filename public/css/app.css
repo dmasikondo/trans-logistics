@@ -1,117 +1,113 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
-.card {
-  height: 35em;
-  margin-top: auto;
-  margin-bottom: auto;
-  width: 30em;
-  border-radius: 0.45rem;
-  background-color: rgba(250, 250, 250, 0.5) !important;
+/* .card{
+height: 37em;
+margin-top: auto;
+margin-bottom: auto;
+width: 30em;
+border-radius: 0.45rem;
+background-color: rgba(250,250,250,0.5) !important; 
 }
 
-.card-header {
-  background: #2E94BE transparent !important;
-  opacity: 0.5 !important;
+.card-header{
+    background: #2E94BE transparent !important;
+    opacity: 0.5 !important;
 }
 
-.card-header h3 {
-  color: #FFF;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 800;
-  text-shadow: 3px 3px #8DC975;
+.card-header h3{
+color: #FFF;
+letter-spacing: 2px;
+text-transform: uppercase;
+font-weight: 800;
+text-shadow: 3px 3px #8DC975;
 }
 
-.input-group-prepend span {
-  width: 3.125em;
-  background-color: #8DC975;
-  color: black;
-  border: 0 !important;
-}
 
-input.form-control,
-input.form-control:focus {
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #ced4da;
+.input-group-prepend span{
+width: 3.125em;
+background-color: #8DC975;
+color: black;
+border:0 !important;
 }
-
-.input-group {
-  position: relative;
+input.form-control, input.form-control:focus{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ced4da;;
 }
-
-.form-group.input-group {
-  margin-bottom: 1.75rem;
+.input-group{
+    position: relative;
 }
-
-.floating-label {
-  position: absolute;
-  top: 0.5625em;
-  left: 3.875em;
-  pointer-events: none;
-  color: #ccc;
-  font-weight: bolder;
-  letter-spacing: 3px;
-  transition: all 0.5s ease-in-out;
+.form-group.input-group{
+    margin-bottom: 1.75rem;
+}
+.floating-label{
+    position: absolute;
+    top: 0.5625em;
+    left: 3.875em;
+    pointer-events: none;
+    color: #ccc;
+    font-weight: bolder;
+    letter-spacing: 3px;
+    transition: all 0.5s ease-in-out;    
 }
 
 input:focus ~ .floating-label,
 input:not(:focus):valid ~ .floating-label {
-  top: -1.5375em;
-  bottom: 0px;
-  left: 3.875em;
-  font-size: 0.8875em;
-  font-weight: normal;
-  margin: 0 0 1em 0;
-  opacity: 1;
-  color: #2E94BE;
-  letter-spacing: 1px;
+    top: -1.5375em;
+    bottom: 0px;
+    left: 3.875em;
+    font-size: 0.8875em;  
+    font-weight: normal;  
+    margin: 0 0 1em 0;
+    opacity: 1;
+   color: #2E94BE;
+   letter-spacing: 1px;
+}
+input:visited ~ .floating-label{
+    color: red;
+}
+button.btn{
+    font-weight: 800;
+}
+.remember{
+color: white;
 }
 
-input:visited ~ .floating-label {
-  color: red;
+.remember input
+{
+width: 20px;
+height: 20px;
+margin-left: 15px;
+margin-right: 5px;
 }
 
-button.btn {
-  font-weight: 800;
+.login_btn{
+color: black;
+background-color: #FFC312;
+width: 100px;
 }
 
-.remember {
-  color: white;
+.login_btn:hover{
+color: black;
+background-color: white;
 }
 
-.remember input {
-  width: 20px;
-  height: 20px;
-  margin-left: 15px;
-  margin-right: 5px;
+.links{
+color: white;
+text-shadow: 2px 2px #8DC975;
 }
 
-.login_btn {
-  color: black;
-  background-color: #FFC312;
-  width: 100px;
+.links a{
+margin-left: 4px;
+}    
+
+.input-group-text >.fa{
+    text-align: center;
+    color: #fff;
+   text-shadow: 1px 1px #2E94BE;
 }
 
-.login_btn:hover {
-  color: black;
-  background-color: white;
-}
-
-.links {
-  color: white;
-  text-shadow: 2px 2px #8DC975;
-}
-
-.links a {
-  margin-left: 4px;
-}
-
-.input-group-text > .fa {
-  text-align: center;
-  color: #fff;
-  text-shadow: 1px 1px #2E94BE;
-}
+*/
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)

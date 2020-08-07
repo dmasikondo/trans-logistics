@@ -14,9 +14,10 @@ class CreateDataCapturersTable extends Migration
     public function up()
     {
         Schema::create('data_capturers', function (Blueprint $table) {
-            $table->primary(['data_capturer_id','contact_id']);
-            $table->unsignedBigInteger('data_capturer__id');
-            $table->unsignedBigInteger('contact_id');
+            $table->id();
+            $table->foreignId('data_capturable_id');
+            $table->foreignId('user_id');
+            $table->string('data_capturable_type');
             $table->timestamps();
         });
     }

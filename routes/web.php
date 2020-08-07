@@ -17,6 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/dash', function () {
+    return view('dashboard.index');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
+Auth::routes(['verify' =>true]);
+
+Route::get('/home',	'HomeController@index')->name('home')->middleware('stage');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/contacts/{user:slug}', 'ContactController@index');
+Route::post('/contacts/{user:slug}', 'ContactController@post');
+Route::put('/contacts/{contact:id}', 'ContactController@update');
+Route::delete('/contacts/{contact:id}', 'ContactController@destroy');
+Route::get('/organisation-contacts', 'RegistrationController@show');
+Route::get('/dashboard/{user:slug}','DashboardController@show');

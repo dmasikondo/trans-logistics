@@ -73,9 +73,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-         $user->assignRole('general');
+         $user->assignRole('no-role');
        // $user->notify(new \App\Notifications\UserWasRegistered());
         session()->flash('message',"You were successfully registered");
         return $user;
     }
+
+
 }

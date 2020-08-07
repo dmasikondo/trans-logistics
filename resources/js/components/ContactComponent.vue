@@ -1,59 +1,68 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-				<div class="card">
-					<div class="card-header">
-						<h3>Add Organisation's Link Persons Contact Details</h3>
-					</div>
-					<div class="card-body">
+            <div>
+                <p v-for="contact in contacts">
+                    {{contact.person}} {{contact.phone}} {{contact.whatsapp}} <span v-for="datacapturer in contact.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
+                    <a href=""@click.prevent="editModal(contact)">Edit</a>
+                    <a href=""@click.prevent="deleteContact(contact)">Delete</a>
+                </p>
+                <a href="" @click.prevent="createModal"><i class="fa fa-plus text-success"></i> Add a Contact</a>
+            </div>
 
-						<form @submit.prevent="">
-                            <p v-if="errors.length">
-                                <span class="text-danger">{{message}}</span>
-                            </p>
-							<div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                   <span class="input-group-text"><i class="fa fa-user"></i></span> 
-                                </div>
-                                <input type="text" class="form-control" v-model="person" :class="{'is-invalid': errors.hasError('person')}"  required>
-                                <label class="floating-label">Contact Person</label>
-                                 <span v-if="errors.hasError('person')" class="invalid-feedback" role="alert">
-                                    <strong>{{errors.get('person')}}</strong>
-                                </span>                                
-                            </div>                                                        
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                   <span class="input-group-text"><i class="fa fa-phone"></i></span> 
-                                </div>
-                                <input type="text" class="form-control" v-model="phone"  :class="{'is-invalid': errors.hasError('phone')}"  required>
-                                <label class="floating-label">Contact Phone Number</label>
-                                 <span v-if="errors.hasError('phone')" class="invalid-feedback" role="alert">
-                                    <strong>{{errors.get('phone')}}</strong>
-                                </span>                                
+<!-- Modal -->   
+                <div class="modal fade modal-lg" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="contactModalLabel">{{modalTitle}} <span class="small"> - {{user.organisation}}</span></h4>
                             </div>
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                   <span class="input-group-text"><i class="fa fa-whatsapp"></i></span> 
+                            <form role="form"  @submit.prevent="editMode? editContact(): addContact()">
+                                <div class="modal-body">
+                                    <p v-if="errors">
+                                        <h6 class="text-danger"><strong>{{message}}</strong></h6>
+                                    </p>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                           <span class="input-group-text"><i class="fa fa-user"></i></span> 
+                                        </div>
+                                        <input type="text" class="form-control" v-model="person" :class="{'is-invalid': errors.hasError('person')}"  required>
+                                        <label class="floating-label">Contact Person</label>
+                                         <span v-if="errors.hasError('person')" class="invalid-feedback" role="alert">
+                                            <strong>{{errors.get('person')}}</strong>
+                                        </span>                                
+                                    </div>                                                        
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                           <span class="input-group-text"><i class="fa fa-phone"></i></span> 
+                                        </div>
+                                        <input type="tel" class="form-control" v-model="phone"  :class="{'is-invalid': errors.hasError('phone')}"  required>
+                                        <label class="floating-label">Contact Phone Number</label>
+                                         <span v-if="errors.hasError('phone')" class="invalid-feedback" role="alert">
+                                            <strong>{{errors.get('phone')}}</strong>
+                                        </span>                                
+                                    </div>
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                           <span class="input-group-text"><i class="fa fa-whatsapp"></i></span> 
+                                        </div>
+                                        <input type="text" class="form-control" v-model="whatsapp"  :class="{'is-invalid': errors.hasError('whatsapp')}"  required>
+                                        <label class="floating-label">WhatsApp Number (Optional)</label>
+                                         <span v-if="errors.hasError('whatsapp')" class="invalid-feedback" role="alert">
+                                            <strong>{{errors.get('whatsapp')}}</strong>
+                                        </span>                                
+                                    </div>                                          
+
                                 </div>
-                                <input type="text" class="form-control" v-model="whatsapp"  :class="{'is-invalid': errors.hasError('whatsapp')}"  required>
-                                <label class="floating-label">WhatsApp Number (Optional)</label>
-                                 <span v-if="errors.hasError('whatsapp')" class="invalid-feedback" role="alert">
-                                    <strong>{{errors.get('whatsapp')}}</strong>
-                                </span>                                
-                            </div>                            
-                            <div class="form-group">
-                                <button class="btn-info form-control" type="submit">Add</button>
-                            </div>                                                       
-						</form>
-					</div>
-
-                    <div class="card-footer">
-                       <div class="d-flex justify-content-center">
-                            Add Another Contact
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary" type="submit">{{submitTitle}}</button>                                            
+                                    </div>  
+                            </form>                              
                         </div>
-                    </div> 
-
-				</div>
+                     </div>
+                </div>          
+            <!-- end of modal -->                 
 		</div>
 	</div>
 </template>
@@ -90,11 +99,15 @@
         data()
         {
             return{
+                modalTitle: '',
+                submitTitle: '',
+                editMode: false,
                 person: '',
                 phone: '',
                 whatsapp: '',
-                password_confirmation:'',
                 message: '',
+                id:'',
+                contacts: {},
                 errors: new Errors(),
             }
         },
@@ -103,28 +116,94 @@
         ],
 
         methods:{
-            userRegistration(){
-                axios.post('/contacts',{
+            createModal()
+             {
+                $('#contactModal').modal('show');
+                this.editMode = false;
+                this.modalTitle ='Add Contact';
+                this.title = 'Add a User';
+                this.submitTitle = 'Add Contact';
+                this.person = '';
+                this.phone = '';
+                this.whatsapp = '';                
+             },
+             editModal(contact){
+                $('#contactModal').modal('show');
+                this.editMode = true;
+                this.modalTitle ='Edit Contact';
+                this.title = 'Edit Contact';
+                this.submitTitle = 'Edit Contact';
+                this.person = contact.person;
+                this.phone = contact.phone;
+                this.whatsapp = contact.whatsapp;
+                this.id =contact.id;
+             },           
+            loadContacts(){
+                axios.get('/contacts/' + this.user.slug, {
+                }).then((response) => {
+                    this.contacts = response.data});
+            },
+            addContact(){
+                axios.post('/contacts/'+ this.user.slug,{
                     person: this.person,
                     phone: this.phone,
-                    whatsapp: this.whatsapp,
-                }).then((response) =>{
-                   // window.location.href='/home';
-                    this.errors = new Errors();
+                    whatsapp: this.whatsapp, 
+
+                }).then((response) =>{ 
+                     window.location.href='/dashboard/'+this.user.slug; 
+                    this.message = '';
                     this.person= '';
                     this.phone = '';
-                    this.whatsapp ='';                    
-                }).catch(e =>{
+                    this.whatsapp =''; 
+                    this.errors = new Errors(); 
+                    Fire.$emit('AfterContactWasUpdated');
+                    $('#contactModal').modal('hide');                       
+                }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' User not Registered';                    
+                    this.message = e.response.data.message + ' Contacts not updated!';                    
                 });
 
             },
 
+            editContact(){
+                axios.put('/contacts/'+ this.id,{
+                    person: this.person,
+                    phone: this.phone,
+                    whatsapp: this.whatsapp,                   
+                }).then((response) =>{ 
+                    window.location.href='/dashboard/'+this.user.slug; 
+                    this.message = '';
+                    this.person= '';
+                    this.phone = '';
+                    this.whatsapp =''; 
+                    this.errors = new Errors(); 
+                    Fire.$emit('AfterContactWasUpdated');
+                    $('#contactModal').modal('hide');                       
+                }).catch((e) =>{
+                    this.errors.record(e.response.data.errors);
+                    this.message = e.response.data.message + ' Contacts not updated!';                    
+                });
+            },
+
+            deleteContact(contact){
+                axios.delete('/contacts/'+contact.id).then((response)=>{
+                    window.location.href='/dashboard/'+this.user.slug; 
+                    this.message = ''; 
+                    this.errors = new Errors(); 
+                    Fire.$emit('AfterContactWasUpdated');
+                    $('#contactModal').modal('hide');                     
+                }).catch((e) =>{
+                    this.errors.record(e.response.data.errors);
+                    this.message = e.response.data.message + ' Contacts not updated!';                    
+                });
+            },
+
+        },
+        mounted(){
+            this.loadContacts();
+            Fire.$on('AfterContactWasUpdated', () => {this.loadContacts()});
         }
 
     }	
 </script>
 
-
-                      

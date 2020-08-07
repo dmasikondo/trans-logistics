@@ -1973,6 +1973,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -2014,35 +2023,115 @@ var Errors = /*#__PURE__*/function () {
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      modalTitle: '',
+      submitTitle: '',
+      editMode: false,
       person: '',
       phone: '',
       whatsapp: '',
-      password_confirmation: '',
       message: '',
+      id: '',
+      contacts: {},
       errors: new Errors()
     };
   },
   props: ['user'],
   methods: {
-    userRegistration: function userRegistration() {
+    createModal: function createModal() {
+      $('#contactModal').modal('show');
+      this.editMode = false;
+      this.modalTitle = 'Add Contact';
+      this.title = 'Add a User';
+      this.submitTitle = 'Add Contact';
+      this.person = '';
+      this.phone = '';
+      this.whatsapp = '';
+    },
+    editModal: function editModal(contact) {
+      $('#contactModal').modal('show');
+      this.editMode = true;
+      this.modalTitle = 'Edit Contact';
+      this.title = 'Edit Contact';
+      this.submitTitle = 'Edit Contact';
+      this.person = contact.person;
+      this.phone = contact.phone;
+      this.whatsapp = contact.whatsapp;
+      this.id = contact.id;
+    },
+    loadContacts: function loadContacts() {
       var _this = this;
 
-      axios.post('/contacts', {
+      axios.get('/contacts/' + this.user.slug, {}).then(function (response) {
+        _this.contacts = response.data;
+      });
+    },
+    addContact: function addContact() {
+      var _this2 = this;
+
+      axios.post('/contacts/' + this.user.slug, {
         person: this.person,
         phone: this.phone,
         whatsapp: this.whatsapp
       }).then(function (response) {
-        // window.location.href='/home';
-        _this.errors = new Errors();
-        _this.person = '';
-        _this.phone = '';
-        _this.whatsapp = '';
+        window.location.href = '/dashboard/' + _this2.user.slug;
+        _this2.message = '';
+        _this2.person = '';
+        _this2.phone = '';
+        _this2.whatsapp = '';
+        _this2.errors = new Errors();
+        Fire.$emit('AfterContactWasUpdated');
+        $('#contactModal').modal('hide');
       })["catch"](function (e) {
-        _this.errors.record(e.response.data.errors);
+        _this2.errors.record(e.response.data.errors);
 
-        _this.message = e.response.data.message + ' User not Registered';
+        _this2.message = e.response.data.message + ' Contacts not updated!';
+      });
+    },
+    editContact: function editContact() {
+      var _this3 = this;
+
+      axios.put('/contacts/' + this.id, {
+        person: this.person,
+        phone: this.phone,
+        whatsapp: this.whatsapp
+      }).then(function (response) {
+        window.location.href = '/dashboard/' + _this3.user.slug;
+        _this3.message = '';
+        _this3.person = '';
+        _this3.phone = '';
+        _this3.whatsapp = '';
+        _this3.errors = new Errors();
+        Fire.$emit('AfterContactWasUpdated');
+        $('#contactModal').modal('hide');
+      })["catch"](function (e) {
+        _this3.errors.record(e.response.data.errors);
+
+        _this3.message = e.response.data.message + ' Contacts not updated!';
+      });
+    },
+    deleteContact: function deleteContact(contact) {
+      var _this4 = this;
+
+      axios["delete"]('/contacts/' + contact.id).then(function (response) {
+        window.location.href = '/dashboard/' + _this4.user.slug;
+        _this4.message = '';
+        _this4.errors = new Errors();
+        Fire.$emit('AfterContactWasUpdated');
+        $('#contactModal').modal('hide');
+      })["catch"](function (e) {
+        _this4.errors.record(e.response.data.errors);
+
+        _this4.message = e.response.data.message + ' Contacts not updated!';
       });
     }
+  },
+  mounted: function mounted() {
+    var _this5 = this;
+
+    this.loadContacts();
+    Fire.$on('AfterContactWasUpdated', function () {
+      _this5.loadContacts();
+    });
   }
 });
 
@@ -2772,7 +2861,7 @@ var Errors = /*#__PURE__*/function () {
       }).then(function (response) {
         window.location.href = '/home';
         _this.errors = new Errors();
-        _this.organisation = '';
+        _this.message = '', _this.organisation = '';
         _this.email = '';
         _this.password = '';
         _this.password_confirmation = '';
@@ -39966,177 +40055,303 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
-      _c("div", { staticClass: "card" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
+      _c(
+        "div",
+        [
+          _vm._l(_vm.contacts, function(contact) {
+            return _c(
+              "p",
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(contact.person) +
+                    " " +
+                    _vm._s(contact.phone) +
+                    " " +
+                    _vm._s(contact.whatsapp) +
+                    " "
+                ),
+                _vm._l(contact.capturers, function(datacapturer) {
+                  return _c("span", [
+                    _vm._v(
+                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.editModal(contact)
+                      }
+                    }
+                  },
+                  [_vm._v("Edit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteContact(contact)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
           _c(
-            "form",
+            "a",
             {
+              attrs: { href: "" },
               on: {
-                submit: function($event) {
+                click: function($event) {
                   $event.preventDefault()
+                  return _vm.createModal($event)
                 }
               }
             },
             [
-              _vm.errors.length
-                ? _c("p", [
-                    _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.message))
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-group" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.person,
-                      expression: "person"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.errors.hasError("person") },
-                  attrs: { type: "text", required: "" },
-                  domProps: { value: _vm.person },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.person = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { staticClass: "floating-label" }, [
-                  _vm._v("Contact Person")
-                ]),
-                _vm._v(" "),
-                _vm.errors.hasError("person")
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        attrs: { role: "alert" }
-                      },
-                      [_c("strong", [_vm._v(_vm._s(_vm.errors.get("person")))])]
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-group" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.phone,
-                      expression: "phone"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.errors.hasError("phone") },
-                  attrs: { type: "text", required: "" },
-                  domProps: { value: _vm.phone },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.phone = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { staticClass: "floating-label" }, [
-                  _vm._v("Contact Phone Number")
-                ]),
-                _vm._v(" "),
-                _vm.errors.hasError("phone")
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        attrs: { role: "alert" }
-                      },
-                      [_c("strong", [_vm._v(_vm._s(_vm.errors.get("phone")))])]
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group input-group" }, [
-                _vm._m(3),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.whatsapp,
-                      expression: "whatsapp"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.errors.hasError("whatsapp") },
-                  attrs: { type: "text", required: "" },
-                  domProps: { value: _vm.whatsapp },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.whatsapp = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { staticClass: "floating-label" }, [
-                  _vm._v("WhatsApp Number (Optional)")
-                ]),
-                _vm._v(" "),
-                _vm.errors.hasError("whatsapp")
-                  ? _c(
-                      "span",
-                      {
-                        staticClass: "invalid-feedback",
-                        attrs: { role: "alert" }
-                      },
-                      [
-                        _c("strong", [
-                          _vm._v(_vm._s(_vm.errors.get("whatsapp")))
-                        ])
-                      ]
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _vm._m(4)
+              _c("i", { staticClass: "fa fa-plus text-success" }),
+              _vm._v(" Add a Contact")
             ]
           )
-        ]),
-        _vm._v(" "),
-        _vm._m(5)
-      ])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade modal-lg",
+          attrs: {
+            id: "contactModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "contactModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "contactModalLabel" }
+                  },
+                  [
+                    _vm._v(_vm._s(_vm.modalTitle) + " "),
+                    _c("span", { staticClass: "small" }, [
+                      _vm._v(" - " + _vm._s(_vm.user.organisation))
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { role: "form" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.editMode ? _vm.editContact() : _vm.addContact()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _vm.errors ? _c("p") : _vm._e(),
+                    _c("h6", { staticClass: "text-danger" }, [
+                      _c("strong", [_vm._v(_vm._s(_vm.message))])
+                    ]),
+                    _vm._v(" "),
+                    _c("p"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.person,
+                            expression: "person"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.errors.hasError("person") },
+                        attrs: { type: "text", required: "" },
+                        domProps: { value: _vm.person },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.person = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("Contact Person")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("person")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(_vm._s(_vm.errors.get("person")))
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.phone,
+                            expression: "phone"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.errors.hasError("phone") },
+                        attrs: { type: "tel", required: "" },
+                        domProps: { value: _vm.phone },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.phone = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("Contact Phone Number")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("phone")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(_vm._s(_vm.errors.get("phone")))
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.whatsapp,
+                            expression: "whatsapp"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.errors.hasError("whatsapp")
+                        },
+                        attrs: { type: "text", required: "" },
+                        domProps: { value: _vm.whatsapp },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.whatsapp = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("WhatsApp Number (Optional)")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("whatsapp")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(_vm._s(_vm.errors.get("whatsapp")))
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v(_vm._s(_vm.submitTitle))]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ])
+        ]
+      )
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", [_vm._v("Add Organisation's Link Persons Contact Details")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -40164,30 +40379,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
         _c("i", { staticClass: "fa fa-whatsapp" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        { staticClass: "btn-info form-control", attrs: { type: "submit" } },
-        [_vm._v("Add")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("div", { staticClass: "d-flex justify-content-center" }, [
-        _vm._v(
-          "\n                            Add Another Contact\n                        "
-        )
       ])
     ])
   }
@@ -40931,6 +41122,14 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
+          _vm.errors
+            ? _c("p", [
+                _c("span", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.message))
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "form",
             {
@@ -40942,14 +41141,6 @@ var render = function() {
               }
             },
             [
-              _vm.errors.length
-                ? _c("p", [
-                    _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.message))
-                    ])
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _c("div", { staticClass: "form-group input-group" }, [
                 _vm._m(1),
                 _vm._v(" "),
