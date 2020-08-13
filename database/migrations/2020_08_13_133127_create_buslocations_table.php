@@ -15,6 +15,10 @@ class CreateBuslocationsTable extends Migration
     {
         Schema::create('buslocations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('city');
+            $table->string('address');
+            $table->string('country');
             $table->timestamps();
         });
     }

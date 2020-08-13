@@ -1899,10 +1899,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ContactComponent.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ContactComponent.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2026,111 +2026,115 @@ var Errors = /*#__PURE__*/function () {
       modalTitle: '',
       submitTitle: '',
       editMode: false,
-      person: '',
-      phone: '',
-      whatsapp: '',
+      address: '',
+      city: '',
+      country: '',
       message: '',
       id: '',
-      contacts: {},
+      buslocations: {},
       errors: new Errors()
     };
   },
   props: ['user'],
   methods: {
     createModal: function createModal() {
-      $('#contactModal').modal('show');
+      $('#buslocationModal').modal('show');
       this.editMode = false;
-      this.modalTitle = 'Add Contact';
+      this.modalTitle = 'Add Location';
       this.title = 'Add a User';
-      this.submitTitle = 'Add Contact';
-      this.person = '';
-      this.phone = '';
-      this.whatsapp = '';
+      this.submitTitle = 'Add Location';
+      this.address = '';
+      this.city = '';
+      this.country = '';
+      this.errors = new Errors();
+      this.message = '';
     },
-    editModal: function editModal(contact) {
-      $('#contactModal').modal('show');
+    editModal: function editModal(buslocation) {
+      $('#buslocationModal').modal('show');
       this.editMode = true;
-      this.modalTitle = 'Edit Contact';
-      this.title = 'Edit Contact';
-      this.submitTitle = 'Edit Contact';
-      this.person = contact.person;
-      this.phone = contact.phone;
-      this.whatsapp = contact.whatsapp;
-      this.id = contact.id;
+      this.modalTitle = 'Edit Location';
+      this.title = 'Edit Location';
+      this.submitTitle = 'Edit Location';
+      this.address = buslocation.address;
+      this.city = buslocation.city;
+      this.country = buslocation.country;
+      this.id = buslocation.id;
+      this.errors = new Errors();
+      this.message = '';
     },
-    loadContacts: function loadContacts() {
+    loadBuslocations: function loadBuslocations() {
       var _this = this;
 
-      axios.get('/contacts/' + this.user.slug, {}).then(function (response) {
-        _this.contacts = response.data;
+      axios.get('/buslocations/' + this.user.slug, {}).then(function (response) {
+        _this.buslocations = response.data;
       });
     },
-    addContact: function addContact() {
+    addBuslocation: function addBuslocation() {
       var _this2 = this;
 
-      axios.post('/contacts/' + this.user.slug, {
-        person: this.person,
-        phone: this.phone,
-        whatsapp: this.whatsapp
+      axios.post('/buslocations/' + this.user.slug, {
+        address: this.address,
+        city: this.city,
+        country: this.country
       }).then(function (response) {
         window.location.href = '/dashboard/' + _this2.user.slug;
         _this2.message = '';
-        _this2.person = '';
-        _this2.phone = '';
-        _this2.whatsapp = '';
+        _this2.address = '';
+        _this2.city = '';
+        _this2.country = '';
         _this2.errors = new Errors();
-        Fire.$emit('AfterContactWasUpdated');
-        $('#contactModal').modal('hide');
+        Fire.$emit('AfterBuslocationWasUpdated');
+        $('#buslocationModal').modal('hide');
       })["catch"](function (e) {
         _this2.errors.record(e.response.data.errors);
 
-        _this2.message = e.response.data.message + ' Contacts not updated!';
+        _this2.message = e.response.data.message + ' Location not updated!';
       });
     },
-    editContact: function editContact() {
+    editBuslocation: function editBuslocation() {
       var _this3 = this;
 
-      axios.put('/contacts/' + this.id, {
-        person: this.person,
-        phone: this.phone,
-        whatsapp: this.whatsapp
+      axios.put('/buslocations/' + this.id, {
+        address: this.address,
+        city: this.city,
+        country: this.country
       }).then(function (response) {
         window.location.href = '/dashboard/' + _this3.user.slug;
         _this3.message = '';
-        _this3.person = '';
-        _this3.phone = '';
-        _this3.whatsapp = '';
+        _this3.address = '';
+        _this3.city = '';
+        _this3.country = '';
         _this3.errors = new Errors();
-        Fire.$emit('AfterContactWasUpdated');
-        $('#contactModal').modal('hide');
+        Fire.$emit('AfterBuslocationWasUpdated');
+        $('#buslocationModal').modal('hide');
       })["catch"](function (e) {
         _this3.errors.record(e.response.data.errors);
 
-        _this3.message = e.response.data.message + ' Contacts not updated!';
+        _this3.message = e.response.data.message + ' Location not updated!';
       });
     },
-    deleteContact: function deleteContact(contact) {
+    deleteBuslocation: function deleteBuslocation(buslocation) {
       var _this4 = this;
 
-      axios["delete"]('/contacts/' + contact.id).then(function (response) {
+      axios["delete"]('/buslocations/' + buslocation.id).then(function (response) {
         window.location.href = '/dashboard/' + _this4.user.slug;
         _this4.message = '';
         _this4.errors = new Errors();
-        Fire.$emit('AfterContactWasUpdated');
-        $('#contactModal').modal('hide');
+        Fire.$emit('AfterBuslocationWasUpdated');
+        $('#buslocationModal').modal('hide');
       })["catch"](function (e) {
         _this4.errors.record(e.response.data.errors);
 
-        _this4.message = e.response.data.message + ' Contacts not updated!';
+        _this4.message = e.response.data.message + ' Location not updated!';
       });
     }
   },
   mounted: function mounted() {
     var _this5 = this;
 
-    this.loadContacts();
-    Fire.$on('AfterContactWasUpdated', function () {
-      _this5.loadContacts();
+    this.loadBuslocations();
+    Fire.$on('AfterBuslocationWasUpdated', function () {
+      _this5.loadBuslocations();
     });
   }
 });
@@ -40038,10 +40042,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a& ***!
+  \***********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40058,20 +40062,20 @@ var render = function() {
       _c(
         "div",
         [
-          _vm._l(_vm.contacts, function(contact) {
+          _vm._l(_vm.buslocations, function(buslocation) {
             return _c(
               "p",
               [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(contact.person) +
+                    _vm._s(buslocation.address) +
                     " " +
-                    _vm._s(contact.phone) +
+                    _vm._s(buslocation.city) +
                     " " +
-                    _vm._s(contact.whatsapp) +
+                    _vm._s(buslocation.country) +
                     " "
                 ),
-                _vm._l(contact.capturers, function(datacapturer) {
+                _vm._l(buslocation.capturers, function(datacapturer) {
                   return _c("span", [
                     _vm._v(
                       " Inserted by " + _vm._s(datacapturer.uzer.organisation)
@@ -40086,7 +40090,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.editModal(contact)
+                        return _vm.editModal(buslocation)
                       }
                     }
                   },
@@ -40100,7 +40104,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.deleteContact(contact)
+                        return _vm.deleteBuslocation(buslocation)
                       }
                     }
                   },
@@ -40124,7 +40128,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "fa fa-plus text-success" }),
-              _vm._v(" Add a Contact")
+              _vm._v(" Add Physical Location")
             ]
           )
         ],
@@ -40136,7 +40140,7 @@ var render = function() {
         {
           staticClass: "modal fade modal-lg",
           attrs: {
-            id: "contactModal",
+            id: "buslocationModal",
             tabindex: "-1",
             role: "dialog",
             "aria-labelledby": "contactModalLabel",
@@ -40151,7 +40155,7 @@ var render = function() {
                   "h4",
                   {
                     staticClass: "modal-title",
-                    attrs: { id: "contactModalLabel" }
+                    attrs: { id: "buslocationModalLabel" }
                   },
                   [
                     _vm._v(_vm._s(_vm.modalTitle) + " "),
@@ -40169,7 +40173,9 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      _vm.editMode ? _vm.editContact() : _vm.addContact()
+                      _vm.editMode
+                        ? _vm.editBuslocation()
+                        : _vm.addBuslocation()
                     }
                   }
                 },
@@ -40190,29 +40196,29 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.person,
-                            expression: "person"
+                            value: _vm.address,
+                            expression: "address"
                           }
                         ],
                         staticClass: "form-control",
-                        class: { "is-invalid": _vm.errors.hasError("person") },
+                        class: { "is-invalid": _vm.errors.hasError("address") },
                         attrs: { type: "text", required: "" },
-                        domProps: { value: _vm.person },
+                        domProps: { value: _vm.address },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.person = $event.target.value
+                            _vm.address = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
                       _c("label", { staticClass: "floating-label" }, [
-                        _vm._v("Contact Person")
+                        _vm._v("Street Address")
                       ]),
                       _vm._v(" "),
-                      _vm.errors.hasError("person")
+                      _vm.errors.hasError("address")
                         ? _c(
                             "span",
                             {
@@ -40221,7 +40227,7 @@ var render = function() {
                             },
                             [
                               _c("strong", [
-                                _vm._v(_vm._s(_vm.errors.get("person")))
+                                _vm._v(_vm._s(_vm.errors.get("address")))
                               ])
                             ]
                           )
@@ -40236,29 +40242,29 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.phone,
-                            expression: "phone"
+                            value: _vm.city,
+                            expression: "city"
                           }
                         ],
                         staticClass: "form-control",
-                        class: { "is-invalid": _vm.errors.hasError("phone") },
+                        class: { "is-invalid": _vm.errors.hasError("city") },
                         attrs: { type: "tel", required: "" },
-                        domProps: { value: _vm.phone },
+                        domProps: { value: _vm.city },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.phone = $event.target.value
+                            _vm.city = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
                       _c("label", { staticClass: "floating-label" }, [
-                        _vm._v("Contact Phone Number")
+                        _vm._v("City")
                       ]),
                       _vm._v(" "),
-                      _vm.errors.hasError("phone")
+                      _vm.errors.hasError("city")
                         ? _c(
                             "span",
                             {
@@ -40267,7 +40273,7 @@ var render = function() {
                             },
                             [
                               _c("strong", [
-                                _vm._v(_vm._s(_vm.errors.get("phone")))
+                                _vm._v(_vm._s(_vm.errors.get("city")))
                               ])
                             ]
                           )
@@ -40282,31 +40288,29 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.whatsapp,
-                            expression: "whatsapp"
+                            value: _vm.country,
+                            expression: "country"
                           }
                         ],
                         staticClass: "form-control",
-                        class: {
-                          "is-invalid": _vm.errors.hasError("whatsapp")
-                        },
+                        class: { "is-invalid": _vm.errors.hasError("country") },
                         attrs: { type: "text", required: "" },
-                        domProps: { value: _vm.whatsapp },
+                        domProps: { value: _vm.country },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.whatsapp = $event.target.value
+                            _vm.country = $event.target.value
                           }
                         }
                       }),
                       _vm._v(" "),
                       _c("label", { staticClass: "floating-label" }, [
-                        _vm._v("WhatsApp Number (Optional)")
+                        _vm._v("country")
                       ]),
                       _vm._v(" "),
-                      _vm.errors.hasError("whatsapp")
+                      _vm.errors.hasError("country")
                         ? _c(
                             "span",
                             {
@@ -40315,7 +40319,7 @@ var render = function() {
                             },
                             [
                               _c("strong", [
-                                _vm._v(_vm._s(_vm.errors.get("whatsapp")))
+                                _vm._v(_vm._s(_vm.errors.get("country")))
                               ])
                             ]
                           )
@@ -40358,7 +40362,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-user" })
+        _c("i", { staticClass: "fa fa-road" })
       ])
     ])
   },
@@ -40368,7 +40372,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-phone" })
+        _c("i", { staticClass: "fa fa-castle" })
       ])
     ])
   },
@@ -40378,7 +40382,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-whatsapp" })
+        _c("i", { staticClass: "fa fa-flag" })
       ])
     ])
   }
@@ -54740,7 +54744,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('user-component', __webpack_require__(/*! ./components/UserComponent.vue */ "./resources/js/components/UserComponent.vue")["default"]);
 Vue.component('role-component', __webpack_require__(/*! ./components/RoleComponent.vue */ "./resources/js/components/RoleComponent.vue")["default"]);
 Vue.component('user-registration-component', __webpack_require__(/*! ./components/UserRegistrationComponent.vue */ "./resources/js/components/UserRegistrationComponent.vue")["default"]);
-Vue.component('contact-component', __webpack_require__(/*! ./components/ContactComponent.vue */ "./resources/js/components/ContactComponent.vue")["default"]);
+Vue.component('user-registration-component', __webpack_require__(/*! ./components/UserRegistrationComponent.vue */ "./resources/js/components/UserRegistrationComponent.vue")["default"]);
+Vue.component('buslocation-component', __webpack_require__(/*! ./components/BuslocationComponent.vue */ "./resources/js/components/BuslocationComponent.vue")["default"]);
 Vue.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 Vue.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 Vue.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);
@@ -54813,17 +54818,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/components/ContactComponent.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/ContactComponent.vue ***!
-  \******************************************************/
+/***/ "./resources/js/components/BuslocationComponent.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/BuslocationComponent.vue ***!
+  \**********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactComponent.vue?vue&type=template&id=2b26a8a8& */ "./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8&");
-/* harmony import */ var _ContactComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ContactComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BuslocationComponent.vue?vue&type=template&id=931e519a& */ "./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a&");
+/* harmony import */ var _BuslocationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BuslocationComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -54833,9 +54838,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ContactComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _BuslocationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -54845,38 +54850,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ContactComponent.vue"
+component.options.__file = "resources/js/components/BuslocationComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ContactComponent.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/ContactComponent.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ContactComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ContactComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BuslocationComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuslocationComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a& ***!
+  \*****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ContactComponent.vue?vue&type=template&id=2b26a8a8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ContactComponent.vue?vue&type=template&id=2b26a8a8&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BuslocationComponent.vue?vue&type=template&id=931e519a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuslocationComponent.vue?vue&type=template&id=931e519a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactComponent_vue_vue_type_template_id_2b26a8a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

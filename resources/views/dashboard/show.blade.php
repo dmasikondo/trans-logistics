@@ -60,7 +60,7 @@
 										</p>
 										<a href="/organisation-contacts" class="btn btn-outline-danger">Update</a>									
 								@endif
-
+							<!-- end of user has contact details -->
 							</div>
 						</div>
 					</div>
@@ -70,10 +70,23 @@
 							<div class="card-header">
 								Physical location 
 								<span class="fa fa-map-marker"></span>
-								<span class="fa fa-warning text-danger pull-right"></span>								
+								<span class="{{$user->buslocations->isEmpty()? 'fa fa-warning text-danger': 'fa fa-check text-success'}} pull-right"></span>								
 							</div>
 							<div class="card-body">
-								Organisation Physical Location
+						<!--- user has buslocation details -->
+								@if(!$user->buslocations->isEmpty())
+										<p>
+											<span class="badge badge-info">{{count($user->buslocations)}} </span> 
+											Contact Details inserted
+										</p>
+										<a href="/organisation-buslocations" class="btn btn-outline-success">View / Update</a>
+								@else
+										<p>
+											You need to update your business' physical location
+										</p>
+										<a href="/organisation-buslocations" class="btn btn-outline-danger">Update</a>									
+								@endif
+							<!-- end of user has buslocation details -->
 							</div>
 						</div>
 					</div>

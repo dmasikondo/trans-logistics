@@ -23,4 +23,12 @@ class RegistrationController extends Controller
    		$user = Auth::user();
    		return view('registration.contacts', compact('user'));
    }
+   /**
+    * view Registration of Organisation's business location resources
+    */
+   public function buslocations()
+   {
+   		$user = Auth::user();
+   		return view('registration.buslocations', compact('user'));   	
+   }
 }

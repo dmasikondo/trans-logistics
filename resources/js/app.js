@@ -18,7 +18,8 @@ window.Vue = require('vue');
 Vue.component('user-component', require('./components/UserComponent.vue').default);
 Vue.component('role-component', require('./components/RoleComponent.vue').default);
 Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
-Vue.component('contact-component', require('./components/ContactComponent.vue').default);
+Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
+Vue.component('buslocation-component', require('./components/BuslocationComponent.vue').default);
 
 
 Vue.component(

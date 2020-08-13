@@ -72,4 +72,9 @@ class User extends Authenticatable
         return $this->hasMany(Contact::class);
     } 
 
+    public function buslocations()
+    {
+        return $this->hasMany(Buslocation::class);
+    }     
+
 }
