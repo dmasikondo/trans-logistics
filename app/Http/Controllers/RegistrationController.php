@@ -31,4 +31,13 @@ class RegistrationController extends Controller
    		$user = Auth::user();
    		return view('registration.buslocations', compact('user'));   	
    }
+
+   /**
+    * view Registration of Organisation's fleet information resources
+    */
+   public function fleets()
+   {
+   		$user = Auth::user();
+   		return view('registration.fleets', compact('user'));   	
+   }   
 }

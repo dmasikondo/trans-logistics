@@ -11,7 +11,7 @@
             </div>
 
 <!-- Modal -->   
-                <div class="modal fade modal-lg" id="buslocationModal" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel" aria-hidden="true">
+                <div class="modal fade modal-lg" id="buslocationModal" tabindex="-1" role="dialog" aria-labelledby="buslocationModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">

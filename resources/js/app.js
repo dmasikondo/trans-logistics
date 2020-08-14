@@ -20,6 +20,7 @@ Vue.component('role-component', require('./components/RoleComponent.vue').defaul
 Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
 Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
 Vue.component('buslocation-component', require('./components/BuslocationComponent.vue').default);
+Vue.component('fleet-component', require('./components/FleetComponent.vue').default);
 
 
 Vue.component(

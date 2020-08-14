@@ -2141,6 +2141,261 @@ var Errors = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FleetComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FleetComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      modalTitle: '',
+      submitTitle: '',
+      editMode: false,
+      number_of_horses: '',
+      number_of_trailers: '',
+      trailers: {},
+      trailer_type: [],
+      message: '',
+      id: '',
+      fleets: {},
+      errors: new Errors()
+    };
+  },
+  props: ['user'],
+  methods: {
+    createModal: function createModal() {
+      var _this = this;
+
+      axios.get('/alltrailers').then(function (response) {
+        _this.trailers = response.data;
+      });
+      $('#fleetModal').modal('show');
+      this.editMode = false;
+      this.modalTitle = 'Add Fleet Information';
+      this.title = 'Add fleet';
+      this.submitTitle = 'Add Fleet';
+      this.number_of_horses = '';
+      this.number_of_trailers = '';
+      this.trailer_type = [];
+      this.errors = new Errors();
+      this.message = '';
+    },
+    editModal: function editModal(fleet) {
+      var _this2 = this;
+
+      axios.get('/alltrailers').then(function (response) {
+        _this2.trailers = response.data;
+      });
+      $('#fleetModal').modal('show');
+      this.editMode = true;
+      this.modalTitle = 'Edit Fleet Information';
+      this.title = 'Edit Fleet';
+      this.submitTitle = 'Edit Fleet';
+      this.number_of_horses = fleet.number_of_horses;
+      this.number_of_trailers = fleet.number_of_trailers;
+      this.id = fleet.id;
+      this.errors = new Errors();
+      this.message = '';
+    },
+    loadfleets: function loadfleets() {
+      var _this3 = this;
+
+      axios.get('/fleets/' + this.user.slug, {}).then(function (response) {
+        _this3.fleets = response.data;
+      });
+    },
+    addfleet: function addfleet() {
+      var _this4 = this;
+
+      axios.post('/fleets/' + this.user.slug, {
+        number_of_horses: this.number_of_horses,
+        number_of_trailers: this.number_of_trailers,
+        trailer_type: this.trailer_type
+      }).then(function (response) {
+        window.location.href = '/dashboard/' + _this4.user.slug;
+        _this4.message = '';
+        _this4.number_of_horses = '';
+        _this4.number_of_trailers = '';
+        _this4.errors = new Errors();
+        Fire.$emit('AfterFleetWasUpdated');
+        $('#fleetModal').modal('hide');
+      })["catch"](function (e) {
+        _this4.errors.record(e.response.data.errors);
+
+        _this4.message = e.response.data.message + ' Location not updated!';
+      });
+    },
+    editfleet: function editfleet() {
+      var _this5 = this;
+
+      axios.put('/fleets/' + this.id, {
+        number_of_horses: this.number_of_horses,
+        number_of_trailers: this.number_of_trailers,
+        trailer_type: this.trailer_type
+      }).then(function (response) {
+        window.location.href = '/dashboard/' + _this5.user.slug;
+        _this5.message = '';
+        _this5.number_of_horses = '';
+        _this5.number_of_trailers = '';
+        _this5.errors = new Errors();
+        Fire.$emit('AfterFleetWasUpdated');
+        $('#fleetModal').modal('hide');
+      })["catch"](function (e) {
+        _this5.errors.record(e.response.data.errors);
+
+        _this5.message = e.response.data.message + ' Location not updated!';
+      });
+    },
+    deletefleet: function deletefleet(fleet) {
+      var _this6 = this;
+
+      axios["delete"]('/fleets/' + fleet.id).then(function (response) {
+        window.location.href = '/dashboard/' + _this6.user.slug;
+        _this6.message = '';
+        _this6.errors = new Errors();
+        Fire.$emit('AfterFleetWasUpdated');
+        $('#fleetModal').modal('hide');
+      })["catch"](function (e) {
+        _this6.errors.record(e.response.data.errors);
+
+        _this6.message = e.response.data.message + ' Location not updated!';
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this7 = this;
+
+    this.loadfleets();
+    Fire.$on('AfterFleetWasUpdated', function () {
+      _this7.loadfleets();
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RoleComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/RoleComponent.vue?vue&type=script&lang=js& ***!
@@ -40143,7 +40398,7 @@ var render = function() {
             id: "buslocationModal",
             tabindex: "-1",
             role: "dialog",
-            "aria-labelledby": "contactModalLabel",
+            "aria-labelledby": "buslocationModalLabel",
             "aria-hidden": "true"
           }
         },
@@ -40372,7 +40627,397 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-castle" })
+        _c("i", { staticClass: "fa fa-tower" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-flag" })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
+      _c(
+        "div",
+        [
+          _vm._l(_vm.fleets, function(fleet) {
+            return _c(
+              "p",
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(fleet.number_of_horses) +
+                    " horses and " +
+                    _vm._s(fleet.number_of_trailers) +
+                    " trailers"
+                ),
+                _vm._l(fleet.trailers, function(trailer) {
+                  return _c("span", [_vm._v(" " + _vm._s(trailer.name) + " ")])
+                }),
+                _vm._v(" "),
+                _vm._l(fleet.capturers, function(datacapturer) {
+                  return _c("span", [
+                    _vm._v(
+                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.editModal(fleet)
+                      }
+                    }
+                  },
+                  [_vm._v("Edit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deletefleet(fleet)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
+          !_vm.fleets.length
+            ? _c(
+                "a",
+                {
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.createModal($event)
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-plus text-success" }),
+                  _vm._v(" Add Fleet Information")
+                ]
+              )
+            : _vm._e()
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade modal-lg",
+          attrs: {
+            id: "fleetModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "fleetModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h4",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "fleetModalLabel" }
+                  },
+                  [
+                    _vm._v(_vm._s(_vm.modalTitle) + " "),
+                    _c("span", { staticClass: "small" }, [
+                      _vm._v(" - " + _vm._s(_vm.user.organisation))
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { role: "form" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.editMode ? _vm.editfleet() : _vm.addfleet()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "modal-body" }, [
+                    _vm.errors ? _c("p") : _vm._e(),
+                    _c("h6", { staticClass: "text-danger" }, [
+                      _c("strong", [_vm._v(_vm._s(_vm.message))])
+                    ]),
+                    _vm._v(" "),
+                    _c("p"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.number_of_horses,
+                            expression: "number_of_horses"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.errors.hasError("number_of_horses")
+                        },
+                        attrs: { type: "number", required: "" },
+                        domProps: { value: _vm.number_of_horses },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.number_of_horses = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("Number of horses")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("number_of_horses")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(
+                                  _vm._s(_vm.errors.get("number_of_horses"))
+                                )
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.number_of_trailers,
+                            expression: "number_of_trailers"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.errors.hasError(
+                            "number_of_trailers"
+                          )
+                        },
+                        attrs: { type: "tel", required: "" },
+                        domProps: { value: _vm.number_of_trailers },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.number_of_trailers = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("Number of trailers")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("number_of_trailers")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(
+                                  _vm._s(_vm.errors.get("number_of_trailers"))
+                                )
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group input-group" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.trailer_type,
+                              expression: "trailer_type"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.errors.hasError("trailer_type")
+                          },
+                          attrs: {
+                            name: "trailer_type[]",
+                            id: "trailer_type",
+                            multiple: "multiple"
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.trailer_type = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option"),
+                          _vm._v(" "),
+                          _vm._l(_vm.trailers, function(trailer) {
+                            return _c(
+                              "option",
+                              { domProps: { value: trailer.id } },
+                              [_vm._v(_vm._s(trailer.name))]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("label", { staticClass: "floating-label" }, [
+                        _vm._v("Trailer Type")
+                      ]),
+                      _vm._v(" "),
+                      _vm.errors.hasError("trailer_type")
+                        ? _c(
+                            "span",
+                            {
+                              staticClass: "invalid-feedback",
+                              attrs: { role: "alert" }
+                            },
+                            [
+                              _c("strong", [
+                                _vm._v(_vm._s(_vm.errors.get("country")))
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { "data-dismiss": "modal" }
+                      },
+                      [_vm._v("Close")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v(_vm._s(_vm.submitTitle))]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-truck" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-trailer" })
       ])
     ])
   },
@@ -54746,6 +55391,7 @@ Vue.component('role-component', __webpack_require__(/*! ./components/RoleCompone
 Vue.component('user-registration-component', __webpack_require__(/*! ./components/UserRegistrationComponent.vue */ "./resources/js/components/UserRegistrationComponent.vue")["default"]);
 Vue.component('user-registration-component', __webpack_require__(/*! ./components/UserRegistrationComponent.vue */ "./resources/js/components/UserRegistrationComponent.vue")["default"]);
 Vue.component('buslocation-component', __webpack_require__(/*! ./components/BuslocationComponent.vue */ "./resources/js/components/BuslocationComponent.vue")["default"]);
+Vue.component('fleet-component', __webpack_require__(/*! ./components/FleetComponent.vue */ "./resources/js/components/FleetComponent.vue")["default"]);
 Vue.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 Vue.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 Vue.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);
@@ -54882,6 +55528,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BuslocationComponent_vue_vue_type_template_id_931e519a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FleetComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/FleetComponent.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FleetComponent.vue?vue&type=template&id=3f46fa0c& */ "./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c&");
+/* harmony import */ var _FleetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FleetComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/FleetComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FleetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FleetComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FleetComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/FleetComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FleetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FleetComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FleetComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FleetComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FleetComponent.vue?vue&type=template&id=3f46fa0c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FleetComponent.vue?vue&type=template&id=3f46fa0c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FleetComponent_vue_vue_type_template_id_3f46fa0c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

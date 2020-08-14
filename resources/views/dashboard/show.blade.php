@@ -93,13 +93,26 @@
 
 					<div class="col-md-4 mt-4">
 						<div class="card">
-							<div class="card-header">
+							<div class="card-header {{$user->fleets->isEmpty()? 'bg-danger': 'bg-primary'}}">
 								Fleet Information
 								<span class="fa fa-truck"></span>
-								<span class="fa fa-warning text-danger pull-right"></span>									
+								<span class="{{$user->fleets->isEmpty()? 'fa fa-warning text-warning': 'fa fa-check text-success'}} pull-right"></span>									
 							</div>
 							<div class="card-body">
-								Horses and trailers
+						<!--- user has fleet information -->
+								@if(!$user->fleets->isEmpty())
+										<p>
+											<span class="badge badge-info">{{count($user->fleets)}} </span> 
+											Fleet inserted
+										</p>
+										<a href="/organisation-fleets" class="btn btn-outline-success">View / Update</a>
+								@else
+										<p>
+											Please take a few more seconds to supply us with information on your Fleet: the number of truck horses, trailers and the trailer types.
+										</p>
+										<a href="/organisation-fleets" class="btn btn-outline-danger">Update</a>									
+								@endif
+							<!-- end of user has fleet information -->
 							</div>
 						</div>
 					</div>					

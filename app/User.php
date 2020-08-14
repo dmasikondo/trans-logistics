@@ -75,6 +75,10 @@ class User extends Authenticatable
     public function buslocations()
     {
         return $this->hasMany(Buslocation::class);
-    }     
+    }   
 
+    public function fleets()
+    {
+        return $this->hasMany(Fleet::class);
+    } 
 }
