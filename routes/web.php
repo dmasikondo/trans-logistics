@@ -47,7 +47,21 @@ Route::put('/fleets/{fleet:id}', 'FleetController@update');
 Route::delete('/fleets/{fleet:id}', 'FleetController@destroy');
 
 
+//director information
+Route::get('/directors/{user:slug}', 'DirectorController@index');
+Route::post('/directors/{user:slug}', 'DirectorController@post');
+Route::put('/directors/{director:id}', 'DirectorController@update');
+Route::delete('/directors/{director:id}', 'DirectorController@destroy');
+
+//traderef information
+Route::get('/traderefs/{user:slug}', 'TraderefController@index');
+Route::post('/traderefs/{user:slug}', 'TraderefController@post');
+Route::put('/traderefs/{traderef:id}', 'TraderefController@update');
+Route::delete('/traderefs/{traderef:id}', 'TraderefController@destroy');
+
 Route::get('/organisation-contacts', 'RegistrationController@show');
 Route::get('/organisation-buslocations', 'RegistrationController@buslocations');
 Route::get('/organisation-fleets', 'RegistrationController@fleets');
+Route::get('/organisation-directors', 'RegistrationController@directors');
+Route::get('/organisation-traderefs', 'RegistrationController@traderefs');
 Route::get('/dashboard/{user:slug}','DashboardController@show');

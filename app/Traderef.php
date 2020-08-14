@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Contact extends Model
+class Traderef extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'person' ,'phone', 'whatsapp','user_id',
+        'address' ,'phone', 'name','user_id',
     ];	
 
     /**
@@ -31,7 +30,4 @@ class Contact extends Model
     {
     	return $this->morphMany('App\DataCapturer', 'data_capturable');
     } 
-
-
-
 }

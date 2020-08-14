@@ -81,4 +81,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Fleet::class);
     } 
+    public function directors()
+    {
+        return $this->hasMany(Director::class);
+    }  
+
+           public function traderefs()
+    {
+        return $this->hasMany(Traderef::class);
+    }
 }

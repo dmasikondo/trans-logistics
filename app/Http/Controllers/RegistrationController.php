@@ -39,5 +39,22 @@ class RegistrationController extends Controller
    {
    		$user = Auth::user();
    		return view('registration.fleets', compact('user'));   	
-   }   
+   } 
+
+   /**
+    * view Registration of Organisation's directors resources
+    */
+   public function directors()
+   {
+   		$user = Auth::user();
+   		return view('registration.directors', compact('user'));   	
+   } 
+   /**
+    * view Registration of Organisation's traderefs resources
+    */
+   public function traderefs()
+   {
+   		$user = Auth::user();
+   		return view('registration.traderefs', compact('user'));   	
+   }        
 }

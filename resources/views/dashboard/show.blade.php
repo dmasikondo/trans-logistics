@@ -122,26 +122,52 @@
 
 					<div class="col-md-4 mt-4">
 						<div class="card">
-							<div class="card-header">
-								Directors Infor
+							<div class="card-header  {{$user->directors->isEmpty()? 'bg-danger': 'bg-primary'}}">
+								Directors Information
 								<span class="fa fa-users"></span>
-								<span class="fa fa-warning text-danger pull-right"></span>									
+								<span class="{{$user->directors->isEmpty()? 'fa fa-warning text-warning': 'fa fa-check text-success'}} pull-right"></span>									
 							</div>
 							<div class="card-body">
-								Information on Director
+						<!--- user has director information -->
+								@if(!$user->directors->isEmpty())
+										<p>
+											<span class="badge badge-info">{{count($user->directors)}} </span> 
+											Directors Information inserted
+										</p>
+										<a href="/organisation-directors" class="btn btn-outline-success">View / Update</a>
+								@else
+										<p>
+											State the company's directors and their contact information
+										</p>
+										<a href="/organisation-directors" class="btn btn-outline-danger">Update</a>									
+								@endif
+							<!-- end of user has director information -->
 							</div>
 						</div>
 					</div>					
 
 					<div class="col-md-4 mt-4">
 						<div class="card">
-							<div class="card-header">
-								Trade references
+							<div class="card-header   {{$user->traderefs->isEmpty()? 'bg-danger': 'bg-primary'}}">
+								Trade References
 								<span class="fa fa-list"></span>
-								<span class="fa fa-warning text-danger pull-right"></span>									
+								<span class="{{$user->traderefs->isEmpty()? 'fa fa-warning text-warning': 'fa fa-check text-success'}}  pull-right"></span>									
 							</div>
 							<div class="card-body">
-								Some Trade References
+						<!--- user has traderef information -->
+								@if(!$user->traderefs->isEmpty())
+										<p>
+											<span class="badge badge-info">{{count($user->traderefs)}} </span> 
+											Trade References Information inserted
+										</p>
+										<a href="/organisation-traderefs" class="btn btn-outline-success">View / Update</a>
+								@else
+										<p>
+											State the company's traderefs and their contact information
+										</p>
+										<a href="/organisation-traderefs" class="btn btn-outline-danger">Update</a>									
+								@endif
+							<!-- end of user has director information -->
 							</div>
 						</div>
 					</div>

@@ -21,6 +21,8 @@ Vue.component('user-registration-component', require('./components/UserRegistrat
 Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
 Vue.component('buslocation-component', require('./components/BuslocationComponent.vue').default);
 Vue.component('fleet-component', require('./components/FleetComponent.vue').default);
+Vue.component('director-component', require('./components/DirectorComponent.vue').default);
+Vue.component('traderef-component', require('./components/TraderefComponent.vue').default);
 
 
 Vue.component(
