@@ -1,0 +1,1 @@
+<load-component :user="{{$user}}" :freight={{load}}></load-component>

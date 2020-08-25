@@ -38,6 +38,13 @@
 	@extends('layouts.nav.dashboard')
 		@section('dashboard_content')
 				<div class="row">
+					<a class="btn btn-outline-success btn-lg mt-4 ml-2" href="{{asset('storage/docs')}}/Transport Carrier Registration Form.pdf">
+						<blink>
+							<span class="fa fa-download"></span> Or simply download registration form to fill in and then upload at a later time
+						</blink>
+				</a>
+				</div>
+				<div class="row">
 					<div class="col-md-4 mt-4">
 						<div class="card">
 							<div class="card-header">
@@ -77,7 +84,7 @@
 								@if(!$user->buslocations->isEmpty())
 										<p>
 											<span class="badge badge-info">{{count($user->buslocations)}} </span> 
-											Contact Details inserted
+											Locations inserted
 										</p>
 										<a href="/organisation-buslocations" class="btn btn-outline-success">View / Update</a>
 								@else
@@ -102,8 +109,8 @@
 						<!--- user has fleet information -->
 								@if(!$user->fleets->isEmpty())
 										<p>
-											<span class="badge badge-info">{{count($user->fleets)}} </span> 
-											Fleet inserted
+											
+											Fleet information inserted
 										</p>
 										<a href="/organisation-fleets" class="btn btn-outline-success">View / Update</a>
 								@else

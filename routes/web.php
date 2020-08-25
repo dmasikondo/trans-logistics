@@ -25,7 +25,20 @@ Auth::routes();
 Auth::routes(['verify' =>true]);
 
 Route::get('/home',	'HomeController@index')->name('home')->middleware('stage');
-//Route::get('/home', 'HomeController@index')->name('home');
+
+//loads / consignments for carriage
+Route::resource('loads','LoadController');
+Route::get('/allcategories','LoadController@allcategories');
+Route::get('/loads/{user:slug}', 'LoadController@index');
+Route::post('/loads/{user:slug}', 'LoadController@store');
+Route::put('/loads/{load:slug}', 'LoadController@update');
+Route::delete('/loads/{load:slug}', 'LoadController@destroy');
+Route::get('/loads/{load:slug}', 'LoadController@show');
+Route::put('/loads/{load:slug}/private-visibility', 'LoadController@privateVisibility');
+Route::put('/loads/{load:slug}/public-visibility', 'LoadController@publicVisibility');
+Route::get('/loads/{load:slug}/new-freight-value', 'LoadController@newFreightValue');
+Route::put('/loads/{load:slug}/distance-trailer', 'LoadController@distanceTrailer');
+
 
 //Contact Addresses
 Route::get('/contacts/{user:slug}', 'ContactController@index');

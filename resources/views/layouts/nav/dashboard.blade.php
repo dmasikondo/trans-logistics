@@ -3,11 +3,15 @@
 		<div class="bg-light border-right" id="sidebar-wrapper">
 			<div class="sidebar-heading">{{strtok($user->organisation,' ')}} Dashboard</div>
 			<div class="list-group list-group-flush">
-				<a href="#" class="list-group-item list-group-item-action bg-light"><i class="fa fa-home"></i> Dashboard</a>
-				<a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-				<a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-				<a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-				<a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light"><i class="fa fa-home"></i> Users</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Registration</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Available Loads</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Available Trucks</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Freight Forwarding</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Warehousing</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Transport Consultancy</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Insurance</a>
+				<a href="#" class="list-group-item list-group-item-action bg-light">Vehicle Tracking</a>
 			</div>
 		</div>
 

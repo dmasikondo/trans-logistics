@@ -1,8 +1,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-//import moment from 'moment';
-//import swal from 'sweetalert';
+import moment from 'moment';
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 
 /**
  * The following block of code may be used to automatically register your
@@ -18,11 +19,16 @@ window.Vue = require('vue');
 Vue.component('user-component', require('./components/UserComponent.vue').default);
 Vue.component('role-component', require('./components/RoleComponent.vue').default);
 Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
-Vue.component('user-registration-component', require('./components/UserRegistrationComponent.vue').default);
+Vue.component('contact-component', require('./components/ContactComponent.vue').default);
 Vue.component('buslocation-component', require('./components/BuslocationComponent.vue').default);
 Vue.component('fleet-component', require('./components/FleetComponent.vue').default);
+Vue.component('load-component', require('./components/LoadComponent.vue').default);
 Vue.component('director-component', require('./components/DirectorComponent.vue').default);
 Vue.component('traderef-component', require('./components/TraderefComponent.vue').default);
+Vue.component('private-visibility-button', require('./components/load/PrivateVisibilityButton.vue').default);
+Vue.component('public-visibility-button', require('./components/load/PublicVisibilityButton.vue').default);
+Vue.component('distance-vehicletype', require('./components/load/DistanceVehicletype.vue').default);
+Vue.component('delete-load', require('./components/load/DeleteLoad.vue').default);
 
 
 Vue.component(
@@ -41,6 +47,9 @@ require('./components/passport/PersonalAccessTokens.vue').default
 window.Fire = new Vue();
 
 
+Vue.filter('formatDate', function(date) {
+    return moment(date).format('MM/DD/YYYY');
+}); 
 /*Vue.filter('upText', function(text){
 	return text.charAt(0).toUpperCase() + text.slice(1);
 });

@@ -86,8 +86,12 @@ class User extends Authenticatable
         return $this->hasMany(Director::class);
     }  
 
-           public function traderefs()
+     public function traderefs()
     {
         return $this->hasMany(Traderef::class);
     }
+     public function loads()
+    {
+        return $this->hasMany(Load::class);
+    }    
 }
