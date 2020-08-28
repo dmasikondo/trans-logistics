@@ -39,6 +39,17 @@ Route::put('/loads/{load:slug}/public-visibility', 'LoadController@publicVisibil
 Route::get('/loads/{load:slug}/new-freight-value', 'LoadController@newFreightValue');
 Route::put('/loads/{load:slug}/distance-trailer', 'LoadController@distanceTrailer');
 
+//vehicles in search of goods to ship
+Route::post('/vehicles','VehicleController@store');
+Route::get('/vehicles/create','VehicleController@create');
+Route::get('/vehicles/{vehicle:slug}','VehicleController@show');
+Route::get('/vehicles/{vehicle:slug}/edit','VehicleController@edit');
+Route::put('/vehicles/{vehicle:slug}','VehicleController@update');
+Route::delete('/vehicles/{vehicle:slug}','VehicleController@destroy');
+Route::put('/vehicles/{vehicle:slug}/private-visibility', 'VehicleController@privateVisibility');
+Route::put('/vehicles/{vehicle:slug}/public-visibility', 'VehicleController@publicVisibility');
+
+
 
 //Contact Addresses
 Route::get('/contacts/{user:slug}', 'ContactController@index');

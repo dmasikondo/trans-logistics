@@ -4548,7 +4548,7 @@ var Errors = /*#__PURE__*/function () {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
-        canncelButtonText: 'No, keep it'
+        cancelButtonText: 'No, keep it'
       }).then(function (willDelete) {
         if (willDelete.value) {
           axios["delete"]('/loads/' + _this.freight.slug, {}).then(function (response) {
@@ -5791,6 +5791,710 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         _this4.getTokens();
       });
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      message: '',
+      errors: new Errors()
+    };
+  },
+  props: {
+    vehicle: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    deleteVehicle: function deleteVehicle() {
+      var _this = this;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover this -- " + this.vehicle.trailer_type + "!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/vehicles/' + _this.vehicle.slug, {}).then(function (response) {
+            Swal.fire('Deleted!', 'Your vehicle was successfully deleted', 'success'); // window.location.href='/vehicles/create';                                
+          })["catch"](function (e) {
+            _this.errors.record(e.response.data.errors);
+
+            _this.message = e.response.data.message;
+            Swal.fire("Failure! " + _this.message, {
+              icon: "error"
+            });
+          });
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your vehicle is safe', 'error');
+        }
+      });
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      capacity: '',
+      trailer_type: '',
+      route: '',
+      available_date: null,
+      city_from: '',
+      city_to: '',
+      country_from: '',
+      country_to: '',
+      load_type: '',
+      more_details: '',
+      trailers: {},
+      message: '',
+      slug: '',
+      loads: {},
+      errors: new Errors()
+    };
+  },
+  props: {
+    editMode: {
+      type: Boolean,
+      required: true
+    },
+    vehicle: {
+      type: Object,
+      required: false
+    }
+  },
+  computed: {},
+  methods: {
+    editTheVehicle: function editTheVehicle() {
+      if (this.editMode) {
+        this.capacity = this.vehicle.capacity;
+        this.trailer_type = this.vehicle.trailer_type;
+        this.route = this.vehicle.route;
+        this.capacity = this.vehicle.capacity;
+        this.city_to = this.vehicle.city_to;
+        this.city_from = this.vehicle.city_from;
+        this.country_from = this.vehicle.country_from;
+        this.country_to = this.vehicle.country_to;
+        this.load_type = this.vehicle.load_type;
+        this.available_date = moment(this.vehicle.available_date).format('YYYY-MM-DD');
+        this.more_details = this.vehicle.more_details;
+      }
+    },
+    showTrailers: function showTrailers() {
+      var _this = this;
+
+      axios.get('/alltrailers').then(function (response) {
+        _this.trailers = response.data;
+      });
+    },
+    addVehicle: function addVehicle() {
+      var _this2 = this;
+
+      axios.post('/vehicles', {
+        capacity: this.capacity,
+        trailer_type: this.trailer_type,
+        route: this.route,
+        available_date: this.available_date,
+        city_from: this.city_from,
+        city_to: this.city_to,
+        country_from: this.country_from,
+        country_to: this.country_to,
+        load_type: this.load_type,
+        more_details: this.more_details
+      }).then(function (response) {
+        window.location.href = '/vehicles/' + response.data;
+        _this2.capacity = '';
+        _this2.trailer_type = '';
+        _this2.route = '';
+        _this2.available_date = '';
+        _this2.city_from = '';
+        _this2.city_to = '';
+        _this2.country_from = '';
+        _this2.country_to = '';
+        _this2.load_type = '';
+        _this2.more_details = '';
+        _this2.message = '';
+        _this2.errors = new Errors();
+      })["catch"](function (e) {
+        _this2.errors.record(e.response.data.errors);
+
+        _this2.message = e.response.data.message + ' Vehicle not uploaded!';
+      });
+    },
+    editVehicle: function editVehicle() {
+      var _this3 = this;
+
+      axios.put('/vehicles/' + this.vehicle.slug, {
+        capacity: this.capacity,
+        trailer_type: this.trailer_type,
+        route: this.route,
+        available_date: this.available_date,
+        city_from: this.city_from,
+        city_to: this.city_to,
+        country_from: this.country_from,
+        country_to: this.country_to,
+        load_type: this.load_type,
+        more_details: this.more_details
+      }).then(function (response) {
+        window.location.href = '/vehicles/' + _this3.vehicle.slug;
+        _this3.message = '';
+        _this3.errors = new Errors();
+      })["catch"](function (e) {
+        _this3.errors.record(e.response.data.errors);
+
+        _this3.message = e.response.data.message + ' Vehicle not uploaded!';
+      });
+    }
+    /*  deleteload(load){
+          axios.delete('/loads/'+load.slug).then((response)=>{
+              window.location.href='/dashboard/'+this.user.slug; 
+              this.message = ''; 
+              this.errors = new Errors(); 
+              Fire.$emit('AfterloadWasUpdated');
+              $('#loadModal').modal('hide');                     
+          }).catch((e) =>{
+              this.errors.record(e.response.data.errors);
+              this.message = e.response.data.message + ' Consignment not deleted!';                    
+          });
+      },*/
+
+  },
+  mounted: function mounted() {
+    this.showTrailers();
+    this.editTheVehicle(); //  Fire.$on('AfterloadWasUpdated', () => {this.loadloads()});
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isPrivateVisible: false,
+      message: '',
+      errors: new Errors()
+    };
+  },
+  props: {
+    vehicle: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    getPrivateVisibilityStatus: function getPrivateVisibilityStatus() {
+      if (this.vehicle.private_visibility == true) {
+        this.isPrivateVisible = true;
+      } else {
+        this.isPrivateVisible = false;
+      }
+    },
+
+    /*  changeVisibilityState(){
+          this.isPrivateVisible = !this.isPrivateVisible;
+      }, */
+    updatePrivateVisibility: function updatePrivateVisibility() {
+      var _this = this;
+
+      axios.put('/vehicles/' + this.vehicle.slug + '/private-visibility', {
+        private_visibility: !this.isPrivateVisible,
+        'is_published': this.vehicle.is_published
+      }).then(function (response) {
+        _this.message = ''; //this.isPrivateVisible = !this.isPrivateVisible;
+        // Fire.$emit('afterVehicleWasUpdated');
+        // alert('Successfully Changed Vehicle Visibility'); 
+
+        window.location.href = '/vehicles/' + _this.vehicle.slug;
+      })["catch"](function (e) {
+        _this.errors.record(e.response.data.errors);
+
+        _this.message = e.response.data.message + ' Vehicle Visibility not updated!';
+      });
+      ;
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    Fire.$on('afterVehicleWasUpdated', function () {
+      _this2.changeVisibilityState();
+    });
+    this.getPrivateVisibilityStatus();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isPublicVisible: false,
+      message: '',
+      errors: new Errors()
+    };
+  },
+  props: {
+    vehicle: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    getPrivateVisibilityStatus: function getPrivateVisibilityStatus() {
+      if (this.vehicle.public_visibility === true) {
+        this.isPublicVisible = true;
+      }
+
+      if (this.vehicle.public_visibility === false) {
+        this.isPublicVisible = false;
+      }
+    },
+
+    /*  changeVisibilityState(){
+          this.isPrivateVisible = !this.isPrivateVisible;
+      }, */
+    updatePublicVisibility: function updatePublicVisibility() {
+      var _this = this;
+
+      axios.put('/vehicles/' + this.vehicle.slug + '/public-visibility', {
+        //public_visibility: !this.isPublicVisible,
+        public_visibility: !this.vehicle.public_visibility
+      }).then(function (response) {
+        _this.message = ''; //this.isPrivateVisible = !this.isPrivateVisible;
+        // Fire.$emit('afterVehicleWasUpdated');
+        // alert('Successfully Changed Vehicle Visibility'); 
+
+        window.location.href = '/vehicles/' + _this.vehicle.slug;
+      })["catch"](function (e) {
+        _this.errors.record(e.response.data.errors);
+
+        _this.message = e.response.data.message + ' Vehicle Visibility not updated!';
+      });
+      ;
+    }
+  },
+  mounted: function mounted() {
+    /*Fire.$on('afterVehicleWasUpdated', () => {
+        this.changeVisibilityState();
+    });	*/
+    this.getPrivateVisibilityStatus();
   }
 });
 
@@ -72491,6 +73195,904 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.errors
+      ? _c("h6", [
+          _c("span", { staticClass: "text-danger" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.message))])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("p", [
+      _c(
+        "a",
+        {
+          attrs: { href: "" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.deleteVehicle()
+            }
+          }
+        },
+        [
+          _c("span", { staticClass: "fa fa-trash text-danger" }),
+          _vm._v(" Delete")
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
+      _c(
+        "form",
+        {
+          attrs: { role: "form" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.editMode ? _vm.editVehicle() : _vm.addVehicle()
+            }
+          }
+        },
+        [
+          _vm.errors ? _c("p") : _vm._e(),
+          _c("h6", { staticClass: "text-danger" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.message))])
+          ]),
+          _vm._v(" "),
+          _c("p"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.trailer_type,
+                    expression: "trailer_type"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": _vm.errors.hasError("trailer_type") },
+                attrs: { id: "trailer_type", required: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.trailer_type = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "" } }, [
+                  _vm._v("Select Trailer Type")
+                ]),
+                _vm._v(
+                  "\n                             :class=\"{'is-invalid': errors.hasError('address')}\"\n                            "
+                ),
+                _vm._l(_vm.trailers, function(trailer_type) {
+                  return _c(
+                    "option",
+                    { domProps: { value: trailer_type.name } },
+                    [_vm._v(_vm._s(trailer_type.name))]
+                  )
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Select Trailer Type")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("trailer_type")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.errors.get("trailer_type")))
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.load_type,
+                    expression: "load_type"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": _vm.errors.hasError("load_type") },
+                attrs: { required: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.load_type = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "LTL" } }, [
+                  _vm._v("Less Than Truck Load (LTL)")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "FTL" } }, [
+                  _vm._v("Full Truck Load (FTL)")
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Required Load Type")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("load_type")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("load_type")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.capacity,
+                  expression: "capacity"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("capacity") },
+              attrs: { type: "text", required: "" },
+              domProps: { value: _vm.capacity },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.capacity = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Available Capacity")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("capacity")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("capacity")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.country_from,
+                    expression: "country_from"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": _vm.errors.hasError("country_from") },
+                attrs: { required: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.country_from = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "Botswana" } }, [
+                  _vm._v("Botswana")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "option",
+                  { attrs: { value: "Congo, The Democratic Republic of the" } },
+                  [_vm._v("Congo, The Democratic Republic of the")]
+                ),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Malawi" } }, [
+                  _vm._v("Malawi")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Mozambique" } }, [
+                  _vm._v("Mozambique")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "South Africa" } }, [
+                  _vm._v("South Africa")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Zambia" } }, [
+                  _vm._v("Zambia")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Zimbabwe" } }, [
+                  _vm._v("Zimbabwe")
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Country From")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("country_from")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.errors.get("country_from")))
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.city_from,
+                  expression: "city_from"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("city_from") },
+              attrs: { type: "text", required: "" },
+              domProps: { value: _vm.city_from },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.city_from = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("City From")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("city_from")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("city_from")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.country_to,
+                    expression: "country_to"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": _vm.errors.hasError("country_to") },
+                attrs: { type: "tel", required: "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.country_to = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "Botswana" } }, [
+                  _vm._v("Botswana")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "option",
+                  { attrs: { value: "Congo, The Democratic Republic of the" } },
+                  [_vm._v("Congo, The Democratic Republic of the")]
+                ),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Malawi" } }, [
+                  _vm._v("Malawi")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Mozambique" } }, [
+                  _vm._v("Mozambique")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "South Africa" } }, [
+                  _vm._v("South Africa")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Zambia" } }, [
+                  _vm._v("Zambia")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Zimbabwe" } }, [
+                  _vm._v("Zimbabwe")
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Destination Country")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("country_to")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("country_to")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.city_to,
+                  expression: "city_to"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("city_to") },
+              attrs: { type: "text", required: "" },
+              domProps: { value: _vm.city_to },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.city_to = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Destination City")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("city_to")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("city_to")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(7),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.route,
+                  expression: "route"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("route") },
+              attrs: { type: "text" },
+              domProps: { value: _vm.route },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.route = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Preferred Route (optional)")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("route")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [_c("strong", [_vm._v(_vm._s(_vm.errors.get("route")))])]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(8),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.available_date,
+                  expression: "available_date"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("available_date") },
+              attrs: { type: "date", required: "" },
+              domProps: { value: _vm.available_date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.available_date = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("Availability date")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("available_date")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.errors.get("available_date")))
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group input-group" }, [
+            _vm._m(9),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.more_details,
+                  expression: "more_details"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.errors.hasError("more_details") },
+              domProps: { value: _vm.more_details },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.more_details = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "floating-label" }, [
+              _vm._v("More Details (optional)")
+            ]),
+            _vm._v(" "),
+            _vm.errors.hasError("more_details")
+              ? _c(
+                  "span",
+                  { staticClass: "invalid-feedback", attrs: { role: "alert" } },
+                  [
+                    _c("strong", [
+                      _vm._v(_vm._s(_vm.errors.get("more_details")))
+                    ])
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm._m(10)
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-truck" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-flag" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-trailer" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-flag" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-tower" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-flag" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-tower" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-road" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-calender" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-calender" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary form-control",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Upload Vehicle")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.errors
+      ? _c("h6", [
+          _c("span", { staticClass: "text-danger" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.message))])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.vehicle.private_visibility
+      ? _c("p", { staticClass: "alert alert-success" }, [
+          _vm._v(
+            "This vehicle is available to Transpartner Logistics for moderation and listing\n                "
+          ),
+          _vm.vehicle.private_visibility && !_vm.vehicle.is_published
+            ? _c(
+                "a",
+                {
+                  staticClass: "pull-right",
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.updatePrivateVisibility()
+                    }
+                  }
+                },
+                [_vm._v("Make private")]
+              )
+            : _vm._e()
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.vehicle.private_visibility
+      ? _c("p", { staticClass: "alert alert-warning" }, [
+          _vm._v(
+            "This vehicle is private. Only you can see it\n                "
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "pull-right",
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePrivateVisibility()
+                }
+              }
+            },
+            [_vm._v("Avail for Listing")]
+          )
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.errors
+      ? _c("h6", [
+          _c("span", { staticClass: "text-danger" }, [
+            _c("strong", [_vm._v(_vm._s(_vm.message))])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.vehicle.public_visibility && _vm.vehicle.private_visibility
+      ? _c("p", { staticClass: "alert alert-info" }, [
+          _vm._v(
+            "This vehicle is currently published. All users can see it.\n                "
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "pull-right",
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePublicVisibility($event)
+                }
+              }
+            },
+            [_vm._v("Unpublish")]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.vehicle.public_visibility && _vm.vehicle.private_visibility
+      ? _c("p", { staticClass: "alert alert-danger" }, [
+          _vm._v(
+            "This vehicle is currently not public. Only admins can see it\n                "
+          ),
+          _c(
+            "a",
+            {
+              staticClass: "pull-right",
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updatePublicVisibility($event)
+                }
+              }
+            },
+            [_vm._v("Publish")]
+          )
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -84672,6 +86274,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a;
+window.moment = moment__WEBPACK_IMPORTED_MODULE_0___default.a;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -84695,6 +86298,10 @@ Vue.component('private-visibility-button', __webpack_require__(/*! ./components/
 Vue.component('public-visibility-button', __webpack_require__(/*! ./components/load/PublicVisibilityButton.vue */ "./resources/js/components/load/PublicVisibilityButton.vue")["default"]);
 Vue.component('distance-vehicletype', __webpack_require__(/*! ./components/load/DistanceVehicletype.vue */ "./resources/js/components/load/DistanceVehicletype.vue")["default"]);
 Vue.component('delete-load', __webpack_require__(/*! ./components/load/DeleteLoad.vue */ "./resources/js/components/load/DeleteLoad.vue")["default"]);
+Vue.component('vehicle-component', __webpack_require__(/*! ./components/vehicle/VehicleComponent.vue */ "./resources/js/components/vehicle/VehicleComponent.vue")["default"]);
+Vue.component('delete-vehicle', __webpack_require__(/*! ./components/vehicle/DeleteVehicle.vue */ "./resources/js/components/vehicle/DeleteVehicle.vue")["default"]);
+Vue.component('vehicle-private-visibility', __webpack_require__(/*! ./components/vehicle/VehiclePrivateVisibility.vue */ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue")["default"]);
+Vue.component('vehicle-public-visibility', __webpack_require__(/*! ./components/vehicle/VehiclePublicVisibility.vue */ "./resources/js/components/vehicle/VehiclePublicVisibility.vue")["default"]);
 Vue.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 Vue.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 Vue.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);
@@ -85941,6 +87548,282 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalAccessTokens_vue_vue_type_template_id_49962cc0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalAccessTokens_vue_vue_type_template_id_49962cc0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/DeleteVehicle.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/vehicle/DeleteVehicle.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteVehicle.vue?vue&type=template&id=bf915dfa& */ "./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa&");
+/* harmony import */ var _DeleteVehicle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteVehicle.vue?vue&type=script&lang=js& */ "./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteVehicle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/vehicle/DeleteVehicle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteVehicle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteVehicle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteVehicle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteVehicle.vue?vue&type=template&id=bf915dfa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/DeleteVehicle.vue?vue&type=template&id=bf915dfa&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteVehicle_vue_vue_type_template_id_bf915dfa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehicleComponent.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehicleComponent.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VehicleComponent.vue?vue&type=template&id=a71db5c2& */ "./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2&");
+/* harmony import */ var _VehicleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VehicleComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _VehicleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/vehicle/VehicleComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehicleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehicleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehicleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehicleComponent.vue?vue&type=template&id=a71db5c2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehicleComponent.vue?vue&type=template&id=a71db5c2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehicleComponent_vue_vue_type_template_id_a71db5c2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePrivateVisibility.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2& */ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2&");
+/* harmony import */ var _VehiclePrivateVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VehiclePrivateVisibility.vue?vue&type=script&lang=js& */ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _VehiclePrivateVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/vehicle/VehiclePrivateVisibility.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePrivateVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehiclePrivateVisibility.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePrivateVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePrivateVisibility.vue?vue&type=template&id=882f81d2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePrivateVisibility_vue_vue_type_template_id_882f81d2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePublicVisibility.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePublicVisibility.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429& */ "./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429&");
+/* harmony import */ var _VehiclePublicVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VehiclePublicVisibility.vue?vue&type=script&lang=js& */ "./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _VehiclePublicVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/vehicle/VehiclePublicVisibility.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePublicVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehiclePublicVisibility.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePublicVisibility_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/vehicle/VehiclePublicVisibility.vue?vue&type=template&id=2e6cf429&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VehiclePublicVisibility_vue_vue_type_template_id_2e6cf429___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

@@ -4,6 +4,7 @@ window.Vue = require('vue');
 import moment from 'moment';
 import Swal from 'sweetalert2';
 window.Swal = Swal;
+window.moment =moment;
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,6 +30,10 @@ Vue.component('private-visibility-button', require('./components/load/PrivateVis
 Vue.component('public-visibility-button', require('./components/load/PublicVisibilityButton.vue').default);
 Vue.component('distance-vehicletype', require('./components/load/DistanceVehicletype.vue').default);
 Vue.component('delete-load', require('./components/load/DeleteLoad.vue').default);
+Vue.component('vehicle-component', require('./components/vehicle/VehicleComponent.vue').default);
+Vue.component('delete-vehicle', require('./components/vehicle/DeleteVehicle.vue').default);
+Vue.component('vehicle-private-visibility', require('./components/vehicle/VehiclePrivateVisibility.vue').default);
+Vue.component('vehicle-public-visibility', require('./components/vehicle/VehiclePublicVisibility.vue').default);
 
 
 Vue.component(

@@ -64,13 +64,19 @@ class LoadController extends Controller
 		$load = $user->loads()->create(array_merge($request->all(), ['slug' =>$slug]));
 		$load->categories()->sync($request->category_type);
 
+    	/**
+    	 * create capturer details
+    	 */	      
+    		$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    		]); 
 		return $load->slug;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  str $slug
      * @return \Illuminate\Http\Response
      */
     public function show(Load $load)
@@ -104,6 +110,13 @@ class LoadController extends Controller
 
       $load->update($request->all());
       $load->categories()->sync($request->category_type);
+
+    	/**
+    	 * create capturer details
+    	 */	      
+    		$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    		]);       
        return response()->json(null, 200);
     }
 
@@ -117,12 +130,19 @@ class LoadController extends Controller
     public function privateVisibility(Load $load)
     {
     	
-    	//check if not set for publishing in which case carrier can not edit it
+    	//check if not set for publishing in which case shipper can not edit it
     	if(request()->is_published ==true)
     	{
     		abort(422, 'Already set for publishing. ');
     	} 
     	else{
+
+    	/**
+    	 * create capturer details
+    	 */	      
+    		$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    		]);     		
 	  		 $freight = $load->update(['private_visibility' =>request()->private_visibility]);
 	      	 return response()->json(null, 200);    		
     	}   	
@@ -138,13 +158,20 @@ class LoadController extends Controller
      */
     public function publicVisibility(Load $load)
     {
-		//check if not set private by the carrier can not edit it
+		//check if not set private by the shipper, admin can not edit it
 		if(request()->private_visibility ==false)
 		{
 			abort(422, 'Consignment is currently set private. ');
 		}   
 		else{
 	      	$freight = $load->update(['public_visibility' =>request()->public_visibility, 'is_published' => true]);
+
+    	/**
+    	 * create capturer details
+    	 */	      
+    		$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    		]); 	      	
 	       	return response()->json(null, 200);			
 		}  	
 
@@ -159,6 +186,13 @@ class LoadController extends Controller
         public function distanceTrailer(Load $load)
     {
 	      $freight = $load->update(['distance' =>request()->distance, 'vehicle_type' => request()->vehicle_type]);
+
+    	/**
+    	 * create capturer details
+    	 */	      
+    		$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    		]); 	      
 	       return response()->json(null, 200);			
 	 	
 
@@ -183,6 +217,12 @@ class LoadController extends Controller
     public function destroy(Load $load)
     {
         $load->delete();
+    	/**
+    	 * create capturer details
+    	 */
+    	$load->capturers()->create([
+    		'user_id' => Auth::user()->id,
+    	]);         
         return response()->json(null, 200);	
     }
 }

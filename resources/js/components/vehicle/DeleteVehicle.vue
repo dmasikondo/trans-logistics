@@ -4,7 +4,7 @@
         <span class="text-danger"><strong>{{message}}</strong></span>
     </h6> 
     <p>
-        <a href=""@click.prevent=deleteFreight()><span class="fa fa-trash text-danger"></span> Delete</a>
+        <a href=""@click.prevent=deleteVehicle()><span class="fa fa-trash text-danger"></span> Delete</a>
     </p>  	
 </div>
 
@@ -42,36 +42,35 @@
         data()
         {
             return{
-                isPublicVisible: false,
                 message: '',
                 errors: new Errors(),
             }
         },
         props: {
-            freight: {
+            vehicle: {
                 type: Object,
               required: true
             },
         },
 
         methods:{          
-                 deleteFreight(){
+                 deleteVehicle(){
                     Swal.fire({
                     title: "Are you sure?",
-                    text: "Once Deleted, you will not be able to recover this consignment -- " +this.freight.name +"!",
+                    text: "Once Deleted, you will not be able to recover this -- " +this.vehicle.trailer_type +"!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText:'Yes, delete it!',
                     cancelButtonText:'No, keep it',
                     }).then((willDelete) => {                        
                         if (willDelete.value) {                    
-                             axios.delete('/loads/'+ this.freight.slug, {
+                             axios.delete('/vehicles/'+ this.vehicle.slug, {
                             }).then((response) =>{                                                    
                             Swal.fire('Deleted!',
-                            'Your consignment was successfully deleted',
+                            'Your vehicle was successfully deleted',
                             'success'
                             ); 
-                            window.location.href='/loads/create';                                
+                           // window.location.href='/vehicles/create';                                
                         }).catch((e)=>{
                             this.errors.record(e.response.data.errors);
                             this.message = e.response.data.message;
@@ -82,7 +81,7 @@
                         } 
                         else if(willDelete.dismiss === Swal.DismissReason.cancel) {
                             Swal.fire('Cancelled',
-                                        'Your consignment is safe',
+                                        'Your vehicle is safe',
                                         'error'
                             )
                         }
