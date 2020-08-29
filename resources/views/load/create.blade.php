@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-	<load-component :user="{{$user}}" :freight=Object></load-component>
+	<load-component :user="{{Auth::user()}}" :edit-mode="false"></load-component>
 @endsection

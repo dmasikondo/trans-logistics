@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-					 <private-visibility-button :freight="{{$load}}"></private-visibility-button>
+					 <private-visibility-button :load="{{$load}}"></private-visibility-button>
 			
 			
             <div class="card mt-4">
@@ -11,7 +11,7 @@
             		{{$load->transport_mode}}
             		<span class="pull-right">
             			{{$load->amount}} {{$load->carriage_rate}}
-            			<load-component :user="{{json_encode($user)}}" :freight="{{json_encode($load)}}"></load-component>
+            			<a href="/loads/{{$load->slug}}/edit"><i class="fa fa-edit">Edit</i></a>
             			<delete-load :freight="{{$load}}"></delete-load>
 
             		</span>
@@ -81,12 +81,8 @@
 						
 					</div>
                 </div>
-            </div>
-			
-				<div class="card mt-3">
-					<public-visibility-button :freight="{{$load}}"></public-visibility-button>				
-				</div>			
-						
+            </div>			
+				<public-visibility-button :load="{{$load}}"></public-visibility-button>		
         </div>
     </div>
 </div>

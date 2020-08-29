@@ -2,16 +2,15 @@
 	<div>
 		<h6 v-if="errors">
             <span class="text-danger"><strong>{{message}}</strong></span>
-        </h6>		
-		<div  v-if="!freight.is_published" class = "alert" :class="{'alert-danger': !isPrivateVisible, 'alert-success': isPrivateVisible}" role="alert">
-			Your consignment is currently {{!isPrivateVisible? 'private. Only you can see it!' : 'public. It is available to Transpartner Logistics for moderation and listing'}}
-		</div>
-		<button  v-if="!freight.is_published" class ="btn btn-xs btn-light" type = "button" @click.prevent="updatePrivateVisibility()"> 
-			 {{!isPrivateVisible? 'Avail it for listing' : 'Unlist Consignment'}}
-		</button>
-		<p  v-if="freight.is_published" class="alert alert-info">The consignment was submitted for moderation and listing</p>		
-	</div>
+        </h6>	
 
+            <p v-if="load.private_visibility" class="alert alert-success">This consignment is available to Transpartner Logistics for moderation and listing
+                <a v-if="load.private_visibility && !load.is_published" href="" class="pull-right"  @click.prevent="updatePrivateVisibility()">Make private</a>
+            </p>
+            <p v-if="!load.private_visibility" class="alert alert-warning">This consignment is private. Only you can see it
+                <a href="" class="pull-right" @click.prevent="updatePrivateVisibility()">Avail for Listing</a>
+            </p>	
+	</div>
 	
 </template>
 <script>
@@ -51,14 +50,19 @@
                 errors: new Errors(),
             }
         },
-        props: [
-                'freight',
-        ],
+        props: {
+            load:{
+                type: Object,
+                required: true,
+            }
+
+        },               
+       
 
         methods:{
           
             getPrivateVisibilityStatus(){
-            	if(this.freight.private_visibility ==true)
+            	if(this.load.private_visibility ==true)
             	{
             		this.isPrivateVisible = true;       		
 
@@ -67,25 +71,34 @@
             		this.isPrivateVisible = false;
             	}
 
-            },             
+            }, 
+
+          /*  changeVisibilityState(){
+                this.isPrivateVisible = !this.isPrivateVisible;
+            }, */
             updatePrivateVisibility(){
-                axios.put('/loads/'+ this.freight.slug+'/private-visibility',{
+                axios.put('/loads/'+ this.load.slug+'/private-visibility',{
                 	private_visibility: !this.isPrivateVisible,
-                	'is_published': this.freight.is_published,
+                	'is_published': this.load.is_published,
                 }).then((response) =>{ 
                 	this.message ='';
-                	this.isPrivateVisible = !this.isPrivateVisible;
-                   alert('Successfully Changed Consignment Visibility');                       
+                	//this.isPrivateVisible = !this.isPrivateVisible;
+                   // Fire.$emit('afterloadWasUpdated');
+                  // alert('Successfully Changed load Visibility'); 
+                  window.location.href='/loads/'+this.load.slug;                      
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' Consignment Visibility not updated!';                    
+                    this.message = e.response.data.message + ' load Visibility not updated!';                    
                 });;
 
             },
 
         },
-		mounted(){
-			this.getPrivateVisibilityStatus();			
+		mounted(){	
+           /* Fire.$on('afterloadWasUpdated', () => {
+                this.changeVisibilityState();
+            });	*/
+            this.getPrivateVisibilityStatus();
 		}        
 
     }	

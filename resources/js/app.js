@@ -23,7 +23,7 @@ Vue.component('user-registration-component', require('./components/UserRegistrat
 Vue.component('contact-component', require('./components/ContactComponent.vue').default);
 Vue.component('buslocation-component', require('./components/BuslocationComponent.vue').default);
 Vue.component('fleet-component', require('./components/FleetComponent.vue').default);
-Vue.component('load-component', require('./components/LoadComponent.vue').default);
+Vue.component('load-component', require('./components/load/LoadComponent.vue').default);
 Vue.component('director-component', require('./components/DirectorComponent.vue').default);
 Vue.component('traderef-component', require('./components/TraderefComponent.vue').default);
 Vue.component('private-visibility-button', require('./components/load/PrivateVisibilityButton.vue').default);

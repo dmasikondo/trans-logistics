@@ -31,6 +31,7 @@ Route::resource('loads','LoadController');
 Route::get('/allcategories','LoadController@allcategories');
 Route::get('/loads/{user:slug}', 'LoadController@index');
 Route::post('/loads/{user:slug}', 'LoadController@store');
+Route::get('/loads/{load:slug}/edit', 'LoadController@edit');
 Route::put('/loads/{load:slug}', 'LoadController@update');
 Route::delete('/loads/{load:slug}', 'LoadController@destroy');
 Route::get('/loads/{load:slug}', 'LoadController@show');

@@ -126,15 +126,16 @@ class VehicleController extends Controller
     		abort(422, 'Already set for publishing. ');
     	} 
     	else{
+     		
+	  		 $vehicle = $vehicle->update(['private_visibility' =>request()->private_visibility]);
+	      	 return $vehicle;  
 
     	/**
     	 * create capturer details
     	 */	      
     		$vehicle->capturers()->create([
     		'user_id' => Auth::user()->id,
-    		]);     		
-	  		 $vehicle = $vehicle->update(['private_visibility' =>request()->private_visibility]);
-	      	 return $vehicle;  		
+    		]);	      	 		
     	}     	  	
    
     } 
@@ -163,7 +164,7 @@ class VehicleController extends Controller
     		'user_id' => Auth::user()->id,
     		]); 	      	
 	       	return response()->json(null, 200);			
-		}  	
+			}  	
 
-    }                      
+    	}                      
 }

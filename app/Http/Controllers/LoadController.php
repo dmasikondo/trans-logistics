@@ -92,9 +92,10 @@ class LoadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Load $load)
     {
-        //
+    	$load =$load->load(['user','categories']);
+        return view('load.edit', compact('load'));
     }
 
     /**
@@ -136,15 +137,16 @@ class LoadController extends Controller
     		abort(422, 'Already set for publishing. ');
     	} 
     	else{
+    		
+	  		 $freight = $load->update(['private_visibility' =>request()->private_visibility]);
+	      	 return response()->json(null, 200);    
 
     	/**
     	 * create capturer details
     	 */	      
     		$load->capturers()->create([
     		'user_id' => Auth::user()->id,
-    		]);     		
-	  		 $freight = $load->update(['private_visibility' =>request()->private_visibility]);
-	      	 return response()->json(null, 200);    		
+    		]); 	      	 		
     	}   	
    
     }  
@@ -159,7 +161,7 @@ class LoadController extends Controller
     public function publicVisibility(Load $load)
     {
 		//check if not set private by the shipper, admin can not edit it
-		if(request()->private_visibility ==false)
+		if($load->private_visibility ==false)
 		{
 			abort(422, 'Consignment is currently set private. ');
 		}   

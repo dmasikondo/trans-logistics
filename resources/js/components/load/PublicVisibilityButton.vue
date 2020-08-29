@@ -1,17 +1,18 @@
 <template>
-	<div class="card">
-		<h6 v-if="errors">
+    <div>
+        <h6 v-if="errors">
             <span class="text-danger"><strong>{{message}}</strong></span>
-        </h6>		
-		<div class = "alert" :class="{'alert-danger': !isPublicVisible, 'alert-success': isPublicVisible}" role="alert">
-			This consignment is currently {{!isPublicVisible? 'Not Published. Only admins can see it!' : 'published. All users can view it'}}
-		</div>
-		<button class ="btn btn-xs btn-light" type = "button" @click.prevent="updatePublicVisibility()"> 
-			 {{!isPublicVisible? 'Publish' : 'Unpublish'}}
-		</button>		
-</div>
+        </h6>   
 
-	
+            <p  v-if="load.public_visibility && load.private_visibility" class="alert alert-info">This consignment is currently published. All users can see it.
+                <a href="" class="pull-right" @click.prevent="updatePublicVisibility">Unpublish</a>
+            </p>
+            <p v-if="!load.public_visibility  && load.private_visibility"  class="alert alert-danger">This consignment is currently not public. Only admins can see it
+                <a  href="" class="pull-right" @click.prevent="updatePublicVisibility">Publish</a>
+            </p>        
+    
+    </div>
+    
 </template>
 <script>
    class Errors{
@@ -51,53 +52,55 @@
             }
         },
         props: {
-            freight: {
+            load:{
                 type: Object,
-              //required: true
-            },
-        },
+                required: true,
+            }
 
-        methods:{          
-            getPublicVisibilityStatus(){
-            	if(this.freight.public_visibility ==true)
-            	{
-            		this.isPublicVisible = true;       		
+        },               
+       
 
-            	}
-            	else{
-            		this.isPublicVisible = false;
-            	}
+        methods:{
+          
+            getPrivateVisibilityStatus(){
+                if(this.load.public_visibility ===true)
+                {
+                    this.isPublicVisible = true;            
 
-            },    
+                }
+                if(this.load.public_visibility ===false)
+                {
+                    this.isPublicVisible = false;
+                }
+            }, 
 
-            getNewFreightValue()
-            {
-                axios.get('/loads/'+this.freight.slug+'/new-freight-value').then((response)=>{
-                    this.freight = response.data;
-                });
-            },         
+          /*  changeVisibilityState(){
+                this.isPrivateVisible = !this.isPrivateVisible;
+            }, */
             updatePublicVisibility(){
-                axios.put('/loads/'+ this.freight.slug+'/public-visibility',{
-                	public_visibility: !this.isPublicVisible,
-                    private_visibility: this.freight.private_visibility,
+                axios.put('/loads/'+ this.load.slug+'/public-visibility',{
+                    //public_visibility: !this.isPublicVisible,
+                    public_visibility: !this.load.public_visibility,
                 }).then((response) =>{ 
-                    Fire.$emit('AfterLoadWasUpdated');
-                	this.message ='';
-                	this.isPublicVisible = !this.isPublicVisible;
-
-                   alert('Successfully Changed Consignment Visibility');                       
+                    this.message ='';
+                    //this.isPrivateVisible = !this.isPrivateVisible;
+                   // Fire.$emit('afterloadWasUpdated');
+                  // alert('Successfully Changed load Visibility'); 
+                  window.location.href='/loads/'+this.load.slug;                      
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' Consignment Published status not changed!';                    
+                    this.message = e.response.data.message + ' load Visibility not updated!';                    
                 });;
 
             },
 
         },
-		mounted(){
-			this.getPublicVisibilityStatus();	
-            Fire.$on('AfterLoadWasUpdated', () => {this.getNewFreightValue()});		
-		}        
+        mounted(){  
+            /*Fire.$on('afterloadWasUpdated', () => {
+                this.changeVisibilityState();
+            }); */
+            this.getPrivateVisibilityStatus();
+        }        
 
-    }	
+    }   
 </script>
