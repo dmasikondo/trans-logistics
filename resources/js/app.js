@@ -34,6 +34,7 @@ Vue.component('vehicle-component', require('./components/vehicle/VehicleComponen
 Vue.component('delete-vehicle', require('./components/vehicle/DeleteVehicle.vue').default);
 Vue.component('vehicle-private-visibility', require('./components/vehicle/VehiclePrivateVisibility.vue').default);
 Vue.component('vehicle-public-visibility', require('./components/vehicle/VehiclePublicVisibility.vue').default);
+Vue.component('bid-component', require('./components/bid/BidComponent.vue').default);
 
 
 Vue.component(

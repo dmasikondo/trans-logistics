@@ -4459,6 +4459,240 @@ var Errors = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var Errors = /*#__PURE__*/function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      if (this.errors[field]) {
+        return this.errors[field][0];
+      }
+    }
+  }, {
+    key: "hasError",
+    value: function hasError(field) {
+      if (this.errors[field]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      delete this.errors[field];
+    }
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.errors = errors;
+    }
+  }]);
+
+  return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      price: '',
+      date_available: null,
+      available_capacity: '',
+      trailer_type: '',
+      vehicle_location: '',
+      trailers: {},
+      editMode: false,
+      modalTitle: '',
+      title: '',
+      submitTitle: '',
+      message: '',
+      errors: new Errors()
+    };
+  },
+  props: {
+    vehicle: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    createBidModal: function createBidModal() {
+      var _this = this;
+
+      axios.get('/allcategories').then(function (response) {
+        _this.categories = response.data;
+      });
+      $('#bidModal').show();
+      this.editMode = false;
+      this.modalTitle = 'Make a bid';
+      this.title = 'Add bid';
+      this.submitTitle = 'Add bid';
+      this.price = '';
+      this.available_date = null;
+      this.available_capacity = '';
+      this.trailer_type = '';
+      this.vehicle_location = '';
+    },
+    createShipmentBid: function createShipmentBid() {
+      var _this2 = this;
+
+      axios.post('/bids/' + this.freight.slug, {
+        price: this.price,
+        available_date: this.available_date,
+        available_capacity: this.available_capacity,
+        trailer_type: this.trailer_type,
+        vehicle_location: this.vehicle_location
+      }).then(function (response) {
+        // window.location.href='/loads/'+freight.slug;
+        _this2.price = '';
+        _this2.available_date = null;
+        _this2.available_capacity = '';
+        _this2.trailer_type = '';
+        _this2.vehicle_location = '';
+        _this2.message = '';
+        _this2.errors = new Errors();
+      })["catch"](function (e) {
+        _this2.errors.record(e.response.data.errors);
+
+        _this2.message = e.response.data.message;
+      });
+    },
+    deleteBid: function deleteBid() {
+      var _this3 = this;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover this -- " + this.vehicle.trailer_type + "!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/vehicles/' + _this3.vehicle.slug, {}).then(function (response) {
+            Swal.fire('Deleted!', 'Your vehicle was successfully deleted', 'success'); // window.location.href='/vehicles/create';                                
+          })["catch"](function (e) {
+            _this3.errors.record(e.response.data.errors);
+
+            _this3.message = e.response.data.message;
+            Swal.fire("Failure! " + _this3.message, {
+              icon: "error"
+            });
+          });
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your vehicle is safe', 'error');
+        }
+      });
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/load/DeleteLoad.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/load/DeleteLoad.vue?vue&type=script&lang=js& ***!
@@ -71570,6 +71804,374 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("p", [
+      _c(
+        "a",
+        {
+          attrs: { href: "" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.createBidModal($event)
+            }
+          }
+        },
+        [_vm._v("Bid")]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade modal-lg",
+        attrs: {
+          id: "bidModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "bidModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h4",
+                { staticClass: "modal-title", attrs: { id: "bidModalLabel" } },
+                [_vm._v(_vm._s(_vm.modalTitle))]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                attrs: { role: "form" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.createShipmentBid($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _vm.errors ? _c("p") : _vm._e(),
+                  _c("h6", { staticClass: "text-danger" }, [
+                    _c("strong", [_vm._v(_vm._s(_vm.message))])
+                  ]),
+                  _vm._v(" "),
+                  _c("p"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group input-group" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.vehicleType,
+                            expression: "vehicleType"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.errors.hasError("vehicle_type")
+                        },
+                        attrs: { id: "vehicle", required: "" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.vehicleType = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Select Type of Trailer")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.trailers, function(vehicle) {
+                          return _c(
+                            "option",
+                            { domProps: { value: vehicle.name } },
+                            [_vm._v(_vm._s(vehicle.name))]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "floating-label" }, [
+                      _vm._v("Select Trailer Type")
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.hasError("vehicle_type")
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.errors.get("vehicle_type")))
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group input-group" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.date_available,
+                          expression: "date_available"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: {
+                        "is-invalid": _vm.errors.hasError("date_available")
+                      },
+                      attrs: { type: "date", required: "" },
+                      domProps: { value: _vm.date_available },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.date_available = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "floating-label" }, [
+                      _vm._v("Date of Availability")
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.hasError("date_available")
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.errors.get("date_available")))
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group input-group" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.available_capacity,
+                          expression: "available_capacity"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: {
+                        "is-invalid": _vm.errors.hasError("available_capacity")
+                      },
+                      attrs: { type: "text", required: "" },
+                      domProps: { value: _vm.available_capacity },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.available_capacity = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "floating-label" }, [
+                      _vm._v("Required Price")
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.hasError("available_capacity")
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(
+                                _vm._s(_vm.errors.get("available_capacity"))
+                              )
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group input-group" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.vehicle_location,
+                          expression: "vehicle_location"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: {
+                        "is-invalid": _vm.errors.hasError("vehicle_location")
+                      },
+                      attrs: { type: "text", required: "" },
+                      domProps: { value: _vm.vehicle_location },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.vehicle_location = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("label", { staticClass: "floating-label" }, [
+                      _vm._v("Current Vehicle Location")
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.hasError("vehicle_location")
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "invalid-feedback",
+                            attrs: { role: "alert" }
+                          },
+                          [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.errors.get("vehicle_location")))
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v(_vm._s(_vm.submitTitle))]
+                  )
+                ])
+              ]
+            )
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-truck" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-calender" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-road" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "fa fa-road" })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/load/DeleteLoad.vue?vue&type=template&id=486d959f&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/load/DeleteLoad.vue?vue&type=template&id=486d959f& ***!
@@ -86302,6 +86904,7 @@ Vue.component('vehicle-component', __webpack_require__(/*! ./components/vehicle/
 Vue.component('delete-vehicle', __webpack_require__(/*! ./components/vehicle/DeleteVehicle.vue */ "./resources/js/components/vehicle/DeleteVehicle.vue")["default"]);
 Vue.component('vehicle-private-visibility', __webpack_require__(/*! ./components/vehicle/VehiclePrivateVisibility.vue */ "./resources/js/components/vehicle/VehiclePrivateVisibility.vue")["default"]);
 Vue.component('vehicle-public-visibility', __webpack_require__(/*! ./components/vehicle/VehiclePublicVisibility.vue */ "./resources/js/components/vehicle/VehiclePublicVisibility.vue")["default"]);
+Vue.component('bid-component', __webpack_require__(/*! ./components/bid/BidComponent.vue */ "./resources/js/components/bid/BidComponent.vue")["default"]);
 Vue.component('passport-clients', __webpack_require__(/*! ./components/passport/Clients.vue */ "./resources/js/components/passport/Clients.vue")["default"]);
 Vue.component('passport-authorized-clients', __webpack_require__(/*! ./components/passport/AuthorizedClients.vue */ "./resources/js/components/passport/AuthorizedClients.vue")["default"]);
 Vue.component('passport-personal-access-tokens', __webpack_require__(/*! ./components/passport/PersonalAccessTokens.vue */ "./resources/js/components/passport/PersonalAccessTokens.vue")["default"]);
@@ -87011,6 +87614,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRegistrationComponent_vue_vue_type_template_id_2e5000de___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRegistrationComponent_vue_vue_type_template_id_2e5000de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/bid/BidComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/bid/BidComponent.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BidComponent.vue?vue&type=template&id=b238a486& */ "./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486&");
+/* harmony import */ var _BidComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BidComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BidComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/bid/BidComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BidComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./BidComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/bid/BidComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BidComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./BidComponent.vue?vue&type=template&id=b238a486& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/bid/BidComponent.vue?vue&type=template&id=b238a486&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BidComponent_vue_vue_type_template_id_b238a486___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

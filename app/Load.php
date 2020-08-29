@@ -32,6 +32,11 @@ class Load extends Model
     	return $this->belongsTo(User::class);
     }
 
+
+    public function bids()
+    {
+    	return $this->hasMany(Bid::class);
+    }
     /**
     * Get all of the organisation fleets' capturers.
     */
