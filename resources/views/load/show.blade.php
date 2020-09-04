@@ -3,21 +3,30 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+    @can('ownerOnly', $load)
 					 <private-visibility-button :load="{{$load}}"></private-visibility-button>
-			
+	@endcan
 			
             <div class="card mt-4">
             	<div class="card-header">
             		{{$load->transport_mode}}
+
+     @can('update', $load)
+
             		<span class="pull-right">
             			{{$load->amount}} {{$load->carriage_rate}}
             			<a href="/loads/{{$load->slug}}/edit"><i class="fa fa-edit">Edit</i></a>
             			<delete-load :freight="{{$load}}"></delete-load>
-
             		</span>
 
+	@endcan            		
+
             	</div>
+
+    @can('update', $load)
             	<distance-vehicletype :freight="{{$load}}"></distance-vehicletype>
+    @endcan
                 <div class="card-body">					
 					
 					 <h6 class="card-title">
@@ -44,7 +53,9 @@
 					 			Pick up location
 					 		</h5>
 					 		<p>
+	@can('confidential', $load)					 			
 					 			<span>{{$load->pickup_street}}</span><br>
+	@endcan
 					 			<span>{{$load->pickup_city}}</span><br>
 					 			<span>{{$load->pickup_country}}</span><br>
 					 			<span class="fa fa-calendar text-success"> </span>	
@@ -58,7 +69,9 @@
 					 			Destination
 					 		</h5>
 					 		<p>
+	@can('confidential', $load)	
 					 			<span>{{$load->destination_street}}</span><br>
+	@endcan
 					 			<span>{{$load->destination_city}}</span><br>
 					 			<span>{{$load->destination_country}}</span><br>
 					 			<span class="fa fa-calendar text-danger"> </span> 	
@@ -82,8 +95,11 @@
 					</div>
 					<bid-component :load="{{$load}}"></bid-component>
                 </div>
-            </div>			
-				<public-visibility-button :load="{{$load}}"></public-visibility-button>		
+            </div>	
+
+     @can('superconfidential', $load)		
+				<public-visibility-button :load="{{$load}}"></public-visibility-button>	
+	@endcan	
         </div>
     </div>
 </div>

@@ -64,7 +64,17 @@ class Load extends Model
     public function capturers()
     {
     return $this->morphMany('App\DataCapturer', 'data_capturable');
-    }     
+    }  
+
+    /**
+      * check if user has has captured this consignnment
+    */  
+	public function captureFromUser(User $user)
+	{
+		return $this->capturers()->where('user_id', $user->id);
+	} 
+
+
 }
 
 

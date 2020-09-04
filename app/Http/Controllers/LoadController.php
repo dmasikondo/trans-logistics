@@ -81,6 +81,12 @@ class LoadController extends Controller
      */
     public function show(Load $load)
     {
+	/**
+	 * first check if user is authorized to view
+	 */
+		if(!$this->authorize('view', $load)){
+			return $this->authorize('update', $load);
+		}    	
     	$user = $load->load('user');
     	$load = $load->load(['categories']);
         return view ('load.show', compact('load','user'));
@@ -94,6 +100,12 @@ class LoadController extends Controller
      */
     public function edit(Load $load)
     {
+	/**
+	 * first check if user is authorized to update
+	 */
+		if(!$this->authorize('update', $load)){
+			return $this->authorize('update', $load);
+		}     	
     	$load =$load->load(['user','categories']);
         return view('load.edit', compact('load'));
     }
@@ -107,6 +119,12 @@ class LoadController extends Controller
      */
     public function update(LoadRequest $request, Load $load)
     {
+	/**
+	 * first check if user is authorized to update
+	 */
+		if(!$this->authorize('update', $load)){
+			return $this->authorize('update', $load);
+		}   	
 
 
       $load->update($request->all());
@@ -132,7 +150,7 @@ class LoadController extends Controller
     {
     	
     	//check if not set for publishing in which case shipper can not edit it
-    	if(request()->is_published ==true)
+    	if($load->is_published)
     	{
     		abort(422, 'Already set for publishing. ');
     	} 
