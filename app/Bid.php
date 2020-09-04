@@ -18,18 +18,25 @@ class Bid extends Model
      * @var array
      */
     protected $fillable = [
-        'price','date_available','available_capacity','trailer_type','vehicle_location','slug',
+        'price','date_available','available_capacity','trailer_type','country_location', 'city_location','slug','is_awarded','user_id',
     ];		
 
-    public function freight(){
-    	return $this->belongsTo(Load::class);
-    }
+
 
     /**
     * Get all of the load for carriage bidders
     */
-    public function bidders()
+    public function coinsignment()
     {
-    return $this->morphMany('App\Interested', 'interestedable');
-    }     
+    	return $this->morphTo();
+    } 
+	/**
+	 * Get the user who made a bid
+	 */
+	public function bidder()
+	{
+		return $this->belongsTo(User::class, 'user_id');
+	} 
+
+
 }

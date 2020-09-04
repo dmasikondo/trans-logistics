@@ -80,6 +80,7 @@
 						</div>
 						
 					</div>
+					<bid-component :load="{{$load}}"></bid-component>
                 </div>
             </div>			
 				<public-visibility-button :load="{{$load}}"></public-visibility-button>		

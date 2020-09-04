@@ -51,6 +51,11 @@ Route::put('/vehicles/{vehicle:slug}/private-visibility', 'VehicleController@pri
 Route::put('/vehicles/{vehicle:slug}/public-visibility', 'VehicleController@publicVisibility');
 
 
+// Bidding for shipments
+Route::post('bids/{load:slug}', 'BidController@store');
+Route::get('bids/{load:slug}/total-number', 'BidController@TotalBids');
+Route::delete('bids/{load:slug}', 'BidController@destroy');
+
 
 //Contact Addresses
 Route::get('/contacts/{user:slug}', 'ContactController@index');

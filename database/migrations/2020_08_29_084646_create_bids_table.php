@@ -15,23 +15,27 @@ class CreateBidsTable extends Migration
     {
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('load_id');
             $table->string('price');
             $table->string('available_capacity');
             $table->string('trailer_type');
-            $table->string('vehicle_location');
+            $table->string('city_location');
+            $table->string('country_location');
             $table->string('slug');
+            $table->foreignId('bidable_id');
+            $table->foreignId('user_id');
+            $table->string('bidable_type');            
+            $table->boolean('is_awarded')->default(false);            
             $table->timestamp('date_available');
             $table->timestamps();
         });
-
-        Schema::create('interested', function (Blueprint $table) {
+/*        Schema::create('interested', function (Blueprint $table) {
             $table->id();
             $table->foreignId('interestedable_id');
             $table->foreignId('user_id');
             $table->string('interestedable_type');
             $table->timestamps();
-        });        
+        });    
+*/            
     }
     /**
      * Reverse the migrations.
@@ -41,6 +45,6 @@ class CreateBidsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('bids');
-        Schema::dropIfExists('interested');
+      //  Schema::dropIfExists('interested');
     }
 }

@@ -32,11 +32,32 @@ class Load extends Model
     	return $this->belongsTo(User::class);
     }
 
-
+    /**
+     * Get the shipment bids
+     */
     public function bids()
     {
-    	return $this->hasMany(Bid::class);
+   
+    	return $this->morphMany('App\Bid', 'bidable');
+ 
     }
+
+    /**
+     * get the number of carriers who have made bids
+     */
+
+    public function numberOfBids()
+    {
+    	return $this->bids()->count();
+    } 
+
+    /**
+      * check if user has made a bid for this coinsignment
+    */  
+	public function bidFromUser(User $user)
+	{
+		return $this->bids()->where('user_id', $user->id);
+	}         
     /**
     * Get all of the organisation fleets' capturers.
     */
