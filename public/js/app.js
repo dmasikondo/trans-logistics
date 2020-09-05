@@ -2951,6 +2951,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -3982,6 +3983,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -4024,6 +4028,8 @@ var Errors = /*#__PURE__*/function () {
   data: function data() {
     return {
       userHasBid: false,
+      canBid: false,
+      userCanSeeBidder: false,
       price: '',
       date_available: null,
       available_capacity: '',
@@ -4055,6 +4061,8 @@ var Errors = /*#__PURE__*/function () {
         _this.numberOfBids = response.data.numberOfBids;
         _this.bidings = response.data.bidings;
         _this.userHasBid = response.data.userHasBid;
+        _this.canBid = response.data.canBid;
+        _this.userCanSeeBidder = response.data.userCanSeeBidder;
       });
     },
     createBidModal: function createBidModal() {
@@ -70319,36 +70327,46 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("p", [
-        _c(
-          "a",
-          {
-            attrs: { href: "" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.userHasBid ? _vm.deleteBid() : _vm.createBidModal()
-              }
-            }
-          },
-          [
-            _vm._v(_vm._s(_vm.userHasBid ? "UnBid" : "Bid") + " "),
-            _c("span", { staticClass: "badge badge-primary" }, [
-              _vm._v(_vm._s(_vm.numberOfBids))
-            ])
-          ]
-        )
-      ]),
+      _vm.canBid
+        ? _c("p", [
+            _c(
+              "a",
+              {
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.userHasBid ? _vm.deleteBid() : _vm.createBidModal()
+                  }
+                }
+              },
+              [
+                _vm._v(_vm._s(_vm.userHasBid ? "UnBid" : "Bid") + " "),
+                _c("span", { staticClass: "badge badge-primary" }, [
+                  _vm._v(_vm._s(_vm.numberOfBids))
+                ])
+              ]
+            )
+          ])
+        : _c("p", [
+            _vm._v("\n        Transpartner Logistics' "),
+            _c("a", { attrs: { href: "/home" } }, [
+              _vm._v("Registered Carriers")
+            ]),
+            _vm._v(" can Make Bids for Shipments\n    ")
+          ]),
       _vm._v(" "),
       _vm._l(_vm.bidings, function(bida) {
-        return _c("p", [
-          _vm._v(
-            _vm._s(bida.available_capacity) +
-              "\n                      Inserted by " +
-              _vm._s(bida.bidder.organisation) +
-              "\n    "
-          )
-        ])
+        return _vm.userCanSeeBidder
+          ? _c("p", [
+              _vm._v(
+                _vm._s(bida.available_capacity) +
+                  "\n                      Inserted by " +
+                  _vm._s(bida.bidder.organisation) +
+                  "\n    "
+              )
+            ])
+          : _vm._e()
       }),
       _vm._v(" "),
       _c(

@@ -19,7 +19,7 @@ class LoadController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }	
     /**
      * Display a listing of all load categories.
@@ -39,7 +39,7 @@ class LoadController extends Controller
      */    
     public function index()
     {
-        //
+       
     }
 
     /**

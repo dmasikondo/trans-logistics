@@ -1,10 +1,13 @@
 <template>
     <div>
      
-    <p>
+    <p  v-if="canBid">
         <a href=""@click.prevent="userHasBid? deleteBid(): createBidModal()">{{userHasBid? 'UnBid': 'Bid'}} <span class="badge badge-primary">{{numberOfBids}}</span></a>
-    </p>  
-    <p v-for="bida in bidings">{{bida.available_capacity}}
+    </p> 
+    <p v-else>
+        Transpartner Logistics' <a href="/home">Registered Carriers</a> can Make Bids for Shipments
+    </p> 
+    <p v-if="userCanSeeBidder" v-for="bida in bidings">{{bida.available_capacity}}
                       Inserted by {{bida.bidder.organisation}}
     </p>
 <!-- Modal -->   
@@ -147,6 +150,8 @@
         {
             return{
                 userHasBid: false,
+                canBid: false,
+                userCanSeeBidder: false,
                 price: '',
                 date_available: null,
                 available_capacity: '',
@@ -177,6 +182,8 @@
                         this.numberOfBids =response.data.numberOfBids;
                         this.bidings = response.data.bidings;
                         this.userHasBid = response.data.userHasBid;
+                        this.canBid = response.data.canBid;
+                        this.userCanSeeBidder = response.data.userCanSeeBidder;
                     });
                 },
 

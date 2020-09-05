@@ -152,5 +152,17 @@ class LoadPolicy
         // creator who is admin
         // ADMINS
         return ($load->user_id === $user->id);
-    }          
+    } 
+
+    /**
+      * Can place a bid to ship the coinsignment on conditions:
+      * must be  a carrier
+      * not owner of the coinsignment
+      * the coinsignemnt is published
+    */  
+
+    public function canBid(User $user, Load $load)  
+    {
+        return ($user->hasRole('carrier') && $user->id === $load->user_id && $load->public_visibility);
+    }  
 }

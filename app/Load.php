@@ -23,6 +23,8 @@ class Load extends Model
 		'requirements',
     ];
 
+ 	protected $dates = ['pickup_date','destination_date',];
+
     public function categories()
     {
     	return $this->belongsToMany(Category::class)->withTimestamps();
@@ -52,12 +54,29 @@ class Load extends Model
     } 
 
     /**
-      * check if user has made a bid for this coinsignment
+      * check bids made by the user for this coinsignment
     */  
 	public function bidFromUser(User $user)
 	{
 		return $this->bids()->where('user_id', $user->id);
-	}         
+	} 
+
+	/**
+	 * check if user can Bid or unBid
+	 */
+	public function userCanBidShipment(User $user)
+	{
+		return (bool) $user->hasRole('carrier') && $user->id !== $this->user_id && $this->public_visibility;
+	}
+
+	/**
+	 * check if user can Bid or unBid
+	 */
+	public function userCanSeeBidder(User $user)
+	{
+		return (bool) $user->hasRole('admin') ||$user->hasRole('manager') || $user->hasRole('superadmin');
+	}
+
     /**
     * Get all of the organisation fleets' capturers.
     */

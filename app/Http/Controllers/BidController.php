@@ -39,6 +39,7 @@ class BidController extends Controller
      */
     public function store(Load $load, BidRequest $request)
     {
+         
         /**
          * first check if a user has not already made a bid for the shipment
          */
@@ -105,12 +106,15 @@ class BidController extends Controller
      */
 
     public function TotalBids(Load $load){
+
         $bids = $load->bids()->get();
         $bidFromUser = $load->bidFromUser(auth()->user())->first();       
         $response = [
             'bidings' =>$bids->load(['bidder']),
             'numberOfBids' => $load->numberOfBids(),
             'userHasBid' => $bidFromUser ? true : false,
+            'canBid' => $load->usercanBidShipment(auth()->user()),
+            'userCanSeeBidder' => $load->userCanSeeBidder(auth()->user()),
         ];
 
         return $response;

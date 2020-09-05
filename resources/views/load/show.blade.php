@@ -60,7 +60,7 @@
 					 			<span>{{$load->pickup_country}}</span><br>
 					 			<span class="fa fa-calendar text-success"> </span>	
 								Ready to Pick up on <br>
-								{{$load->pickup_date}}
+								{{$load->pickup_date->format('l d F Y')}}
 					 		</p>
 					 	</div>
 					 	<div class="col-md-6">
@@ -76,7 +76,7 @@
 					 			<span>{{$load->destination_country}}</span><br>
 					 			<span class="fa fa-calendar text-danger"> </span> 	
 								Expected to be delivered on <br>
-								{{$load->destination_date}}					 			
+								{{$load->destination_date->format('l d F Y')}}					 			
 					 		</p>					 		
 					 	</div>					 	
 
