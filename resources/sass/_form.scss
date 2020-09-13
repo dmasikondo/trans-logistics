@@ -19,7 +19,7 @@ text-transform: uppercase;
 font-weight: 800;
 text-shadow: 3px 3px #8DC975;
 }
-
+*/
 
 .input-group-prepend span{
 width: 3.125em;
@@ -27,10 +27,14 @@ background-color: #8DC975;
 color: black;
 border:0 !important;
 }
-input.form-control, input.form-control:focus{
+input.form-control, input.form-control:focus, 
+textarea.form-control, textarea.form-control:focus, 
+select.form-control, select.form-control:focus
+select.form-control, select.form-control:focus{
     border: none;
     outline: none;
-    border-bottom: 1px solid #ced4da;;
+    border-bottom: 1px solid #ced4da;
+    font-weight: 600;
 }
 .input-group{
     position: relative;
@@ -41,7 +45,7 @@ input.form-control, input.form-control:focus{
 .floating-label{
     position: absolute;
     top: 0.5625em;
-    left: 3.875em;
+    left: 4.375em;
     pointer-events: none;
     color: #ccc;
     font-weight: bolder;
@@ -50,7 +54,11 @@ input.form-control, input.form-control:focus{
 }
 
 input:focus ~ .floating-label,
-input:not(:focus):valid ~ .floating-label {
+input:not(:focus):valid ~ .floating-label, 
+textarea:focus ~ .floating-label,
+textarea:not(:focus):valid ~ .floating-label,
+select:focus ~ .floating-label,
+select:not(:focus):valid ~ .floating-label{    
     top: -1.5375em;
     bottom: 0px;
     left: 3.875em;
@@ -61,7 +69,9 @@ input:not(:focus):valid ~ .floating-label {
    color: #2E94BE;
    letter-spacing: 1px;
 }
-input:visited ~ .floating-label{
+input:visited ~ .floating-label,
+textarea:visited ~ .floating-label,
+select:visited ~ .floating-label{
     color: red;
 }
 button.btn{
@@ -105,4 +115,3 @@ margin-left: 4px;
    text-shadow: 1px 1px #2E94BE;
 }
 
-*/

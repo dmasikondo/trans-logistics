@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+/* login modal*/
+
+  .modal-header, .modal-header h4, .close {
+      background-color: #6C6969;
+      color:white !important;
+      text-align: center;
+      font-size: 1.875em;
+  }
+  .modal-footer {
+      background-color: #f9f9f9;
+  }
+

@@ -34,12 +34,12 @@ align-content: center;
                     <div class="row">
                         <div class="col-md-6">
                             <a href="/organisation-contacts?carrier=yes&{{uniqid()}}">
-                                <span class="fa fa-check"  style="font-size:4em;"> Yes</span>
+                                <span class="fa fa-check text-primary"  style="font-size:4em;"> Yes</span>
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="/organisation-contacts?carrier=no&{{uniqid()}}" class="text-danger">
-                                 <span class="fa fa-remove"  style="font-size:4em;"> No</span>
+                            <a href="/organisation-contacts?carrier=no&{{uniqid()}}">
+                                 <span class="fa fa-remove text-danger"  style="font-size:4em;"> No</span>
                             </a>
                         </div>                        
                     </div>

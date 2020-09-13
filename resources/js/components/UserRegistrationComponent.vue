@@ -1,15 +1,19 @@
 <template>
 	<div class="container">
-		<div class="d-flex justify-content-center h-100">
-				<div class="card">
+        <div class="row justify-content-center">
+            <div class="col-md-8">        
+				<div class="card">                    
 					<div class="card-header">
-						<h3>Register</h3>
+						<h2>Sign Up</h2>
+                        <div class="feature-wrap justify-content-center d-flex">
+                            <i class="fa fa-unlock-alt"></i>                          
+                        </div>                        
 					</div>
 					<div class="card-body">
                         <p v-if="errors">
                             <span class="text-danger">{{message}}</span>
                         </p>
-						<form @submit.prevent="userRegistration">
+						<form @submit.prevent="userRegistration" class="go-register">
 
 							<div class="form-group input-group">
                                 <div class="input-group-prepend">
@@ -53,15 +57,15 @@
                                 </span>                                
                             </div>                            
                             <div class="form-group">
-                                <button class="btn-info form-control" type="submit">Register</button>
+                                <button class="btn btn-lg form-control btn-outline-info" type="submit"> <i class="fa fa-lock fa-lg"> </i> Register</button>
                             </div>                                                       
-						</form>
+						</form>                         
 					</div>
 
                     <div class="card-footer">
                        <div class="d-flex justify-content-center">
-                            <span class="links">Already have an account? </span>
-                            <a href="/login">Login </a>
+                            <span class="links"> Already have an account? </span>
+                            <a href="/login"> Login </a>
                         </div>
                         <div class="d-flex justify-content-center">
                             <a href="#"> Forgot your password?</a>
@@ -69,7 +73,8 @@
                     </div> 
 
 				</div>
-		</div>
+            </div>
+        </div>
 	</div>
 </template>
 <script>

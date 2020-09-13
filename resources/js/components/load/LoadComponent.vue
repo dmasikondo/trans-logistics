@@ -1,90 +1,128 @@
 <template>
 	<div class="container">
-		<div class="d-flex justify-content-center h-100">              
-                          
-        <form role="form"  @submit.prevent="editMode? editload(): addload()">
-           
-                <p v-if="errors">
-                    <h6 class="text-danger"><strong>{{message}}</strong></h6>
-                </p>
+ <form role="form"  @submit.prevent="editMode? editload(): addload()">        
+		<div class="card">    
+            <div class="card-header">
+                <h2 class="py-4">{{title}} for carriage</h2>
+                <div class="feature-wrap justify-content-center d-flex">
+                    <i class="fa fa-cubes"></i>                          
+                </div>                 
+                <div class="row team-bar mt-4">
+                  <div class="first-one-arrow hidden-xs">
+                    <hr>
+                  </div>
+                  <div class="first-arrow hidden-xs">
+                    <hr> <i class="fa fa-angle-up"> </i>
+                    Get Quotes
+                  </div>
+                  <div class="second-arrow hidden-xs">
+                    <hr> <i class="fa fa-angle-down"> </i>
+                    Payment Terms
+                  </div>
+                  <div class="third-arrow hidden-xs">
+                    <hr> <i class="fa fa-angle-up"> </i>
+                    We Pick It Up
+                  </div>
+                  <div class="fourth-arrow hidden-xs">
+                    <hr> <i class="fa fa-angle-down"> </i>
+                    & Deliver
+                  </div>
+                </div>            
+            </div>  
+          </div>
 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-truck"></i></span> 
-                    </div>
-                    <select class="form-control" id="transport_mode" v-model="transport_mode" :class="{'is-invalid': errors.hasError('transport_mode')}"  required>
-                        <option value="">Select Transport Mode</option>
-                        <option value ="air freight">Air Freight</option>
-                        <option value ="rail freight">Rail Freight</option>
-                        <option value ="road freight">Road Freight</option>
-                        <option value ="sea freight">Sea Freight</option>
-                    </select>
-                    <label class="floating-label">Mode of Transport</label>
-                     <span v-if="errors.hasError('transport_mode')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('transport_mode')}}</strong>
-                    </span>                                
-                </div>
+          <div class="card">
+              <div class="card-body">
+                    <p v-if="errors" class="mt-4">
+                        <h6 class="text-danger"><strong>{{message}}</strong></h6>
+                    </p>                
+                  <h3 class="mt-4">Consignment Description</h3>
+                    <div class="row mt-4">
+                        <div class="form-group input-group col-md-6">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-tachometer"></i></span> 
+                            </div>
+                            <select class="form-control" id="transport_mode" v-model="transport_mode" :class="{'is-invalid': errors.hasError('transport_mode')}"  required>
+                                <option value ="air freight">Air Freight</option>
+                                <option value ="rail freight">Rail Freight</option>
+                                <option value ="road freight">Road Freight</option>
+                                <option value ="sea freight">Sea Freight</option>
+                            </select>
+                            <label class="floating-label">Select Mode of Transport</label>
+                             <span v-if="errors.hasError('transport_mode')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('transport_mode')}}</strong>
+                            </span>                                
+                        </div>
 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-truck"></i></span> 
-                    </div>
-                    <select class="form-control" id="category" v-model="category_type" :class="{'is-invalid': errors.hasError('category_type')}"  required>
-                        <option value="">Select Consignment Category</option>
-                        <option v-for="category in categories" :value ="category.id" :selected="category.name == category_type? 'selected' : ''">{{category.name}}</option>
-                                                                </select>
-                    <label class="floating-label">Select Consignment Category</label>
-                     <span v-if="errors.hasError('category_type')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('category')}}</strong>
-                    </span>                                
-                </div>
+                        <div class="form-group input-group col-md-6">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-tags"></i></span> 
+                            </div>
+                            <select class="form-control" id="category" v-model="category_type" :class="{'is-invalid': errors.hasError('category_type')}"  required>
+                                <option v-for="category in categories" :value ="category.id" :selected="category.name == category_type? 'selected' : ''">{{category.name}}</option>
+                            </select>
 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-trailer"></i></span> 
-                    </div>
-                    <input type="tountry" class="form-control" v-model="name"  :class="{'is-invalid': errors.hasError('name')}"  required>
-                    <label class="floating-label">Name of Consignment</label>
-                     <span v-if="errors.hasError('name')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('name')}}</strong>
-                    </span>                                
-                </div>
+                            <label class="floating-label">Select Consignment Category</label>
+                             <span v-if="errors.hasError('category_type')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('category')}}</strong>
+                            </span>                                
+                        </div>                
+                    </div> 
 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-trailer"></i></span> 
-                    </div>
-                    <input type="text" class="form-control" v-model="size"  :class="{'is-invalid': errors.hasError('size')}"  required>
-                    <label class="floating-label">Weight/Volume per item</label>
-                     <span v-if="errors.hasError('size')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('size')}}</strong>
-                    </span>                                
-                </div>
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-trailer"></i></span> 
-                    </div>
-                    <input type="number" class="form-control" v-model="quantity"  :class="{'is-invalid': errors.hasError('quantity')}"  required>
-                    <label class="floating-label">No. of Items</label>
-                     <span v-if="errors.hasError('quantity')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('quantity')}}</strong>
-                    </span>                                
-                </div>
+                    <div class="row mt-4">
+                        <div class="form-group input-group col-md-5">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-briefcase"></i></span> 
+                            </div>
+                            <input type="tountry" class="form-control" v-model="name"  :class="{'is-invalid': errors.hasError('name')}"  required>
+                            <label class="floating-label">Name of Consignment</label>
+                             <span v-if="errors.hasError('name')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('name')}}</strong>
+                            </span>                                
+                        </div>
 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-trailer"></i></span> 
-                    </div>
-                    <input type="number" class="form-control" v-model="containers"  :class="{'is-invalid': errors.hasError('containers')}"  required>
-                    <label class="floating-label">No. of Containers (optional)</label>
-                     <span v-if="errors.hasError('containers')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('containers')}}</strong>
-                    </span>                                
-                </div>                                    
+                        <div class="form-group input-group col-md-3">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-balance-scale"></i></span> 
+                            </div>
+                            <input type="text" class="form-control" v-model="size"  :class="{'is-invalid': errors.hasError('size')}"  required>
+                            <label class="floating-label">Weight per item</label>
+                             <span v-if="errors.hasError('size')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('size')}}</strong>
+                            </span>                                
+                        </div>
+                        <div class="form-group input-group col-md-2">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-sort-amount-asc"></i></span> 
+                            </div>
+                            <input type="number" class="form-control" v-model="quantity"  :class="{'is-invalid': errors.hasError('quantity')}"  required>
+                            <label class="floating-label">No. of Items</label>
+                             <span v-if="errors.hasError('quantity')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('quantity')}}</strong>
+                            </span>                                
+                        </div>
 
-                <div class="form-group input-group">
+                        <div class="form-group input-group col-md-2">
+                            <div class="input-group-prepend">
+                               <span class="input-group-text"><i class="fa fa-cubes"></i></span> 
+                            </div>
+                            <input type="number" class="form-control" v-model="containers"  :class="{'is-invalid': errors.hasError('containers')}">
+                            <label class="floating-label">No. of Containers (optional)</label>
+                             <span v-if="errors.hasError('containers')" class="invalid-feedback" role="alert">
+                                <strong>{{errors.get('containers')}}</strong>
+                            </span>                                
+                        </div>                 
+                    </div>                                      
+              </div>
+          </div>
+
+         <div class="card">
+            <div class="card-body">
+             <h3 class="mt-4">Location Details</h3>
+            <div class="row mt-4">
+                <div class="form-group input-group col-md-6">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-road"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-road text-success"></i></span> 
                     </div>
                     <input type="text" class="form-control" v-model="pickup_street"  :class="{'is-invalid': errors.hasError('pickup_street')}"  required>
                     <label class="floating-label">Pickup Address</label>
@@ -93,9 +131,9 @@
                     </span>                                
                 </div>  
 
-                <div class="form-group input-group">
+                <div class="form-group input-group col-md-3">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-tower"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-building text-success"></i></span> 
                     </div>
                     <input type="text" class="form-control" v-model="pickup_city"  :class="{'is-invalid': errors.hasError('pickup_city')}"  required>
                     <label class="floating-label">Pickup City</label>
@@ -104,11 +142,11 @@
                     </span>                                
                 </div>                                                                      
 
-                <div class="form-group input-group">
+                <div class="form-group input-group col-md-3">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-flag"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-flag text-success"></i></span> 
                     </div>
-                    <select type="tel" class="form-control" v-model="pickup_country"  :class="{'is-invalid': errors.hasError('pickup_country')}"  required>
+                    <select class="form-control" v-model="pickup_country"  :class="{'is-invalid': errors.hasError('pickup_country')}"  required>
                         <option value="Botswana">Botswana</option>
                         <option value="Congo, The Democratic Republic of the">Congo, The Democratic Republic of the</option>
                         <option value="Malawi">Malawi</option>
@@ -121,34 +159,35 @@
                      <span v-if="errors.hasError('pickup_country')" class="invalid-feedback" role="alert">
                         <strong>{{errors.get('pickup_country')}}</strong>
                     </span>                                
-                </div> 
-
-
-                <div class="form-group input-group">
+                </div>                
+            </div>
+ 
+            <div class="row mt-4">
+                 <div class="form-group input-group col-md-6">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-road"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-road text-danger"></i></span> 
                     </div>
                     <input type="text" class="form-control" v-model="destination_street"  :class="{'is-invalid': errors.hasError('destination_street')}"  required>
-                    <label class="floating-label">destination Address</label>
+                    <label class="floating-label">Destination Address</label>
                      <span v-if="errors.hasError('destination_street')" class="invalid-feedback" role="alert">
                         <strong>{{errors.get('destination_street')}}</strong>
                     </span>                                
                 </div>  
 
-                <div class="form-group input-group">
+                <div class="form-group input-group col-md-3">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-tower"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-building text-danger"></i></span> 
                     </div>
                     <input type="text" class="form-control" v-model="destination_city"  :class="{'is-invalid': errors.hasError('destination_city')}"  required>
-                    <label class="floating-label">destination City</label>
+                    <label class="floating-label">Destination City</label>
                      <span v-if="errors.hasError('destination_city')" class="invalid-feedback" role="alert">
                         <strong>{{errors.get('destination_city')}}</strong>
                     </span>                                
                 </div>                                                            
 
-                    <div class="form-group input-group">
+                    <div class="form-group input-group col-md-3">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-flag"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-flag text-danger"></i></span> 
                     </div>
                     <select type="tel" class="form-control" v-model="destination_country"  :class="{'is-invalid': errors.hasError('destination_country')}"  required>
                         <option value="Botswana">Botswana</option>
@@ -163,89 +202,109 @@
                      <span v-if="errors.hasError('destination_country')" class="invalid-feedback" role="alert">
                         <strong>{{errors.get('destination_country')}}</strong>
                     </span>                                
-                </div> 
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-calender"></i></span> 
+                </div>                
+            </div>                
+            </div>
+
+         </div>      
+
+
+         <div class="card">
+             <div class="card-body">
+                 <h3 class="mt-4">Transportation</h3>
+                 <div class="row mt-4">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-calendar-plus-o"></i></span> 
+                        </div>
+                        <input type="date" class="form-control" v-model="pickup_date"  :class="{'is-invalid': errors.hasError('pickup_date')}">
+                        <label class="floating-label">Preferred Pickup Date</label>
+                         <span v-if="errors.hasError('pickup_date')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('pickup_date')}}</strong>
+                        </span>                                
+                    </div>                                     
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-calendar-minus-o"></i></span> 
+                        </div>
+                        <input type="date" class="form-control" v-model="destination_date"  :class="{'is-invalid': errors.hasError('destination_date')}">
+                        <label class="floating-label">Expected Arrival Date</label>
+                         <span v-if="errors.hasError('destination_date')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('destination_date')}}</strong>
+                        </span>                                
                     </div>
-                    <input type="date" class="form-control" v-model="pickup_date"  :class="{'is-invalid': errors.hasError('pickup_date')}" required>
-                    <label class="floating-label">Preferred Pickup Date</label>
-                     <span v-if="errors.hasError('pickup_date')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('pickup_date')}}</strong>
-                    </span>                                
-                </div>                                     
 
-                <div class="form-group input-group">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-exchange"></i></span> 
+                        </div>
+                        <input type="text" class="form-control" v-model="preferred_route"  :class="{'is-invalid': errors.hasError('preferred_route')}" >
+                        <label class="floating-label">Preferred Route (optional)</label>
+                         <span v-if="errors.hasError('preferred_route')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('preferred_route')}}</strong>
+                        </span>                                
+                    </div> 
+                </div>                
+             </div>
+         </div>
+                                   
+
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mt-4">Payment Options</h3>
+                <div class="row mt-4">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-credit-card-alt"></i></span> 
+                        </div>
+                        <select class="form-control" id="carriage_rate" v-model="carriage_rate" :class="{'is-invalid': errors.hasError('carriage_rate')}"  required>
+                            <option value ="cost_per_km">Cost per Km</option>
+                            <option value ="cost_for_whole_journey">Cost for the whole journey</option>
+                            <option value ="request_a_quote">Request a Quote</option>
+                        </select>
+                        <label class="floating-label">Carriage Rate</label>
+                         <span v-if="errors.hasError('carriage_rate')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('carriage_rate')}}</strong>
+                        </span>                                
+                    </div>                                   
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-money"></i></span> 
+                        </div>
+                        <input type="text" class="form-control" v-model="amount"  :class="{'is-invalid': errors.hasError('amount')}" >
+                        <label class="floating-label">Carriage amount offered US$ (optional)</label>
+                         <span v-if="errors.hasError('amount')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('amount')}}</strong>
+                        </span>                                
+                    </div> 
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-prepend">
+                           <span class="input-group-text"><i class="fa fa-credit-card"></i></span> 
+                        </div>
+                        <select class="form-control" id="payment_option" v-model="payment_option" :class="{'is-invalid': errors.hasError('payment_option')}"  required>
+                            <option value ="cash on delivery">Cash on Delivery</option>
+                            <option value="deposit and balance after 3 days">Deposit and balance after 3 days</option>
+                            <option value="deposit and balance after 7 days">Deposit and balance after 7 days</option>
+                            <option value="deposit and balance after 14 days">Deposit and balance after 14 days</option>
+                            <option value="deposit and balance after 30 days">Deposit and balance after 30 days</option>
+                        </select>
+                        <label class="floating-label">Payment Options</label>
+                         <span v-if="errors.hasError('payment_option')" class="invalid-feedback" role="alert">
+                            <strong>{{errors.get('payment_option')}}</strong>
+                        </span>                                
+                    </div>                
+                </div>                
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group input-group mt-4">
                     <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-calender"></i></span> 
-                    </div>
-                    <input type="date" class="form-control" v-model="destination_date"  :class="{'is-invalid': errors.hasError('destination_date')}"  required>
-                    <label class="floating-label">Expected Arrival Date</label>
-                     <span v-if="errors.hasError('destination_date')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('destination_date')}}</strong>
-                    </span>                                
-                </div>
-
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-road"></i></span> 
-                    </div>
-                    <input type="text" class="form-control" v-model="preferred_route"  :class="{'is-invalid': errors.hasError('preferred_route')}" >
-                    <label class="floating-label">Preferred Route (optional)</label>
-                     <span v-if="errors.hasError('preferred_route')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('preferred_route')}}</strong>
-                    </span>                                
-                </div> 
-
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-truck"></i></span> 
-                    </div>
-                    <select class="form-control" id="carriage_rate" v-model="carriage_rate" :class="{'is-invalid': errors.hasError('carriage_rate')}"  required>
-                        <option value="">Carriage Rate</option>
-                        <option value ="cost_per_km">Cost per Km</option>
-                        <option value ="cost_for_whole_journey">Cost for the whole journey</option>
-                        <option value ="request_a_quote">Request a Quote</option>
-                    </select>
-                    <label class="floating-label">Carriage Rate</label>
-                     <span v-if="errors.hasError('carriage_rate')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('carriage_rate')}}</strong>
-                    </span>                                
-                </div>                                   
-
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-dollar"></i></span> 
-                    </div>
-                    <input type="text" class="form-control" v-model="amount"  :class="{'is-invalid': errors.hasError('amount')}" >
-                    <label class="floating-label">Carriage amount offered US$ (optional)</label>
-                     <span v-if="errors.hasError('amount')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('amount')}}</strong>
-                    </span>                                
-                </div> 
-
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-truck"></i></span> 
-                    </div>
-                    <select class="form-control" id="payment_option" v-model="payment_option" :class="{'is-invalid': errors.hasError('payment_option')}"  required>
-                        <option value="">Payment Options</option>
-                        <option value ="cash on delivery">Cash on Delivery</option>
-                        <option value="deposit and balance after 3 days">Deposit and balance after 3 days</option>
-                        <option value="deposit and balance after 7 days">Deposit and balance after 7 days</option>
-                        <option value="deposit and balance after 14 days">Deposit and balance after 14 days</option>
-                        <option value="deposit and balance after 30 days">Deposit and balance after 30 days</option>
-                    </select>
-                    <label class="floating-label">Payment Options</label>
-                     <span v-if="errors.hasError('payment_option')" class="invalid-feedback" role="alert">
-                        <strong>{{errors.get('payment_option')}}</strong>
-                    </span>                                
-                </div>
-
-
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                       <span class="input-group-text"><i class="fa fa-dollar"></i></span> 
+                       <span class="input-group-text"><i class="fa fa-comments"></i></span> 
                     </div>
                     <textarea rows="2" type="text" class="form-control" v-model="requirements"  :class="{'is-invalid': errors.hasError('requirements')}"></textarea>
                     <label class="floating-label">Any other requirements (optional)</label>
@@ -255,10 +314,12 @@
                 </div>                                     
 
                 <div class="form-group">
-                    <button class=" form-control btn btn-primary" type="submit">{{submitTitle}}</button>                                            
-                </div>  
-                </form>                     
-		</div>
+                    <button class=" form-control btn btn-lg btn-primary" type="submit">{{submitTitle}}</button>                                            
+                </div>                  
+            </div>
+        </div>                                              
+         
+        </form> 
 	</div>
 </template>
 <script>
@@ -295,6 +356,7 @@
         {
             return{
                 submitTitle: 'Upload Consignment',
+                title: 'Upload Consignment',
                 transport_mode: '',
                 name:'',
                 size:'',

@@ -1,0 +1,103 @@
+
+
+/** {
+  box-sizing: border-box;
+}
+
+html {
+  /*font: 14px/1.4 Sans-Serif;*/
+/*}
+
+form {
+/*  width: 320px;
+
+  float: left;
+  margin: 20px;*/
+ /* font-size: 1.05em;
+  font-weight: 800;
+  width: 500px;
+  > div.form-group > div {
+    position: relative;
+    overflow: hidden;
+  }
+  input, textarea {
+    width: 100%;
+    border: 3px solid #2E94BE;; 
+    background: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 8px 12px;
+
+    outline: 0;
+    &:valid {
+      // Hides the label
+      background: white; 
+    }
+    &:focus {
+      border-color: #2E94BE;
+    }
+    &:focus + label {
+      background: #2E94BE;
+      color: white;
+      font-size: 80%;
+      padding: 1px 6px;
+      z-index: 2;
+      text-transform: uppercase;
+    }
+  }
+  label {
+    transition: // not padding
+      background 0.2s,
+      color 0.2s,
+      top 0.2s,
+      bottom 0.2s,
+      right 0.2s,
+      left 0.2s;
+    position: absolute;
+    color: #999;
+    padding: 7px 6px;
+  }
+  textarea {
+    display: block;
+    resize: vertical;
+  }
+}
+
+form.go-bottom {
+  input, textarea {
+    padding: 12px 12px 12px 12px; 
+  }
+  label {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  input:focus, textarea:focus {
+    padding: 4px 6px 20px 6px; 
+  }
+  input:focus + label, textarea:focus + label {
+    top: 100%;
+    margin-top: -16px;
+  }
+}
+form.go-right, form.go-register {
+  label {
+    top: 2px;
+    right: 100%;
+    left: 34px;
+    width: 100%;
+    margin-right: -100%;
+    bottom: 2px;
+  }
+  input:focus + label, textarea:focus + label {
+    right: 0;
+    margin-right: 0;
+    width: 60%;
+    padding-top: 5px;
+  }
+}
+
+*/

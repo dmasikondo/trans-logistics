@@ -38,9 +38,13 @@ class CheckUserRegistrationStage
         }   
 
         /**
-         * if user has filled in contacts form
+         * if user has filled in contacts form or is an admin
          */
-        if($request->user()->hasRole('general') || $request->user()->hasRole('carrier'))
+        if($request->user()->hasRole('general') || 
+            $request->user()->hasRole('carrier') || 
+            $request->user()->hasRole('admin')|| 
+            $request->user()->hasRole('manager')||
+            $request->user()->hasRole('superadmin'))
         {
             return redirect('/dashboard/'.$request->user()->slug);
         }              

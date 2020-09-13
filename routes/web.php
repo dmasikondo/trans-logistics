@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::get('/dash', function () {
@@ -25,6 +25,7 @@ Auth::routes();
 Auth::routes(['verify' =>true]);
 
 Route::get('/home',	'HomeController@index')->name('home')->middleware('stage');
+
 
 //loads / consignments for carriage
 Route::resource('loads','LoadController');
@@ -95,3 +96,32 @@ Route::get('/organisation-fleets', 'RegistrationController@fleets');
 Route::get('/organisation-directors', 'RegistrationController@directors');
 Route::get('/organisation-traderefs', 'RegistrationController@traderefs');
 Route::get('/dashboard/{user:slug}','DashboardController@show');
+
+
+//pages
+Route::get('/about-us', function () {
+    return view('/pages/about');
+});
+Route::get('/services', function () {
+    return view('/pages/services');
+});
+Route::get('/contact-us', function () {
+    return view('/pages/contact');
+});
+Route::get('/faq', function () {
+    return view('/pages/faq');
+});
+Route::get('/freight-forwarding', function () {
+    return view('/pages/freight-forwarding');
+});
+Route::get('/tracking-insurance', function () {
+    return view('/pages/tracking-insurance');
+});
+Route::get('/terms', function () {
+    return view('/pages/terms');
+});
+
+Route::get('/form', function () {
+    return view('welcome');
+});
+Route::post('/send', 'EmailController@send');
