@@ -30,4 +30,19 @@ class Buslocation extends Model
     {
     return $this->morphMany('App\DataCapturer', 'data_capturable');
     }
+
+    // sentence-capitalise different variables
+     public function getAddressAttribute($desc)
+     {
+         return ucwords($desc);
+     }    
+
+     public function getCityAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
+     public function getCountryAttribute($desc)
+     {
+         return ucwords($desc);
+     }            
 }

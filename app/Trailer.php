@@ -19,4 +19,9 @@ class Trailer extends Model
     	return $this->belongsToMany(Trailer::class)->withTimestamps();
     }
 
+    // sentence-capitalise different variables
+     public function getNameAttribute($desc)
+     {
+         return ucwords($desc);
+     }     
 }

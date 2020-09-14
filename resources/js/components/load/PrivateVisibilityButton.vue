@@ -5,10 +5,16 @@
         </h6>	
 
             <p v-if="load.private_visibility" class="alert alert-success">This consignment is available to Transpartner Logistics for moderation and listing
-                <a v-if="load.private_visibility && !load.is_published" href="" class="pull-right"  @click.prevent="updatePrivateVisibility()">Make private</a>
+                <a v-if="load.private_visibility && !load.is_published" href="" class="pull-right"  @click.prevent="updatePrivateVisibility()">
+                    Make private
+                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                </a>
             </p>
             <p v-if="!load.private_visibility" class="alert alert-warning">This consignment is private. Only you can see it
-                <a href="" class="pull-right" @click.prevent="updatePrivateVisibility()">Avail for Listing</a>
+                <a href="" class="pull-right" @click.prevent="updatePrivateVisibility()">
+                    Avail for Listing
+                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                </a>
             </p>	
 	</div>
 	
@@ -48,6 +54,7 @@
                 isPrivateVisible: false,
                 message: '',
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: {
@@ -77,6 +84,7 @@
                 this.isPrivateVisible = !this.isPrivateVisible;
             }, */
             updatePrivateVisibility(){
+                this.loading = true; //the loading begin
                 axios.put('/loads/'+ this.load.slug+'/private-visibility',{
                 	private_visibility: !this.isPrivateVisible,
                 	'is_published': this.load.is_published,
@@ -89,7 +97,7 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' load Visibility not updated!';                    
-                });;
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
 
             },
 

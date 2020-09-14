@@ -93,7 +93,97 @@ class Load extends Model
 		return $this->capturers()->where('user_id', $user->id);
 	} 
 
+    /**
+     * type of transport mode icon to be displayed 
+     *  for air, road, rail and sea freight
+     */
 
+    public function transportMode()
+    {
+        switch($this->transport_mode)
+        {
+            case 'rail freight':
+            $type='fa fa-train';
+            break;
+            case 'road freight':
+            $type='fa fa-truck';
+            break;  
+            case 'sea freight':
+            $type='fa fa-ship';
+            break;    
+            case 'air freight':
+            $type='fa fa-plane';
+            break;                        
+            default:
+            $type='fa fa-plane';                                                                                                                                            
+        } 
+
+        return $type;       
+    }
+
+    /**
+     * name of consignment create 
+     *  (display ME if logged in user is the one)
+     */
+
+    public function nameOfCreator(User $user)
+    {
+        return (bool) $this->user_id === $user->id; 
+
+    }
+
+    public function randomImage()
+    {
+        $images = ['contact.jpg','destination.jpg','fleet.jpg','freight.jpg','origin.jpg','shipper.jpg'];
+        $randomised = array_rand($images);
+        return $images[$randomised];
+    }
+
+     public function scopePublished($query)
+     {
+         return $query->where([['is_published', '=','1'], ['public_visibility', '=','1']]);
+     }
+
+    // sentence-capitalise different variables
+     public function getNameAttribute($desc)
+     {
+         return ucwords($desc);
+     }       
+     public function getDescriptionAttribute($desc)
+     {
+         return ucwords($desc);
+     }   
+     public function getPickupCityAttribute($desc)
+     {
+         return ucwords($desc);
+     }
+     public function getDestinationCityAttribute($desc)
+     {
+         return ucwords($desc);
+     }
+     public function getPreferredRouteAttribute($desc)
+     {
+         return ucwords($desc);
+     }  
+     public function getPickupStreetAttribute($desc)
+     {
+         return ucwords($desc);
+     }  
+     public function getDestinationAddressAttribute($desc)
+     {
+         return ucwords($desc);
+     }
+     public function getVehicleTypeAttribute($desc)
+     {
+         return ucwords($desc);
+     }  
+     public function getCarriageRateAttribute($desc)
+     {
+         return ucwords($desc);
+     }  
+     public function getPaymentOptionAttribute($desc)
+     {
+         return ucwords($desc);
+     }     
 }
-
 

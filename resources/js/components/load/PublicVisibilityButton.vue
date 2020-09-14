@@ -5,10 +5,16 @@
         </h6>   
 
             <p  v-if="load.public_visibility && load.private_visibility" class="alert alert-info">This consignment is currently published. All users can see it.
-                <a href="" class="pull-right" @click.prevent="updatePublicVisibility">Unpublish</a>
+                <a href="" class="pull-right" @click.prevent="updatePublicVisibility">
+                    Unpublish
+                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                </a>
             </p>
             <p v-if="!load.public_visibility  && load.private_visibility"  class="alert alert-danger">This consignment is currently not public. Only admins can see it
-                <a  href="" class="pull-right" @click.prevent="updatePublicVisibility">Publish</a>
+                <a  href="" class="pull-right" @click.prevent="updatePublicVisibility">
+                    Publish
+                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                </a>
             </p>        
     
     </div>
@@ -49,6 +55,7 @@
                 isPublicVisible: false,
                 message: '',
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: {
@@ -78,6 +85,7 @@
                 this.isPrivateVisible = !this.isPrivateVisible;
             }, */
             updatePublicVisibility(){
+                this.loading = true; //the loading begin
                 axios.put('/loads/'+ this.load.slug+'/public-visibility',{
                     //public_visibility: !this.isPublicVisible,
                     public_visibility: !this.load.public_visibility,
@@ -90,7 +98,7 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' load Visibility not updated!';                    
-                });;
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
 
             },
 

@@ -37,8 +37,11 @@ class LoadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */    
-    public function index()
+    public function index(Load $loads)
     {
+        $loads=$loads->load(['user','categories'])->latest();
+        $loads=$loads->orderBy('pickup_date','desc')->paginate(2);  
+        return view('load.index', compact('loads'));
        
     }
 

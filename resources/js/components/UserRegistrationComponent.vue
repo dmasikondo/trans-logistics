@@ -10,6 +10,16 @@
                         </div>                        
 					</div>
 					<div class="card-body">
+                    <div v-if="loading">
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div>
+                       
+                    </div>
+
+                    <div v-else>
+                        <!-- request finished -->
+                    </div>                        
                         <p v-if="errors">
                             <span class="text-danger">{{message}}</span>
                         </p>
@@ -57,7 +67,11 @@
                                 </span>                                
                             </div>                            
                             <div class="form-group">
-                                <button class="btn btn-lg form-control btn-outline-info" type="submit"> <i class="fa fa-lock fa-lg"> </i> Register</button>
+                                <button class="btn btn-lg form-control btn-outline-info" type="submit"> 
+                                    <i class="fa fa-lock fa-lg"> </i> 
+                                    Register
+                                    <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                                </button>
                             </div>                                                       
 						</form>                         
 					</div>
@@ -117,11 +131,13 @@
                 password_confirmation:'',
                 message: '',
                 errors: new Errors(),
+                loading: false,
             }
         },
 
         methods:{
             userRegistration(){
+                 this.loading = true, //the loading begin
                 axios.post('/register',{
                     organisation: this.organisation,
                     email: this.email,
@@ -138,7 +154,7 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' User not Registered';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
 
             },
 

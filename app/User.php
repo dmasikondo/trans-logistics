@@ -100,4 +100,9 @@ class User extends Authenticatable
         return $this->hasMany(Vehicle::class);
     } 
 
+    // sentence-capitalise different variables
+     public function getOrganisationAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
 }

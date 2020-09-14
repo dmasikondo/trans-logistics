@@ -30,4 +30,16 @@ class Traderef extends Model
     {
     	return $this->morphMany('App\DataCapturer', 'data_capturable');
     } 
+
+    // sentence-capitalise different variables
+     public function getNameAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
+
+    // sentence-capitalise different variables
+     public function getAddressAttribute($desc)
+     {
+         return ucwords($desc);
+     }          
 }

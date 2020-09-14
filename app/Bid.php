@@ -38,5 +38,24 @@ class Bid extends Model
 		return $this->belongsTo(User::class, 'user_id');
 	} 
 
+    // sentence-capitalise different variables
+     public function getAvailableCapacityAttribute($desc)
+     {
+         return ucwords($desc);
+     }     
+
+     public function getTrailerTypeAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
+
+     public function getCityLocationAttribute($desc)
+     {
+         return ucwords($desc);
+     }    
+     public function getCountryLocationAttribute($desc)
+     {
+         return ucwords($desc);
+     }        
 
 }

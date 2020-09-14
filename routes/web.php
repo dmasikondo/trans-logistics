@@ -40,6 +40,7 @@ Route::put('/loads/{load:slug}/private-visibility', 'LoadController@privateVisib
 Route::put('/loads/{load:slug}/public-visibility', 'LoadController@publicVisibility');
 Route::get('/loads/{load:slug}/new-freight-value', 'LoadController@newFreightValue');
 Route::put('/loads/{load:slug}/distance-trailer', 'LoadController@distanceTrailer');
+Route::get('loads','LoadController@index');
 
 //vehicles in search of goods to ship
 Route::post('/vehicles','VehicleController@store');

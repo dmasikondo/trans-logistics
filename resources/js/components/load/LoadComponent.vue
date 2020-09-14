@@ -6,7 +6,17 @@
                 <h2 class="py-4">{{title}} for carriage</h2>
                 <div class="feature-wrap justify-content-center d-flex">
                     <i class="fa fa-cubes"></i>                          
-                </div>                 
+                </div> 
+
+                <h3>
+                    <a v-if="editMode" :href="'/loads/' + freight.slug" >  
+                        Cancel <i class="fa fa-remove fa-2x text-danger"></i>
+                    </a> 
+                    <a v-else :href="'/loads'" >  
+                        Cancel <i class="fa fa-remove fa-2x text-danger"></i>
+                    </a>                                        
+                </h3>         
+
                 <div class="row team-bar mt-4">
                   <div class="first-one-arrow hidden-xs">
                     <hr>
@@ -63,7 +73,8 @@
                             </select>
 
                             <label class="floating-label">Select Consignment Category</label>
-                             <span v-if="errors.hasError('category_type')" class="invalid-feedback" role="alert">
+<!--                             <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+ -->                             <span v-if="errors.hasError('category_type')" class="invalid-feedback" role="alert">
                                 <strong>{{errors.get('category')}}</strong>
                             </span>                                
                         </div>                
@@ -314,7 +325,10 @@
                 </div>                                     
 
                 <div class="form-group">
-                    <button class=" form-control btn btn-lg btn-primary" type="submit">{{submitTitle}}</button>                                            
+                    <button class=" form-control btn btn-lg btn-primary" type="submit">
+                        {{submitTitle}}
+                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    </button>                                            
                 </div>                  
             </div>
         </div>                                              
@@ -382,6 +396,7 @@
                 slug:'',
                 loads: {},
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: {
@@ -417,9 +432,10 @@
                 this.pickup_date = moment(this.pickup_date).format('MM/DD/YYYY');
             },            
              getAllCategories(){
+                 this.loading = true; //the loading begin
                 axios.get('/allcategories').then((response)=>{
                 this.categories = response.data;
-                }); 
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
 
                  if(this.editMode){
                     this.title = 'Edit Consignment';
@@ -448,6 +464,7 @@
                  }                                  
              }, 
             addload(){
+                 this.loading = true; //the loading begin
                 axios.post('/loads/'+this.user.slug,{
                         name: this.name,
                         size: this.size,
@@ -494,11 +511,12 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' Consignment not uploaded!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
 
             },
 
             editload(){
+                this.loading = true; //the loading begin
                 axios.put('/loads/'+ this.freight.slug,{
                         name: this.name,
                         size: this.size,
@@ -544,10 +562,11 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' Consignment not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
             },
 
             deleteload(load){
+                this.loading = true; //the loading begin
                 axios.delete('/loads/'+load.slug).then((response)=>{
                     window.location.href='/dashboard/'+this.user.slug; 
                     this.message = ''; 
@@ -555,7 +574,7 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' Consignment not deleted!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
             },
 
         },
@@ -567,4 +586,10 @@
 
     }	
 </script>
+<style> 
+    .swal2-container {
+        z-index: 999999;
+    }
+
+</style>
 

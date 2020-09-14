@@ -18,4 +18,10 @@ class Role extends Model
     {
     	return $this->belongsToMany(User::class)->withTimestamps();
     }
+
+    // sentence-capitalise different variables
+     public function getNameAttribute($desc)
+     {
+         return ucwords($desc);
+     }     
 }

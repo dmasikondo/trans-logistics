@@ -4,7 +4,10 @@
         <span class="text-danger"><strong>{{message}}</strong></span>
     </h6> 
     <p>
-        <a href=""@click.prevent=deleteFreight()><span class="fa fa-trash text-danger"></span> Delete</a>
+        <a href=""@click.prevent=deleteFreight()>
+            <span class="fa fa-trash text-danger"></span> Delete
+            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+        </a>
     </p>  	
 </div>
 
@@ -45,6 +48,7 @@
                 isPublicVisible: false,
                 message: '',
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: {
@@ -56,6 +60,7 @@
 
         methods:{          
                  deleteFreight(){
+                    this.loading = true, //the loading begin
                     Swal.fire({
                     title: "Are you sure?",
                     text: "Once Deleted, you will not be able to recover this consignment -- " +this.freight.name +"!",
@@ -78,7 +83,7 @@
                             Swal.fire("Failure! "+ this.message, {
                             icon: "error",
                         });                        
-                    });
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
                         } 
                         else if(willDelete.dismiss === Swal.DismissReason.cancel) {
                             Swal.fire('Cancelled',
@@ -86,7 +91,7 @@
                                         'error'
                             )
                         }
-                    });
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
                  },         
 
         },
