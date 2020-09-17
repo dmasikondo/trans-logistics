@@ -23,13 +23,7 @@ class Bid extends Model
 
 
 
-    /**
-    * Get all of the load for carriage bidders
-    */
-    public function coinsignment()
-    {
-    	return $this->morphTo();
-    } 
+ 
 	/**
 	 * Get the user who made a bid
 	 */
@@ -37,7 +31,13 @@ class Bid extends Model
 	{
 		return $this->belongsTo(User::class, 'user_id');
 	} 
-
+    /**
+    * Get the owning load model.
+    */
+    public function bidable()
+    {
+        return $this->morphTo();
+    }
     // sentence-capitalise different variables
      public function getAvailableCapacityAttribute($desc)
      {
@@ -58,4 +58,11 @@ class Bid extends Model
          return ucwords($desc);
      }        
 
+     public static function randomColor()
+     {
+        $colors = ['red','blue','purple','green','yellow','grey','brown','black','pink'];
+        $randomised = array_rand($colors);
+        return $colors[$randomised];
+     }
 }
+

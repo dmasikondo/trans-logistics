@@ -8,7 +8,9 @@ use Illuminate\Support\Str;
 use App\Category;
 use App\User;
 use App\Load;
+use App\Vehicle;
 use Auth;
+use Gate;
 
 class LoadController extends Controller
 {
@@ -19,7 +21,8 @@ class LoadController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('auth')->except('index');
+        $this->middleware('shipper');
     }	
     /**
      * Display a listing of all load categories.
@@ -82,17 +85,21 @@ class LoadController extends Controller
      * @param  str $slug
      * @return \Illuminate\Http\Response
      */
-    public function show(Load $load)
+    public function show(Request $request, Load $load, Vehicle $vehicle)
     {
 	/**
 	 * first check if user is authorized to view
 	 */
-		if(!$this->authorize('view', $load)){
-			return $this->authorize('update', $load);
-		}    	
-    	$user = $load->load('user');
-    	$load = $load->load(['categories']);
-        return view ('load.show', compact('load','user'));
+    $user = Auth::user();
+        $this->authorize('view', $load);
+        //suggested load
+        //'capacity','trailer_type', 'route','available_date','city_from','city_to','country_from', 'country_to',
+        // trailer type, city country, 
+       // $vehicles = $vehicle->where('trailer_type', $load->trailer_type)->get();
+        $vehicles = Vehicle::all();
+        $load = $load->load(['categories','user','bids']);
+    	
+        return view ('load.show', compact('load','vehicles'));
     }
 
     /**
@@ -106,10 +113,11 @@ class LoadController extends Controller
 	/**
 	 * first check if user is authorized to update
 	 */
-		if(!$this->authorize('update', $load)){
-			return $this->authorize('update', $load);
-		}     	
-    	$load =$load->load(['user','categories']);
+
+         if(auth()->user()->can('update', $load) ){
+           $load =$load->load(['user','categories']);
+        } 
+		
         return view('load.edit', compact('load'));
     }
 

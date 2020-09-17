@@ -43,6 +43,15 @@
 
           <div class="card">
               <div class="card-body">
+                  <h2>
+                      <i class="fa fa fa-file-text-o fa-3x"></i> 
+                      Please Fill in The Form Below to Upload your Consignment and get Quotes 
+                  </h2>
+              </div>
+          </div>
+
+          <div class="card">
+              <div class="card-body">
                     <p v-if="errors" class="mt-4">
                         <h6 class="text-danger"><strong>{{message}}</strong></h6>
                     </p>                
@@ -274,7 +283,7 @@
                             <option value ="cost_for_whole_journey">Cost for the whole journey</option>
                             <option value ="request_a_quote">Request a Quote</option>
                         </select>
-                        <label class="floating-label">Carriage Rate</label>
+                        <label class="floating-label">Carriage Rate in US$</label>
                          <span v-if="errors.hasError('carriage_rate')" class="invalid-feedback" role="alert">
                             <strong>{{errors.get('carriage_rate')}}</strong>
                         </span>                                

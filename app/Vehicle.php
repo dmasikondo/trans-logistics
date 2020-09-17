@@ -27,4 +27,31 @@ class Vehicle extends Model
     {
     return $this->morphMany('App\DataCapturer', 'data_capturable');
     } 
+
+    // sentence-capitalise different variables
+     public function getMoreDetailsAttribute($desc)
+     {
+         return ucwords($desc);
+     }       
+     public function getCapacityAttribute($desc)
+     {
+         return ucwords($desc);
+     }   
+     public function getTrailerTypeAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
+
+     public function getCityFromAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
+     public function getCityToAttribute($desc)
+     {
+         return ucwords($desc);
+     }  
+     public function getRouteAttribute($desc)
+     {
+         return ucwords($desc);
+     }          
 }

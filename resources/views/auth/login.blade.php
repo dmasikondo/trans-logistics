@@ -66,7 +66,7 @@
                             {{ __('Forgot Your Password?') }}
                         </a>
                     @endif
-                    <a href="/register" class="btn btn-link"> Already registered?</a>                            
+                    <a href="/register" class="btn btn-link"> Not Registered?</a>                            
                 </div>                
             </div>
             </div>

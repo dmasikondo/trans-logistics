@@ -91,6 +91,10 @@ Route::post('/traderefs/{user:slug}', 'TraderefController@post');
 Route::put('/traderefs/{traderef:id}', 'TraderefController@update');
 Route::delete('/traderefs/{traderef:id}', 'TraderefController@destroy');
 
+// bid for consignments
+
+Route::get('/bids/{bid:slug}', 'BidController@show');
+
 Route::get('/organisation-contacts', 'RegistrationController@show');
 Route::get('/organisation-buslocations', 'RegistrationController@buslocations');
 Route::get('/organisation-fleets', 'RegistrationController@fleets');

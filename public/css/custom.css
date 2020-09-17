@@ -2660,5 +2660,48 @@ shortcodes page css
 
 .card-footer a{color: white;}
 
+.circle{
+  width: 3.3em;
+  height: 3.3em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  border-radius: 50%;
+  color: white;
+  font-weight: 800;
+}
+/**** circle backgrounds ***/
+.blue{
+  background: linear-gradient(green, slateblue);
+}
+
+.purple{
+  background: linear-gradient(green, purple);
+}
+
+.green{
+  background: linear-gradient(green, orange);
+}
+
+.red{
+ background: linear-gradient(green, red);
+}
+
+.yellow{
+  background: linear-gradient(green, yellow);
+}
+.black{
+  background: linear-gradient(green, black);
+}
+.grey{
+  background: linear-gradient(green, grey);
+}
+.pink{
+  background: linear-gradient(green, pink);
+}
+.brown{
+  background: linear-gradient(green, brown);
+}
 
 

@@ -36,7 +36,6 @@
                                            <span class="input-group-text"><i class="fa fa-truck"></i></span> 
                                         </div>
                                         <select class="form-control" id="vehicle" v-model="vehicleType" :class="{'is-invalid': errors.hasError('vehicle_type')}"  required>
-                                            <option value="">Select Type of Trailer</option>
                                             <option v-for="vehicle in trailers" :value ="vehicle.name">{{vehicle.name}}</option>
                                         </select>
                                         <label class="floating-label">Select Trailer Type</label>

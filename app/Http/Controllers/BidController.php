@@ -12,6 +12,16 @@ use Auth;
 class BidController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -43,12 +53,13 @@ class BidController extends Controller
         /**
          * first check if a user has not already made a bid for the shipment
          */
-        $bidFromUser = $load->bidFromUser(auth()->user())->first();  
+        $slug = uniqid().Auth::user()->organisation;
+        $bidFromUser = $load->bidFromUser(auth()->user())->first();          
         if($bidFromUser){
             abort(401, 'You already placed a bid for this consignment');
         }
          $bid =$load->bids()->create(array_merge($request->all(), [
-                                                                    'slug' =>Auth::user()->slug, 
+                                                                    'slug' =>$slug, 
                                                                     'user_id' => Auth::user()->id,
                                                                 ]));
        
@@ -58,12 +69,15 @@ class BidController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Bid  $bid
+     * @param  \App\Bid  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Bid $bid)
     {
+        $bids = $bid->bidable->bids()->get();
+        $bid = $bid->load(['bidder','bidable']);
 
+        return view('bid.show', compact('bid','bids'));
     }
 
     /**
@@ -116,7 +130,6 @@ class BidController extends Controller
             'canBid' => $load->usercanBidShipment(auth()->user()),
             'userCanSeeBidder' => $load->userCanSeeBidder(auth()->user()),
         ];
-
         return $response;
 
     }

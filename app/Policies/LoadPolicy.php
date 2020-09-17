@@ -24,23 +24,24 @@ class LoadPolicy
 
     /**
      * Determine whether the user can view the model.
-     *
+     * user must be owner 
+     *  or manager and is not private 
+     *  or superadmin and is not private
+     * or consignment is public
      * @param  \App\User  $user
      * @param  \App\Load  $load
      * @return mixed
      */
     public function view(User $user, Load $load)
     {
-        //if owner
-        // not owner -> if published
-        //if super admin // manager
-        return (($load->user_id === $user->id) || 
-                ($user->hasRole('manager') && $load->private_visibility) || 
-                ($user->hasRole('superAdmin')  && $load->private_visibility) ||
-                ($load->is_published && $load->public_visibility))
-                ? 
-                 Response::allow()
-                 : Response::deny('You do not own this consignment.')
+       // return true;
+
+     return (
+                ($load->user_id === $user->id) || 
+                ($user->hasRole('manager') && $load->private_visibility == true) || 
+                ($user->hasRole('superAdmin')  && $load->private_visibility == true) ||
+                ($load->is_published && $load->public_visibility == true)
+            )
         ;
     }
 
@@ -57,6 +58,9 @@ class LoadPolicy
 
     /**
      * Determine whether the user can update the model.
+     * if owner and not yet published / is admin
+     * if manager and is not private
+     * if superadmin and is not private
      *
      * @param  \App\User  $user
      * @param  \App\Load  $load
@@ -64,14 +68,12 @@ class LoadPolicy
      */
     public function update(User $user, Load $load)
     {
-        //created by user or user is admin
-        return (($load->user_id === $user->id && !$load->is_published) || 
-                ($user->hasRole('admin') && $load->user_id === $user->id)||
-                ($user->hasRole('manager') && $load->is_published) || 
-                ($user->hasRole('admin') && $load->user_id === $user->id)||
-                ($user->hasRole('superAdmin')  && $load->is_published))? 
-            Response::allow()
-            : Response::deny('You do not own this consignment.')
+        return (
+                ($load->user_id === $user->id && !$load->is_published) || 
+                ($user->hasRole('admin') && $load->user_id == $user->id)||
+                ($user->hasRole('manager') && $load->private_visibility) || 
+                ($user->hasRole('superAdmin')  && $load->private_visibility)
+            )
         ;
     }
 
@@ -114,20 +116,21 @@ class LoadPolicy
 
     /**
      * Determine whether the user can view some confidentials.
-     *
+     * user is the creator or is superadmin or manager
      * @param  \App\User  $user
      * @param  \App\Load  $load
      * @return mixed
      */
     public function confidential(User $user, Load $load)
     {
-        // creator
-        // ADMINS
-        return (($load->user_id ===$user->id) || $user->hasRole('manager') || $user->hasRole('superadmin'));
+        
+       // return true;
+        return (($load->user_id === $user->id) || $user->hasRole('manager') || $user->hasRole('superadmin'));
     }  
 
     /**
      * Determine whether the user can view some confidentials.
+     * User is creator who is admin or is mananger or superadmin
      *
      * @param  \App\User  $user
      * @param  \App\Load  $load
@@ -135,8 +138,6 @@ class LoadPolicy
      */
     public function superconfidential(User $user, Load $load)
     {
-        // creator who is admin
-        // ADMINS
         return (($load->user_id === $user->id && ($user->hasRole('admin'))) || $user->hasRole('manager') || $user->hasRole('superadmin'));
     }  
 
@@ -149,8 +150,7 @@ class LoadPolicy
      */
     public function ownerOnly(User $user, Load $load)
     {
-        // creator who is admin
-        // ADMINS
+        
         return ($load->user_id === $user->id);
     } 
 
@@ -163,6 +163,6 @@ class LoadPolicy
 
     public function canBid(User $user, Load $load)  
     {
-        return ($user->hasRole('carrier') && $user->id === $load->user_id && $load->public_visibility);
+        return ($user->hasRole('carrier') && ($user->id === $load->user_id) && $load->public_visibility);
     }  
 }

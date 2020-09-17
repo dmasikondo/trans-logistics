@@ -2,13 +2,16 @@
     <div>
      
     <p  v-if="canBid">
-        <a href=""@click.prevent="userHasBid? deleteBid(): createBidModal()">{{userHasBid? 'UnBid': 'Bid'}} <span class="badge badge-primary">{{numberOfBids}}</span></a>
+        <a href=""@click.prevent="userHasBid? deleteBid(): createBidModal()" class="btn btn-outline-primary btn-lg">
+            {{userHasBid? 'UnBid': 'Bid'}} 
+            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+        </a>
     </p> 
-    <p v-else>
+    <p v-if="!canBid && !userCanSeeBidder">
         Transpartner Logistics' <a href="/home">Registered Carriers</a> can Make Bids for Shipments
     </p> 
-    <p v-if="userCanSeeBidder" v-for="bida in bidings">{{bida.available_capacity}}
-                      Inserted by {{bida.bidder.organisation}}
+    <p v-if="userCanSeeBidder">
+                     <span class="badge badge-primary">{{numberOfBids}} </span> Bids
     </p>
 <!-- Modal -->   
                 <div class="modal fade modal-lg" id="bidModal" tabindex="-1" role="dialog" aria-labelledby="bidModalLabel" aria-hidden="true">
@@ -27,8 +30,7 @@
                                         <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fa fa-truck"></i></span> 
                                         </div>
-                                        <select class="form-control" id="trailer_type" v-model="trailer_type" :class="{'is-invalid': errors.hasError('trailer_type')}"  required>
-                                            <option value="">Select Type of Trailer</option>
+                                        <select class="form-control" id="trailer_type" v-model="trailer_type" :class="{'is-invalid': errors.hasError('trailer_type')}"  required>         
                                             <option v-for="vehicle in trailers" :value ="vehicle.name">{{vehicle.name}}</option>
                                         </select>
                                         <label class="floating-label">Select Trailer Type</label>
@@ -41,7 +43,7 @@
                                         <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fa fa-calender"></i></span> 
                                         </div>
-                                        <input type="date" class="form-control" v-model="date_available"  :class="{'is-invalid': errors.hasError('date_available')}" required>
+                                        <input type="date" class="form-control" v-model="date_available"  :class="{'is-invalid': errors.hasError('date_available')}">
                                         <label class="floating-label">Date of Availability</label>
                                          <span v-if="errors.hasError('date_available')" class="invalid-feedback" role="alert">
                                             <strong>{{errors.get('date_available')}}</strong>
@@ -53,7 +55,7 @@
                                         <div class="input-group-prepend">
                                            <span class="input-group-text"><i class="fa fa-road"></i></span> 
                                         </div>
-                                        <input type="text" class="form-control" v-model="available_capacity" :class="{'is-invalid': errors.hasError('available_capacity')}"   required>
+                                        <input type="text" class="form-control" v-model="available_capacity" :class="{'is-invalid': errors.hasError('available_capacity')}" required>
                                         <label class="floating-label">Available capacity (tonnes) </label>
                                          <span v-if="errors.hasError('available_capacity')" class="invalid-feedback" role="alert">
                                             <strong>{{errors.get('available_capacity')}}</strong>
@@ -76,7 +78,6 @@
                                            <span class="input-group-text"><i class="fa fa-flag"></i></span> 
                                         </div>
                                         <select class="form-control" v-model="country_location"  :class="{'is-invalid': errors.hasError('country_location')}"  required>
-                                            <option value="">Select Current Vehicle Location</option>
                                             <option value="Botswana">Botswana</option>
                                             <option value="Congo, The Democratic Republic of the">Congo, The Democratic Republic of the</option>
                                             <option value="Malawi">Malawi</option>
@@ -85,7 +86,7 @@
                                             <option value="Zambia">Zambia</option>
                                             <option value="Zimbabwe">Zimbabwe</option>
                                         </select>
-                                        <label class="floating-label">Current Vehicle Location</label>
+                                        <label class="floating-label">Select Current Vehicle Location</label>
                                          <span v-if="errors.hasError('country_location')" class="invalid-feedback" role="alert">
                                             <strong>{{errors.get('country_location')}}</strong>
                                         </span>                                
@@ -167,6 +168,7 @@
                 bidings: {},
                 message: '',
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: {
@@ -189,9 +191,10 @@
 
                 createBidModal()
                 {
+                     this.loading = true; //the loading begin
                     axios.get('/alltrailers').then((response)=>{
                     this.trailers = response.data;
-                    });                     
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;                     
                     $('#bidModal').modal('show');
                     this.editMode = false;
                     this.modalTitle ='Make a bid for shipping '+this.load.name;
@@ -205,6 +208,7 @@
                     this.city_location = '';   
                 }, 
                 createShipmentBid(){
+                     this.loading = true; //the loading begin
                     axios.post('/bids/'+ this.load.slug,{
                         price: this.price,
                         date_available: this.date_available,
@@ -228,10 +232,11 @@
                     }).catch((e)=>{
                             this.errors.record(e.response.data.errors);
                             this.message = e.response.data.message;
-                     });  
+                     }).finally(() => (this.loading = false)); // set loading to false when request finish  
                             
                 },        
                  deleteBid(){
+                     this.loading = true; //the loading begin
                     Swal.fire({
                     title: "Are you sure?",
                     text: "Once Deleted, you will not be able to recover this bid for -- " +this.load.name +"!",
@@ -263,7 +268,7 @@
                                         'error'
                             )
                         }
-                    });
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
                  },         
 
         },

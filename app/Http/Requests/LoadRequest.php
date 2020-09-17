@@ -42,7 +42,7 @@ class LoadRequest extends FormRequest
             'preferred_route' =>'sometimes',
             'quantity' =>'numeric',
             'payment_option' => 'required',
-            'containers' =>'numeric|sometimes',
+            'containers' =>'sometimes|numeric',
             'distance' => 'sometimes|numeric|gt:0',
             'trailer_type' => 'sometimes',
         ];

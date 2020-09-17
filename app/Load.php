@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Load extends Model
 {
@@ -63,10 +64,11 @@ class Load extends Model
 
 	/**
 	 * check if user can Bid or unBid
+     * if is a carrier and not own consignment and consignment is published
 	 */
 	public function userCanBidShipment(User $user)
 	{
-		return (bool) $user->hasRole('carrier') && $user->id !== $this->user_id && $this->public_visibility;
+		return (bool) ($user->hasRole('carrier') && $user->id != $this->user_id && $this->public_visibility ==true);
 	}
 
 	/**
@@ -92,6 +94,8 @@ class Load extends Model
 	{
 		return $this->capturers()->where('user_id', $user->id);
 	} 
+
+
 
     /**
      * type of transport mode icon to be displayed 
@@ -128,7 +132,7 @@ class Load extends Model
 
     public function nameOfCreator(User $user)
     {
-        return (bool) $this->user_id === $user->id; 
+        return (bool) $this->where('user_id',$user->id)->count();
 
     }
 
@@ -144,6 +148,13 @@ class Load extends Model
          return $query->where([['is_published', '=','1'], ['public_visibility', '=','1']]);
      }
 
+    /**
+      * remove under score on carriage rate
+      */     
+     public function getCarriageRateAttribute($desc)
+     {
+         return (string) ucwords(Str::of($desc)->replace('_', ' '));
+     }
     // sentence-capitalise different variables
      public function getNameAttribute($desc)
      {
@@ -177,13 +188,9 @@ class Load extends Model
      {
          return ucwords($desc);
      }  
-     public function getCarriageRateAttribute($desc)
-     {
-         return ucwords($desc);
-     }  
+  
      public function getPaymentOptionAttribute($desc)
      {
          return ucwords($desc);
      }     
 }
-

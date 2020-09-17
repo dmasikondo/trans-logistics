@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
+<!-- private visibility -->        	
     @can('ownerOnly', $load)
 					 <private-visibility-button :load="{{$load}}"></private-visibility-button>
 	@endcan
@@ -12,6 +12,7 @@
 					<div class="card-img-top embed-responsive embed-responsive-21by9">
 						<img class="card-img-top embed-responsive-item" src="/images/{{$load->randomImage()}}" alt="image {{$load->randomImage()}}">
 					</div>
+<!-- consignment category -->
 					<div class="card-img-overlay">
 						<h3 class="card-title">
 						@foreach($load->categories as $category)
@@ -27,15 +28,16 @@
 		                <div class="col-md-5 text-right">
 
 		                	<p>
-		                		Updated {{$load->updated_at->diffForHumans()}}
+		                		<small class="textmuted">Updated {{$load->updated_at->diffForHumans()}}</small>	
 		                	</p>
+<!-- Edit and Delete links -->		                	
 
 		@can('update', $load)
 				     		<p>
 			            		<span class="pull-left">			            			
-			            			<a href="/loads/{{$load->slug}}/edit"><i class="fa fa-edit">Edit</i></a>
+			            			<a href="/loads/{{$load->slug}}/edit"><i class="fa fa-edit"> Edit</i></a>
 			            		</span>		
-			            			<delete-load :freight="{{$load}}"></delete-load>			     			
+			            		<delete-load :freight="{{$load}}"></delete-load>			     			
 				     		</p>
 		@endcan	
 
@@ -48,7 +50,7 @@
 					</div>
 
 					<div class="card-body">
-						
+<!-- Consignemnt details -->						
 						<h3 class="card-title">{{$load->name}}</h3>
 						<hr>
 						<p class="card-text">
@@ -81,6 +83,7 @@
 					</div>
 
 				</div>
+<!-- public-visibility -->
 	    @can('superconfidential', $load)		
 					<public-visibility-button :load="{{$load}}"></public-visibility-button>	
 		@endcan	
@@ -94,7 +97,7 @@
 				</div>
 
 
-				 <div class="row justify-center about wow fadeInDown">
+<!-- location --> <div class="row justify-center about wow fadeInDown">
 				 	<div class="col-md-5 offset-md-1">
 				 		<h5>
 				 			<span class="fa fa-map-marker fa-3x text-primary"> </span>
@@ -102,7 +105,7 @@
 				 		</h5>
 				 		<p>
 @can('confidential', $load)					 			
-				 			<span class="fa fa-lg fa-road"> </span> {{$load->pickup_street}} <span class="text-muted">(Not Public)</span><br>
+				 			<span class="fa fa-lg fa-road"> </span> {{$load->pickup_street}} <small class="text-muted">(Not Public)</small><br>
 @endcan
 				 			<span class="fa fa-lg fa-building"> </span> {{$load->pickup_city}}<br>
 				 			<span class="fa fa-lg fa-flag"> </span> {{$load->pickup_country}}<br>
@@ -118,7 +121,7 @@
 				 		</h5>
 				 		<p>
 @can('confidential', $load)	
-				 			<span class=" fa fa-lg fa-road"> </span> {{$load->destination_street}} <span class="text-muted">(Not Public)</span><br>
+				 			<span class=" fa fa-lg fa-road"> </span> {{$load->destination_street}} <small class="text-muted">(Not Public)</small><br>
 @endcan
 				 			<span class=" fa fa-lg fa-building"> </span> {{$load->destination_city}}<br>
 				 			<span class=" fa fa-lg fa-flag"> </span> {{$load->destination_country}}<br>
@@ -132,7 +135,7 @@
 				 <div class="row">
 				 	<div class="col-md-6">
 				 		<h3>
-				 			<mark>Payment Offer</mark>
+<!--Payment -->	 			<mark>Payment Offer</mark>
 				 			<span class="fa fa-money fa-2x pull-right"></span>
 				 		</h3>
 						<ul class="list-group">
@@ -142,22 +145,75 @@
 						</ul>
 				 	</div>
 <!--Consignment Creator -->
+ @can('superconfidential', $load)
 					<div class="col-md-6">
 		                <div class="feature-wrap">
 		                    <i class="fa fa-user"></i>
-		                    <h3>Coinsignment Creator <small class="text-muted">(Not Public)</small></h3>
+		                    <h3>Consignment Creator <small class="text-muted">(Not Public)</small></h3>
 		                    <h4>
 		                    	<a href="/#">{{$load->nameOfCreator(Auth::user())? 'Me' : $load->user->organisation}}</a> 
 		                    </h4>
 		                    <p>{{$load->user->email}}</p>
-		                   
+		            @foreach($load->user->roles as $role)
+		                    <span class="pull-right label label-success">{{$role->name}}</span>
+		          	@endforeach
 
 		                </div>						
-						
-					</div>				 	
+					</div>
+@endcan
+<!-- end of consignment creator -->				 	
 				 </div>	
 
         </div>
+<!-- end of Consignment listing -->
+
+		<div class="col-md-3 offset-md-1">
+<!-- Freight bids --->
+			<h3>
+				Consignment Bids
+				<span class="badge badge-default">{{$load->bids->count()}}</span>
+			</h3>
+			@foreach($load->bids as $bid)
+				<div class="media mb-4">
+					<span class="circle {{App\Bid::randomColor()}} mr-2">{{substr($bid->bidder->organisation,0,1)}}</span>
+					<div class="media-body">
+						<a href="/bids/{{$bid->slug}}">{{$bid->bidder->organisation}}</a> <br>
+						{{$bid->city_location}}, {{$bid->country_location}} <br>
+						{{$bid->trailer_type}}
+						<small class="text-muted">Posted {{$bid->updated_at->diffForHumans()}}</small> 						
+					</div>
+				</div>	
+
+			@endforeach
+
+<!-- Suggested vehicles -->
+			<h3>
+				Suggested Vehicles
+				<span class="badge badge-default">{{$vehicles->count()}}</span>
+			</h3>
+			@foreach($vehicles as $vehicle)
+				<div class="media">
+					<span class="circle">{{substr($vehicle->user->organisation,0,1)}}</span>
+					<div class="media-body">
+						<p>
+							{{$vehicle->user->organisation}} <br>
+							{{$vehicle->trailer_type}}<br>
+							{{$vehicle->city_from}} To {{$vehicle->city_to}}<br>
+
+							<small class="text-muted">Posted {{$vehicle->updated_at->diffForHumans()}}</small> 
+						</p>
+					</div>
+				</div>	
+
+					
+
+
+			@endforeach
+		</div>
+
+
     </div>
 </div>
+
 @endsection
+

@@ -64,8 +64,32 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->roles->contains('name',$role);
+        return  (bool) $this->roles()->where('name',$role)->count();
     }  
+
+   /* public function hasRoleOf($roleName)
+    {
+        foreach($this->roles()->get() as $role)
+        {
+            if ($role->name === $roleName)
+            {
+                return true;
+            }
+            else{
+               return false; 
+            }
+            
+        }
+        
+    }*/
+    /**
+     * user hasnt filled contacts form
+     */
+    public function hasContact()
+    {
+        return (bool) $this->contacts()->count();
+           
+    }
 
     public function contacts()
     {
@@ -99,8 +123,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vehicle::class);
     } 
-
-    // sentence-capitalise different variables
+    // sentence-capitalise 
      public function getOrganisationAttribute($desc)
      {
          return ucwords($desc);
