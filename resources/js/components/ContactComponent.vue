@@ -1,22 +1,39 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-            <div>
-                <p v-for="contact in contacts">
-                    {{contact.person}} {{contact.phone}} {{contact.whatsapp}} <span v-for="datacapturer in contact.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
-                    <a href=""@click.prevent="editModal(contact)">
-                        Edit
-                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
-                    </a>
-                    <a href=""@click.prevent="deleteContact(contact)">
-                        Delete
-                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
-                    </a>
-                </p>
-                <a href="" @click.prevent="createModal">
-                    <i class="fa fa-plus text-success"></i> 
-                    Add a Contact
-                </a>
+            <div class="row">
+
+                <h1 class="col-md-12">
+                    <i class="fa fa-share-alt fa-3x"></i>
+                    The Contact Details 
+                    <span class="pull-right">
+
+                        <a href="" @click.prevent="createModal">
+                            <i class="fa fa-plus text-success"></i> 
+                            Add a Contact
+                        </a>
+                    </span>
+                </h1>
+                <div v-for="contact in contacts" class="media col-md-4">
+                    <span class="circle">{{contact.person.slice(0,1)}}</span>
+                    <div class="media-body">
+                        <p>
+                           <i class="fa fa-user"></i> {{contact.person}} 
+                            <a href=""@click.prevent="editModal(contact)">
+                                Edit
+                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                            </a>
+                            <a href=""@click.prevent="deleteContact(contact)">
+                                Delete
+                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                            </a>                            
+                                                                                <br>
+                            <i class="fa fa-phone"></i> {{contact.phone}}       <br>
+                            <i class="fa fa-whatsapp"></i> {{contact.whatsapp}} 
+                        </p>
+                    </div>
+                </div>  
+
             </div>
 
 <!-- Modal -->   

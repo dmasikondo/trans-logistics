@@ -2660,6 +2660,10 @@ shortcodes page css
 
 .card-footer a{color: white;}
 
+.card-body > a[title~="emman"]{
+  color: red;
+}
+
 .circle{
   width: 3.3em;
   height: 3.3em;

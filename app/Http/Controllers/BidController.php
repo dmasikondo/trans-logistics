@@ -74,7 +74,8 @@ class BidController extends Controller
      */
     public function show(Bid $bid)
     {
-        $bids = $bid->bidable->bids()->get();
+        //bid not the current bid
+        $bids = $bid->where('bidable_id',$bid->bidable_id)->where('id', '!=', $bid->id)->get();
         $bid = $bid->load(['bidder','bidable']);
 
         return view('bid.show', compact('bid','bids'));

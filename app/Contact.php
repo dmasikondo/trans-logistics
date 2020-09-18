@@ -32,6 +32,10 @@ class Contact extends Model
     	return $this->morphMany('App\DataCapturer', 'data_capturable');
     } 
 
-
+    // sentence-capitalise different variables
+     public function getPersonAttribute($desc)
+     {
+         return ucwords($desc);
+     } 
 
 }

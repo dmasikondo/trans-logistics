@@ -2237,6 +2237,23 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -68104,90 +68121,107 @@ var render = function() {
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
       _c(
         "div",
+        { staticClass: "row" },
         [
-          _vm._l(_vm.contacts, function(contact) {
-            return _c(
-              "p",
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(contact.person) +
-                    " " +
-                    _vm._s(contact.phone) +
-                    " " +
-                    _vm._s(contact.whatsapp) +
-                    " "
-                ),
-                _vm._l(contact.capturers, function(datacapturer) {
-                  return _c("span", [
-                    _vm._v(
-                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editModal(contact)
-                      }
+          _c("h1", { staticClass: "col-md-12" }, [
+            _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
+            _vm._v(
+              "\n                    The Contact Details \n                    "
+            ),
+            _c("span", { staticClass: "pull-right" }, [
+              _c(
+                "a",
+                {
+                  attrs: { href: "" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.createModal($event)
                     }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Edit\n                        "
-                    ),
-                    _vm.loading
-                      ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
-                      : _vm._e()
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteContact(contact)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Delete\n                        "
-                    ),
-                    _vm.loading
-                      ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
-                      : _vm._e()
-                  ]
-                )
-              ],
-              2
-            )
-          }),
+                  }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-plus text-success" }),
+                  _vm._v(
+                    " \n                            Add a Contact\n                        "
+                  )
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.createModal($event)
-                }
-              }
-            },
-            [
-              _c("i", { staticClass: "fa fa-plus text-success" }),
-              _vm._v(" \n                    Add a Contact\n                ")
-            ]
-          )
+          _vm._l(_vm.contacts, function(contact) {
+            return _c("div", { staticClass: "media col-md-4" }, [
+              _c("span", { staticClass: "circle" }, [
+                _vm._v(_vm._s(contact.person.slice(0, 1)))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c("p", [
+                  _c("i", { staticClass: "fa fa-user" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(contact.person) +
+                      " \n                            "
+                  ),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editModal(contact)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Edit\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteContact(contact)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Delete\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-phone" }),
+                  _vm._v(" " + _vm._s(contact.phone) + "       "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-whatsapp" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(contact.whatsapp) +
+                      " \n                        "
+                  )
+                ])
+              ])
+            ])
+          })
         ],
         2
       ),
