@@ -574,18 +574,6 @@
                 }).finally(() => (this.loading = false)); // set loading to false when request finish;
             },
 
-            deleteload(load){
-                this.loading = true; //the loading begin
-                axios.delete('/loads/'+load.slug).then((response)=>{
-                    window.location.href='/dashboard/'+this.user.slug; 
-                    this.message = ''; 
-                    this.errors = new Errors();                      
-                }).catch((e) =>{
-                    this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' Consignment not deleted!';                    
-                }).finally(() => (this.loading = false)); // set loading to false when request finish;
-            },
-
         },
         mounted(){
            // this.loadloads();

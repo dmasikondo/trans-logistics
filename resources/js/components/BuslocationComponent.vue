@@ -1,15 +1,52 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-            <div>
-                <p v-for="buslocation in buslocations">
-                    {{buslocation.address}} {{buslocation.city}} {{buslocation.country}} <span v-for="datacapturer in buslocation.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
-                    <a href=""@click.prevent="editModal(buslocation)">Edit</a>
-                    <a href=""@click.prevent="deleteBuslocation(buslocation)">Delete</a>
-                </p>
-                <a href="" @click.prevent="createModal"><i class="fa fa-plus text-success"></i> Add Physical Location</a>
-            </div>
+            <div class="row">
 
+                <h1 class="col-md-12">
+                    <i class="fa fa-share-alt fa-3x"></i>
+                    The Location for <small>{{user.organisation}}</small>
+                </h1>
+
+                <h2 class="col-md-12 pull-right">
+
+                    <a v-if="buslocations" href="" @click.prevent="createModal">
+                        <i class="fa fa-plus text-success"></i> 
+                        Add Business Physical Location
+                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    </a>
+                </h2>                
+                <h2 class="col-md-12">
+                    <span class="pull-right">
+                        <a :href="'/dashboard/' + user.slug">
+                            <i class="fa fa-chevron-left text-success"></i> 
+                            Back
+                            
+                        </a>                            
+                    </span>
+                </h2>
+                <div v-for="buslocation in buslocations" class="media col-md-4">
+                    <span class="circle">{{buslocation.city.slice(0,1)}}</span>
+                    <div class="media-body">
+                        <p>
+                           <i class="fa fa-institution"></i> {{buslocation.address}} 
+                            <a href=""@click.prevent="editModal(buslocation)">
+                                <i class="fa fa-edit"></i>
+                                Edit 
+                            </a>
+                            <a href=""@click.prevent="deleteBuslocation(buslocation)">
+                               <i class="fa fa-trash text-danger"></i> 
+                               Delete
+                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                            </a>                            
+                                                                                <br>
+                            <i class="fa fa-map-marker"></i> {{buslocation.city}}       <br>
+                            <i class="fa fa-flag"></i> {{buslocation.country}} 
+                        </p>
+                    </div>
+                </div>  
+
+            </div>
 <!-- Modal -->   
                 <div class="modal fade modal-lg" id="buslocationModal" tabindex="-1" role="dialog" aria-labelledby="buslocationModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -34,7 +71,7 @@
                                     </div>                                                        
                                     <div class="form-group input-group">
                                         <div class="input-group-prepend">
-                                           <span class="input-group-text"><i class="fa fa-tower"></i></span> 
+                                           <span class="input-group-text"><i class="fa fa-building"></i></span> 
                                         </div>
                                         <input type="tel" class="form-control" v-model="city"  :class="{'is-invalid': errors.hasError('city')}"  required>
                                         <label class="floating-label">City</label>
@@ -43,20 +80,31 @@
                                         </span>                                
                                     </div>
                                     <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                           <span class="input-group-text"><i class="fa fa-flag"></i></span> 
-                                        </div>
-                                        <input type="text" class="form-control" v-model="country"  :class="{'is-invalid': errors.hasError('country')}"  required>
-                                        <label class="floating-label">country</label>
-                                         <span v-if="errors.hasError('country')" class="invalid-feedback" role="alert">
-                                            <strong>{{errors.get('country')}}</strong>
-                                        </span>                                
-                                    </div>                                          
+                                    <div class="input-group-prepend">
+                                       <span class="input-group-text"><i class="fa fa-flag text-danger"></i></span> 
+                                    </div>
+                                    <select class="form-control" v-model="country"  :class="{'is-invalid': errors.hasError('country')}"  required>
+                                        <option value="Botswana">Botswana</option>
+                                        <option value="Congo, The Democratic Republic of the">Congo, The Democratic Republic of the</option>
+                                        <option value="Malawi">Malawi</option>
+                                        <option value="Mozambique">Mozambique</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="Zambia">Zambia</option>
+                                        <option value="Zimbabwe">Zimbabwe</option>
+                                    </select>
+                                    <label class="floating-label">Country</label>
+                                     <span v-if="errors.hasError('country')" class="invalid-feedback" role="alert">
+                                        <strong>{{errors.get('country')}}</strong>
+                                    </span>                                
+                                </div>                                          
 
                                 </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" type="submit">{{submitTitle}}</button>                                            
+                                        <button class="btn btn-primary" type="submit">
+                                            {{submitTitle}}
+                                            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                                        </button>                                            
                                     </div>  
                             </form>                              
                         </div>
@@ -109,6 +157,7 @@
                 id:'',
                 buslocations: {},
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: [
@@ -148,13 +197,14 @@
                     this.buslocations = response.data});
             },
             addBuslocation(){
+                this.loading = true; //the loading begin
                 axios.post('/buslocations/'+ this.user.slug,{
                     address: this.address,
                     city: this.city,
                     country: this.country, 
 
                 }).then((response) =>{ 
-                     window.location.href='/dashboard/'+this.user.slug; 
+                //     window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.address= '';
                     this.city = '';
@@ -165,17 +215,18 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' Location not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
 
             },
 
             editBuslocation(){
+                this.loading = true; //the loading begin
                 axios.put('/buslocations/'+ this.id,{
                     address: this.address,
                     city: this.city,
                     country: this.country,                   
                 }).then((response) =>{ 
-                    window.location.href='/dashboard/'+this.user.slug; 
+                 //   window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.address= '';
                     this.city = '';
@@ -186,21 +237,43 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' Location not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish;
             },
 
             deleteBuslocation(buslocation){
-                axios.delete('/buslocations/'+buslocation.id).then((response)=>{
-                    window.location.href='/dashboard/'+this.user.slug; 
-                    this.message = ''; 
-                    this.errors = new Errors(); 
-                    Fire.$emit('AfterBuslocationWasUpdated');
-                    $('#buslocationModal').modal('hide');                     
-                }).catch((e) =>{
-                    this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' Location not updated!';                    
-                });
-            },
+                    this.loading = true, //the loading begin
+                    Swal.fire({
+                    title: "Are you sure?",
+                    text: "Once Deleted, you will not be able to recover this  -- " + buslocation.address +" Location!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText:'Yes, delete it!',
+                    cancelButtonText:'No, keep it',
+                    }).then((willDelete) => {                        
+                        if (willDelete.value) {                    
+                            axios.delete('/buslocations/'+buslocation.id).then((response)=>{  
+                            Fire.$emit('AfterBuslocationWasUpdated');                                                  
+                            Swal.fire('Deleted!',
+                            'Your business location was successfully deleted',
+                            'success'
+                            ); 
+                           // window.location.href='/loads/create';                                
+                        }).catch((e)=>{
+                            this.errors.record(e.response.data.errors);
+                            this.message = e.response.data.message;
+                            Swal.fire("Failure! "+ this.message, {
+                            icon: "error",
+                        });                        
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
+                        } 
+                        else if(willDelete.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire('Cancelled',
+                                        'Your business location is safe',
+                                        'error'
+                            )
+                        }
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
+                },
 
         },
         mounted(){

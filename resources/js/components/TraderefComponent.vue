@@ -1,13 +1,52 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-            <div>
-                <p v-for="traderef in traderefs">
-                    {{traderef.name}} {{traderef.phone}} {{traderef.address}} <span v-for="datacapturer in traderef.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
-                    <a href=""@click.prevent="editModal(traderef)">Edit</a>
-                    <a href=""@click.prevent="deletetraderef(traderef)">Delete</a>
-                </p>
-                <a href="" @click.prevent="createModal"><i class="fa fa-plus text-success"></i> Add a traderef</a>
+
+            <div class="row">
+
+                <h1 class="col-md-12">
+                    <i class="fa fa-share-alt fa-3x"></i>
+                    The Trade References for <small>{{user.organisation}}</small>
+                </h1>
+
+                <h2 class="col-md-12 pull-right">
+
+                    <a href="" @click.prevent="createModal">
+                        <i class="fa fa-plus text-success"></i> 
+                        Add a Trade Reference
+                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    </a>
+                </h2>                
+                <h2 class="col-md-12">
+                    <span class="pull-right">
+                        <a :href="'/dashboard/' + user.slug">
+                            <i class="fa fa-chevron-left text-success"></i> 
+                            Back
+                            
+                        </a>                            
+                    </span>
+                </h2>
+                <div v-for="traderef in traderefs" class="media col-md-4">
+                    <span class="circle">{{traderef.name.slice(0,1)}}</span>
+                    <div class="media-body">
+                        <p>
+                           <i class="fa fa-institution"></i> {{traderef.name}} 
+                            <a href=""@click.prevent="editModal(traderef)">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                            <a href=""@click.prevent="deletetraderef(traderef)">
+                                <i class="fa fa-trash text-danger"></i> 
+                                Delete
+                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                            </a>                            
+                                                                                <br>
+                            <i class="fa fa-map-marker"></i> {{traderef.address}}       <br>
+                            <i class="fa fa-phone"></i> {{traderef.phone}} 
+                        </p>
+                    </div>
+                </div>  
+
             </div>
 
 <!-- Modal -->   
@@ -56,7 +95,10 @@
                                 </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" type="submit">{{submitTitle}}</button>                                            
+                                        <button class="btn btn-primary" type="submit">
+                                            {{submitTitle}}
+                                            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                                        </button>                                            
                                     </div>  
                             </form>                              
                         </div>
@@ -109,6 +151,7 @@
                 id:'',
                 traderefs: {},
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: [
@@ -144,13 +187,14 @@
                     this.traderefs = response.data});
             },
             addtraderef(){
+                this.loading = true; //the loading begin
                 axios.post('/traderefs/'+ this.user.slug,{
                     name: this.name,
                     phone: this.phone,
                     address: this.address, 
 
                 }).then((response) =>{ 
-                     window.location.href='/dashboard/'+this.user.slug; 
+                  //window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.name= '';
                     this.phone = '';
@@ -161,7 +205,7 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' traderefs not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
 
             },
 
@@ -171,7 +215,7 @@
                     phone: this.phone,
                     address: this.address,                   
                 }).then((response) =>{ 
-                    window.location.href='/dashboard/'+this.user.slug; 
+                   // window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.name= '';
                     this.phone = '';
@@ -182,20 +226,43 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' traderefs not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
             },
 
+            
             deletetraderef(traderef){
-                axios.delete('/traderefs/'+traderef.id).then((response)=>{
-                    window.location.href='/dashboard/'+this.user.slug; 
-                    this.message = ''; 
-                    this.errors = new Errors(); 
+                this.loading = true; //the loading begin
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Once Deleted, you will not be able to recover the traderef -- " +traderef.name +"!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText:'Yes, delete it!',
+                    cancelButtonText:'No, keep it',
+                    }).then((willDelete) => {                        
+                        if (willDelete.value) {                    
+                        axios.delete('/traderefs/'+traderef.id).then((response)=>{
+            //            window.location.href='/dashboard/'+this.user.slug; 
+                        this.message = ''; 
+                        this.errors = new Errors(); 
                     Fire.$emit('AftertraderefWasUpdated');
-                    $('#traderefModal').modal('hide');                     
-                }).catch((e) =>{
-                    this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' traderefs not updated!';                    
-                });
+                    $('#traderefModal').modal('hide');                                
+                        }).catch((e)=>{
+                            this.errors.record(e.response.data.errors);
+                            this.message = e.response.data.message;
+                            Swal.fire("Failure! "+ this.message, {
+                            icon: "error",
+                        });                        
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish
+                        } 
+                        else if(willDelete.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire('Cancelled',
+                                        'Your Trade Ref is safe',
+                                        'error'
+                            )
+                        }
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
+
             },
 
         },

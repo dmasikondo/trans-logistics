@@ -7,8 +7,19 @@ use Auth;
 
 class RegistrationController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+        $this->middleware('shipper');
+    }  
    /**
     * view Registration of Organisation's contact resources
+    *
     */
 
    public function show(Request $request)

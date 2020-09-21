@@ -1,53 +1,15 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-
-            <div class="row">
-
-                <h1 class="col-md-12">
-                    <i class="fa fa-share-alt fa-3x"></i>
-                    The Fleet Details for <small>{{user.organisation}}</small>
-                </h1>
-
-                <h2 class="col-md-12 pull-right">
-
-                    <a  v-if="!fleets.length" href="" @click.prevent="createModal">
-                        <i class="fa fa-plus text-success"></i> 
-                        Add Fleet Information
-                    </a>
-                </h2>                
-                <h2 class="col-md-12">
-                    <span class="pull-right">
-                        <a :href="'/dashboard/' + user.slug">
-                            <i class="fa fa-chevron-left text-success"></i> 
-                            Back
-                        </a>                            
-                    </span>
-                </h2>
-                <div v-for="fleet in fleets" class="media col-md-4">
-                    <span class="circle">T</span>
-                    <div class="media-body">
-                        <p>
-                           <i class="fa fa-bus fa-x2"></i> {{fleet.number_of_horses}} horses <br>
-                           <i class="fa fa-truck fa-x2"></i> {{fleet.number_of_trailers}} trailers -
-
-                           <span v-for="trailer in fleet.trailers"> {{trailer.name}} </span> 
-
-                        </p>
-                        <p class="text-right">
-                            <a href=""@click.prevent="editModal(fleet)">
-                                <i class="fa fa-edit"></i>
-                                Edit
-                            </a>
-                            <a href=""@click.prevent="deletefleet(fleet)">
-                                <i class="fa fa-trash text-danger"></i> 
-                                Delete
-                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
-                            </a>                            
-                        </p>
-                    </div>
-                </div>  
-
+            <div>
+                <p v-for="fleet in fleets">
+                    {{fleet.number_of_horses}} horses and {{fleet.number_of_trailers}} trailers<span v-for="trailer in fleet.trailers"> {{trailer.name}} </span> 
+                     <span v-for="datacapturer in fleet.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
+                    <a href=""@click.prevent="editModal(fleet)">Edit</a>
+                    <a href=""@click.prevent="deletefleet(fleet)">Delete</a>
+                </p>
+                 <a  v-if="!fleets.length"  href="" @click.prevent="createModal"><i class="fa fa-plus text-success"></i> Add Fleet Information</a>
+               
             </div>
 
 <!-- Modal -->   
@@ -99,10 +61,7 @@
                                 </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" type="submit">
-                                            {{submitTitle}}
-                                            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
-                                        </button>                                            
+                                        <button class="btn btn-primary" type="submit">{{submitTitle}}</button>                                            
                                     </div>  
                             </form>                              
                         </div>
@@ -156,7 +115,6 @@
                 id:'',
                 fleets: {},
                 errors: new Errors(),
-                loading: false,
             }
         },
         props: [
@@ -201,15 +159,13 @@
                     this.fleets = response.data});
             },
             addfleet(){
-                this.loading = true; //the loading begin
                 axios.post('/fleets/'+ this.user.slug,{
                     number_of_horses: this.number_of_horses,
                     number_of_trailers: this.number_of_trailers,
                     trailer_type: this.trailer_type, 
 
                 }).then((response) =>{ 
-                  //   window.location.href='/dashboard/'+this.user.slug; 
-                    this.loading = false;
+                     window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.number_of_horses= '';
                     this.number_of_trailers = '';
@@ -229,8 +185,7 @@
                     number_of_trailers: this.number_of_trailers,
                      trailer_type: this.trailer_type,                   
                 }).then((response) =>{ 
-                  //  window.location.href='/dashboard/'+this.user.slug; 
-                    this.loading = false;
+                    window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.number_of_horses= '';
                     this.number_of_trailers = '';
@@ -244,39 +199,16 @@
             },
 
             deletefleet(fleet){
-                this.loading = true; //the loading begin
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "Once Deleted, you will not be able to recover this fleet information",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText:'Yes, delete it!',
-                    cancelButtonText:'No, keep it',
-                    }).then((willDelete) => {                        
-                        if (willDelete.value) {                    
-                        axios.delete('/fleets/'+fleet.id).then((response)=>{
-            //            window.location.href='/dashboard/'+this.user.slug; 
-                        this.message = ''; 
-                        this.errors = new Errors(); 
+                axios.delete('/fleets/'+fleet.id).then((response)=>{
+                    window.location.href='/dashboard/'+this.user.slug; 
+                    this.message = ''; 
+                    this.errors = new Errors(); 
                     Fire.$emit('AfterFleetWasUpdated');
-                    this.loading = false;
-                    $('#fleetModal').modal('hide');                              
-                        }).catch((e)=>{
-                            this.errors.record(e.response.data.errors);
-                            this.message = e.response.data.message;
-                            Swal.fire("Failure! "+ this.message, {
-                            icon: "error",
-                        });                        
-                    }).finally(() => (this.loading = false)); // set loading to false when request finish
-                        } 
-                        else if(willDelete.dismiss === Swal.DismissReason.cancel) {
-                            Swal.fire('Cancelled',
-                                        'Your director is safe',
-                                        'error'
-                            )
-                        }
-                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
-
+                    $('#fleetModal').modal('hide');                     
+                }).catch((e) =>{
+                    this.errors.record(e.response.data.errors);
+                    this.message = e.response.data.message + ' Location not updated!';                    
+                });
             },
 
         },

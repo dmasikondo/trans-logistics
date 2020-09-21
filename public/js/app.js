@@ -1982,6 +1982,54 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -2032,7 +2080,8 @@ var Errors = /*#__PURE__*/function () {
       message: '',
       id: '',
       buslocations: {},
-      errors: new Errors()
+      errors: new Errors(),
+      loading: false
     };
   },
   props: ['user'],
@@ -2072,12 +2121,14 @@ var Errors = /*#__PURE__*/function () {
     addBuslocation: function addBuslocation() {
       var _this2 = this;
 
+      this.loading = true; //the loading begin
+
       axios.post('/buslocations/' + this.user.slug, {
         address: this.address,
         city: this.city,
         country: this.country
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this2.user.slug;
+        //     window.location.href='/dashboard/'+this.user.slug; 
         _this2.message = '';
         _this2.address = '';
         _this2.city = '';
@@ -2089,17 +2140,21 @@ var Errors = /*#__PURE__*/function () {
         _this2.errors.record(e.response.data.errors);
 
         _this2.message = e.response.data.message + ' Location not updated!';
-      });
+      })["finally"](function () {
+        return _this2.loading = false;
+      }); // set loading to false when request finish;
     },
     editBuslocation: function editBuslocation() {
       var _this3 = this;
+
+      this.loading = true; //the loading begin
 
       axios.put('/buslocations/' + this.id, {
         address: this.address,
         city: this.city,
         country: this.country
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this3.user.slug;
+        //   window.location.href='/dashboard/'+this.user.slug; 
         _this3.message = '';
         _this3.address = '';
         _this3.city = '';
@@ -2111,22 +2166,42 @@ var Errors = /*#__PURE__*/function () {
         _this3.errors.record(e.response.data.errors);
 
         _this3.message = e.response.data.message + ' Location not updated!';
-      });
+      })["finally"](function () {
+        return _this3.loading = false;
+      }); // set loading to false when request finish;
     },
     deleteBuslocation: function deleteBuslocation(buslocation) {
       var _this4 = this;
 
-      axios["delete"]('/buslocations/' + buslocation.id).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
-        _this4.message = '';
-        _this4.errors = new Errors();
-        Fire.$emit('AfterBuslocationWasUpdated');
-        $('#buslocationModal').modal('hide');
-      })["catch"](function (e) {
-        _this4.errors.record(e.response.data.errors);
+      this.loading = true, //the loading begin
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover this  -- " + buslocation.address + " Location!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/buslocations/' + buslocation.id).then(function (response) {
+            Fire.$emit('AfterBuslocationWasUpdated');
+            Swal.fire('Deleted!', 'Your business location was successfully deleted', 'success'); // window.location.href='/loads/create';                                
+          })["catch"](function (e) {
+            _this4.errors.record(e.response.data.errors);
 
-        _this4.message = e.response.data.message + ' Location not updated!';
-      });
+            _this4.message = e.response.data.message;
+            Swal.fire("Failure! " + _this4.message, {
+              icon: "error"
+            });
+          })["finally"](function () {
+            return _this4.loading = false;
+          }); // set loading to false when request finish;
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your business location is safe', 'error');
+        }
+      })["finally"](function () {
+        return _this4.loading = false;
+      }); // set loading to false when request finish;
     }
   },
   mounted: function mounted() {
@@ -2156,6 +2231,16 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2352,7 +2437,7 @@ var Errors = /*#__PURE__*/function () {
         phone: this.phone,
         whatsapp: this.whatsapp
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this2.user.slug;
+        //       window.location.href='/dashboard/'+this.user.slug; 
         _this2.message = '';
         _this2.person = '';
         _this2.phone = '';
@@ -2378,7 +2463,7 @@ var Errors = /*#__PURE__*/function () {
         phone: this.phone,
         whatsapp: this.whatsapp
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this3.user.slug;
+        //  window.location.href='/dashboard/'+this.user.slug; 
         _this3.message = '';
         _this3.person = '';
         _this3.phone = '';
@@ -2399,19 +2484,37 @@ var Errors = /*#__PURE__*/function () {
 
       this.loading = true; //the loading begin
 
-      axios["delete"]('/contacts/' + contact.id).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
-        _this4.message = '';
-        _this4.errors = new Errors();
-        Fire.$emit('AfterContactWasUpdated');
-        $('#contactModal').modal('hide');
-      })["catch"](function (e) {
-        _this4.errors.record(e.response.data.errors);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover the contact -- " + contact.person + "!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/contacts/' + contact.id).then(function (response) {
+            //  window.location.href='/dashboard/'+this.user.slug; 
+            _this4.message = '';
+            _this4.errors = new Errors();
+            Fire.$emit('AfterContactWasUpdated');
+            $('#contactModal').modal('hide');
+          })["catch"](function (e) {
+            _this4.errors.record(e.response.data.errors);
 
-        _this4.message = e.response.data.message + ' Contacts not updated!';
+            _this4.message = e.response.data.message;
+            Swal.fire("Failure! " + _this4.message, {
+              icon: "error"
+            });
+          })["finally"](function () {
+            return _this4.loading = false;
+          }); // set loading to false when request finish
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your contact is safe', 'error');
+        }
       })["finally"](function () {
         return _this4.loading = false;
-      }); // set loading to false when request finish
+      }); // set loading to false when request finish;
     }
   },
   mounted: function mounted() {
@@ -2441,6 +2544,47 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2559,7 +2703,8 @@ var Errors = /*#__PURE__*/function () {
       message: '',
       id: '',
       directors: {},
-      errors: new Errors()
+      errors: new Errors(),
+      loading: false
     };
   },
   props: ['user'],
@@ -2595,12 +2740,14 @@ var Errors = /*#__PURE__*/function () {
     adddirector: function adddirector() {
       var _this2 = this;
 
+      this.loading = true; //the loading begin
+
       axios.post('/directors/' + this.user.slug, {
         name: this.name,
         phone: this.phone,
         address: this.address
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this2.user.slug;
+        //  window.location.href='/dashboard/'+this.user.slug; 
         _this2.message = '';
         _this2.name = '';
         _this2.phone = '';
@@ -2612,17 +2759,21 @@ var Errors = /*#__PURE__*/function () {
         _this2.errors.record(e.response.data.errors);
 
         _this2.message = e.response.data.message + ' directors not updated!';
-      });
+      })["finally"](function () {
+        return _this2.loading = false;
+      }); // set loading to false when request finish
     },
     editdirector: function editdirector() {
       var _this3 = this;
+
+      this.loading = true; //the loading begin
 
       axios.put('/directors/' + this.id, {
         name: this.name,
         phone: this.phone,
         address: this.address
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this3.user.slug;
+        // window.location.href='/dashboard/'+this.user.slug; 
         _this3.message = '';
         _this3.name = '';
         _this3.phone = '';
@@ -2634,22 +2785,46 @@ var Errors = /*#__PURE__*/function () {
         _this3.errors.record(e.response.data.errors);
 
         _this3.message = e.response.data.message + ' directors not updated!';
-      });
+      })["finally"](function () {
+        return _this3.loading = false;
+      }); // set loading to false when request finish
     },
     deletedirector: function deletedirector(director) {
       var _this4 = this;
 
-      axios["delete"]('/directors/' + director.id).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
-        _this4.message = '';
-        _this4.errors = new Errors();
-        Fire.$emit('AfterdirectorWasUpdated');
-        $('#directorModal').modal('hide');
-      })["catch"](function (e) {
-        _this4.errors.record(e.response.data.errors);
+      this.loading = true; //the loading begin
 
-        _this4.message = e.response.data.message + ' directors not updated!';
-      });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover the director -- " + director.name + "!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/directors/' + director.id).then(function (response) {
+            //            window.location.href='/dashboard/'+this.user.slug; 
+            _this4.message = '';
+            _this4.errors = new Errors();
+            Fire.$emit('AfterdirectorWasUpdated');
+            $('#directorModal').modal('hide');
+          })["catch"](function (e) {
+            _this4.errors.record(e.response.data.errors);
+
+            _this4.message = e.response.data.message;
+            Swal.fire("Failure! " + _this4.message, {
+              icon: "error"
+            });
+          })["finally"](function () {
+            return _this4.loading = false;
+          }); // set loading to false when request finish
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your director is safe', 'error');
+        }
+      })["finally"](function () {
+        return _this4.loading = false;
+      }); // set loading to false when request finish;
     }
   },
   mounted: function mounted() {
@@ -2679,6 +2854,47 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2803,7 +3019,8 @@ var Errors = /*#__PURE__*/function () {
       message: '',
       id: '',
       fleets: {},
-      errors: new Errors()
+      errors: new Errors(),
+      loading: false
     };
   },
   props: ['user'],
@@ -2852,12 +3069,15 @@ var Errors = /*#__PURE__*/function () {
     addfleet: function addfleet() {
       var _this4 = this;
 
+      this.loading = true; //the loading begin
+
       axios.post('/fleets/' + this.user.slug, {
         number_of_horses: this.number_of_horses,
         number_of_trailers: this.number_of_trailers,
         trailer_type: this.trailer_type
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
+        //   window.location.href='/dashboard/'+this.user.slug; 
+        _this4.loading = false;
         _this4.message = '';
         _this4.number_of_horses = '';
         _this4.number_of_trailers = '';
@@ -2878,7 +3098,8 @@ var Errors = /*#__PURE__*/function () {
         number_of_trailers: this.number_of_trailers,
         trailer_type: this.trailer_type
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this5.user.slug;
+        //  window.location.href='/dashboard/'+this.user.slug; 
+        _this5.loading = false;
         _this5.message = '';
         _this5.number_of_horses = '';
         _this5.number_of_trailers = '';
@@ -2894,17 +3115,40 @@ var Errors = /*#__PURE__*/function () {
     deletefleet: function deletefleet(fleet) {
       var _this6 = this;
 
-      axios["delete"]('/fleets/' + fleet.id).then(function (response) {
-        window.location.href = '/dashboard/' + _this6.user.slug;
-        _this6.message = '';
-        _this6.errors = new Errors();
-        Fire.$emit('AfterFleetWasUpdated');
-        $('#fleetModal').modal('hide');
-      })["catch"](function (e) {
-        _this6.errors.record(e.response.data.errors);
+      this.loading = true; //the loading begin
 
-        _this6.message = e.response.data.message + ' Location not updated!';
-      });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover this fleet information",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/fleets/' + fleet.id).then(function (response) {
+            //            window.location.href='/dashboard/'+this.user.slug; 
+            _this6.message = '';
+            _this6.errors = new Errors();
+            Fire.$emit('AfterFleetWasUpdated');
+            _this6.loading = false;
+            $('#fleetModal').modal('hide');
+          })["catch"](function (e) {
+            _this6.errors.record(e.response.data.errors);
+
+            _this6.message = e.response.data.message;
+            Swal.fire("Failure! " + _this6.message, {
+              icon: "error"
+            });
+          })["finally"](function () {
+            return _this6.loading = false;
+          }); // set loading to false when request finish
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your director is safe', 'error');
+        }
+      })["finally"](function () {
+        return _this6.loading = false;
+      }); // set loading to false when request finish;
     }
   },
   mounted: function mounted() {
@@ -3255,6 +3499,48 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
@@ -3305,7 +3591,8 @@ var Errors = /*#__PURE__*/function () {
       message: '',
       id: '',
       traderefs: {},
-      errors: new Errors()
+      errors: new Errors(),
+      loading: false
     };
   },
   props: ['user'],
@@ -3341,12 +3628,14 @@ var Errors = /*#__PURE__*/function () {
     addtraderef: function addtraderef() {
       var _this2 = this;
 
+      this.loading = true; //the loading begin
+
       axios.post('/traderefs/' + this.user.slug, {
         name: this.name,
         phone: this.phone,
         address: this.address
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this2.user.slug;
+        //window.location.href='/dashboard/'+this.user.slug; 
         _this2.message = '';
         _this2.name = '';
         _this2.phone = '';
@@ -3358,7 +3647,9 @@ var Errors = /*#__PURE__*/function () {
         _this2.errors.record(e.response.data.errors);
 
         _this2.message = e.response.data.message + ' traderefs not updated!';
-      });
+      })["finally"](function () {
+        return _this2.loading = false;
+      }); // set loading to false when request finish
     },
     edittraderef: function edittraderef() {
       var _this3 = this;
@@ -3368,7 +3659,7 @@ var Errors = /*#__PURE__*/function () {
         phone: this.phone,
         address: this.address
       }).then(function (response) {
-        window.location.href = '/dashboard/' + _this3.user.slug;
+        // window.location.href='/dashboard/'+this.user.slug; 
         _this3.message = '';
         _this3.name = '';
         _this3.phone = '';
@@ -3380,22 +3671,46 @@ var Errors = /*#__PURE__*/function () {
         _this3.errors.record(e.response.data.errors);
 
         _this3.message = e.response.data.message + ' traderefs not updated!';
-      });
+      })["finally"](function () {
+        return _this3.loading = false;
+      }); // set loading to false when request finish
     },
     deletetraderef: function deletetraderef(traderef) {
       var _this4 = this;
 
-      axios["delete"]('/traderefs/' + traderef.id).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
-        _this4.message = '';
-        _this4.errors = new Errors();
-        Fire.$emit('AftertraderefWasUpdated');
-        $('#traderefModal').modal('hide');
-      })["catch"](function (e) {
-        _this4.errors.record(e.response.data.errors);
+      this.loading = true; //the loading begin
 
-        _this4.message = e.response.data.message + ' traderefs not updated!';
-      });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Once Deleted, you will not be able to recover the traderef -- " + traderef.name + "!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then(function (willDelete) {
+        if (willDelete.value) {
+          axios["delete"]('/traderefs/' + traderef.id).then(function (response) {
+            //            window.location.href='/dashboard/'+this.user.slug; 
+            _this4.message = '';
+            _this4.errors = new Errors();
+            Fire.$emit('AftertraderefWasUpdated');
+            $('#traderefModal').modal('hide');
+          })["catch"](function (e) {
+            _this4.errors.record(e.response.data.errors);
+
+            _this4.message = e.response.data.message;
+            Swal.fire("Failure! " + _this4.message, {
+              icon: "error"
+            });
+          })["finally"](function () {
+            return _this4.loading = false;
+          }); // set loading to false when request finish
+        } else if (willDelete.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your Trade Ref is safe', 'error');
+        }
+      })["finally"](function () {
+        return _this4.loading = false;
+      }); // set loading to false when request finish;
     }
   },
   mounted: function mounted() {
@@ -5155,23 +5470,6 @@ var Errors = /*#__PURE__*/function () {
         _this3.message = e.response.data.message + ' Consignment not updated!';
       })["finally"](function () {
         return _this3.loading = false;
-      }); // set loading to false when request finish;
-    },
-    deleteload: function deleteload(load) {
-      var _this4 = this;
-
-      this.loading = true; //the loading begin
-
-      axios["delete"]('/loads/' + load.slug).then(function (response) {
-        window.location.href = '/dashboard/' + _this4.user.slug;
-        _this4.message = '';
-        _this4.errors = new Errors();
-      })["catch"](function (e) {
-        _this4.errors.record(e.response.data.errors);
-
-        _this4.message = e.response.data.message + ' Consignment not deleted!';
-      })["finally"](function () {
-        return _this4.loading = false;
       }); // set loading to false when request finish;
     }
   },
@@ -67770,76 +68068,122 @@ var render = function() {
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
       _c(
         "div",
+        { staticClass: "row" },
         [
-          _vm._l(_vm.buslocations, function(buslocation) {
-            return _c(
-              "p",
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(buslocation.address) +
-                    " " +
-                    _vm._s(buslocation.city) +
-                    " " +
-                    _vm._s(buslocation.country) +
-                    " "
-                ),
-                _vm._l(buslocation.capturers, function(datacapturer) {
-                  return _c("span", [
-                    _vm._v(
-                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editModal(buslocation)
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteBuslocation(buslocation)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ],
-              2
-            )
-          }),
+          _c("h1", { staticClass: "col-md-12" }, [
+            _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
+            _vm._v("\n                    The Location for "),
+            _c("small", [_vm._v(_vm._s(_vm.user.organisation))])
+          ]),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.createModal($event)
-                }
-              }
-            },
-            [
-              _c("i", { staticClass: "fa fa-plus text-success" }),
-              _vm._v(" Add Physical Location")
-            ]
-          )
+          _c("h2", { staticClass: "col-md-12 pull-right" }, [
+            _vm.buslocations
+              ? _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.createModal($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-plus text-success" }),
+                    _vm._v(
+                      " \n                        Add Business Physical Location\n                        "
+                    ),
+                    _vm.loading
+                      ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                      : _vm._e()
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "pull-right" }, [
+              _c("a", { attrs: { href: "/dashboard/" + _vm.user.slug } }, [
+                _c("i", { staticClass: "fa fa-chevron-left text-success" }),
+                _vm._v(
+                  " \n                            Back\n                            \n                        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.buslocations, function(buslocation) {
+            return _c("div", { staticClass: "media col-md-4" }, [
+              _c("span", { staticClass: "circle" }, [
+                _vm._v(_vm._s(buslocation.city.slice(0, 1)))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c("p", [
+                  _c("i", { staticClass: "fa fa-institution" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(buslocation.address) +
+                      " \n                            "
+                  ),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editModal(buslocation)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-edit" }),
+                      _vm._v(
+                        "\n                                Edit \n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteBuslocation(buslocation)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-trash text-danger" }),
+                      _vm._v(
+                        " \n                               Delete\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-map-marker" }),
+                  _vm._v(" " + _vm._s(buslocation.city) + "       "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-flag" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(buslocation.country) +
+                      " \n                        "
+                  )
+                ])
+              ])
+            ])
+          })
         ],
         2
       ),
@@ -67992,31 +68336,77 @@ var render = function() {
                     _c("div", { staticClass: "form-group input-group" }, [
                       _vm._m(2),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.country,
-                            expression: "country"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        class: { "is-invalid": _vm.errors.hasError("country") },
-                        attrs: { type: "text", required: "" },
-                        domProps: { value: _vm.country },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.country,
+                              expression: "country"
                             }
-                            _vm.country = $event.target.value
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.errors.hasError("country")
+                          },
+                          attrs: { required: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.country = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
                           }
-                        }
-                      }),
+                        },
+                        [
+                          _c("option", { attrs: { value: "Botswana" } }, [
+                            _vm._v("Botswana")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            {
+                              attrs: {
+                                value: "Congo, The Democratic Republic of the"
+                              }
+                            },
+                            [_vm._v("Congo, The Democratic Republic of the")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Malawi" } }, [
+                            _vm._v("Malawi")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Mozambique" } }, [
+                            _vm._v("Mozambique")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "South Africa" } }, [
+                            _vm._v("South Africa")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Zambia" } }, [
+                            _vm._v("Zambia")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Zimbabwe" } }, [
+                            _vm._v("Zimbabwe")
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
                       _c("label", { staticClass: "floating-label" }, [
-                        _vm._v("country")
+                        _vm._v("Country")
                       ]),
                       _vm._v(" "),
                       _vm.errors.hasError("country")
@@ -68052,7 +68442,16 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v(_vm._s(_vm.submitTitle))]
+                      [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(_vm.submitTitle) +
+                            "\n                                            "
+                        ),
+                        _vm.loading
+                          ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                          : _vm._e()
+                      ]
                     )
                   ])
                 ]
@@ -68081,7 +68480,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-tower" })
+        _c("i", { staticClass: "fa fa-building" })
       ])
     ])
   },
@@ -68091,7 +68490,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
       _c("span", { staticClass: "input-group-text" }, [
-        _c("i", { staticClass: "fa fa-flag" })
+        _c("i", { staticClass: "fa fa-flag text-danger" })
       ])
     ])
   }
@@ -68125,28 +68524,39 @@ var render = function() {
         [
           _c("h1", { staticClass: "col-md-12" }, [
             _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
-            _vm._v(
-              "\n                    The Contact Details \n                    "
-            ),
-            _c("span", { staticClass: "pull-right" }, [
-              _c(
-                "a",
-                {
-                  attrs: { href: "" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.createModal($event)
-                    }
+            _vm._v("\n                    The Contact Details for "),
+            _c("small", [_vm._v(_vm._s(_vm.user.organisation))])
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12 pull-right" }, [
+            _c(
+              "a",
+              {
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.createModal($event)
                   }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-plus text-success" }),
-                  _vm._v(
-                    " \n                            Add a Contact\n                        "
-                  )
-                ]
-              )
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus text-success" }),
+                _vm._v(
+                  " \n                        Add a Contact\n                    "
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "pull-right" }, [
+              _c("a", { attrs: { href: "/dashboard/" + _vm.user.slug } }, [
+                _c("i", { staticClass: "fa fa-chevron-left text-success" }),
+                _vm._v(
+                  " \n                            Back\n                        "
+                )
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -68176,12 +68586,10 @@ var render = function() {
                       }
                     },
                     [
+                      _c("i", { staticClass: "fa fa-edit" }),
                       _vm._v(
-                        "\n                                Edit\n                                "
-                      ),
-                      _vm.loading
-                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
-                        : _vm._e()
+                        "\n                                Edit\n                            "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -68197,8 +68605,9 @@ var render = function() {
                       }
                     },
                     [
+                      _c("i", { staticClass: "fa fa-trash text-danger" }),
                       _vm._v(
-                        "\n                                Delete\n                                "
+                        " \n                                Delete\n                                "
                       ),
                       _vm.loading
                         ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
@@ -68512,76 +68921,118 @@ var render = function() {
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
       _c(
         "div",
+        { staticClass: "row" },
         [
-          _vm._l(_vm.directors, function(director) {
-            return _c(
-              "p",
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(director.name) +
-                    " " +
-                    _vm._s(director.phone) +
-                    " " +
-                    _vm._s(director.address) +
-                    " "
-                ),
-                _vm._l(director.capturers, function(datacapturer) {
-                  return _c("span", [
-                    _vm._v(
-                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editModal(director)
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deletedirector(director)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ],
-              2
-            )
-          }),
+          _c("h1", { staticClass: "col-md-12" }, [
+            _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
+            _vm._v("\n                    The Directors for "),
+            _c("small", [_vm._v(_vm._s(_vm.user.organisation))])
+          ]),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.createModal($event)
+          _c("h2", { staticClass: "col-md-12 pull-right" }, [
+            _c(
+              "a",
+              {
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.createModal($event)
+                  }
                 }
-              }
-            },
-            [
-              _c("i", { staticClass: "fa fa-plus text-success" }),
-              _vm._v(" Add a director")
-            ]
-          )
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus text-success" }),
+                _vm._v(
+                  " \n                        Add a Director\n                        "
+                ),
+                _vm.loading
+                  ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "pull-right" }, [
+              _c("a", { attrs: { href: "/dashboard/" + _vm.user.slug } }, [
+                _c("i", { staticClass: "fa fa-chevron-left text-success" }),
+                _vm._v(
+                  " \n                            Back\n                            \n                        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.directors, function(director) {
+            return _c("div", { staticClass: "media col-md-4" }, [
+              _c("span", { staticClass: "circle" }, [
+                _vm._v(_vm._s(director.name.slice(0, 1)))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c("p", [
+                  _c("i", { staticClass: "fa fa-user" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(director.name) +
+                      " \n                            "
+                  ),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editModal(director)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-edit" }),
+                      _vm._v(
+                        "\n                                Edit\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deletedirector(director)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-trash text-danger" }),
+                      _vm._v(
+                        " \n                                Delete\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-map-marker" }),
+                  _vm._v(" " + _vm._s(director.address) + "       "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-phone" }),
+                  _vm._v(
+                    " " + _vm._s(director.phone) + " \n                        "
+                  )
+                ])
+              ])
+            ])
+          })
         ],
         2
       ),
@@ -68792,7 +69243,16 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v(_vm._s(_vm.submitTitle))]
+                      [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(_vm.submitTitle) +
+                            "\n                                            "
+                        ),
+                        _vm.loading
+                          ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                          : _vm._e()
+                      ]
                     )
                   ])
                 ]
@@ -68861,80 +69321,120 @@ var render = function() {
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
       _c(
         "div",
+        { staticClass: "row" },
         [
-          _vm._l(_vm.fleets, function(fleet) {
-            return _c(
-              "p",
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(fleet.number_of_horses) +
-                    " horses and " +
-                    _vm._s(fleet.number_of_trailers) +
-                    " trailers"
-                ),
-                _vm._l(fleet.trailers, function(trailer) {
-                  return _c("span", [_vm._v(" " + _vm._s(trailer.name) + " ")])
-                }),
-                _vm._v(" "),
-                _vm._l(fleet.capturers, function(datacapturer) {
-                  return _c("span", [
-                    _vm._v(
-                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editModal(fleet)
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deletefleet(fleet)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ],
-              2
-            )
-          }),
+          _c("h1", { staticClass: "col-md-12" }, [
+            _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
+            _vm._v("\n                    The Fleet Details for "),
+            _c("small", [_vm._v(_vm._s(_vm.user.organisation))])
+          ]),
           _vm._v(" "),
-          !_vm.fleets.length
-            ? _c(
-                "a",
-                {
-                  attrs: { href: "" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.createModal($event)
+          _c("h2", { staticClass: "col-md-12 pull-right" }, [
+            !_vm.fleets.length
+              ? _c(
+                  "a",
+                  {
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.createModal($event)
+                      }
                     }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-plus text-success" }),
-                  _vm._v(" Add Fleet Information")
-                ]
-              )
-            : _vm._e()
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-plus text-success" }),
+                    _vm._v(
+                      " \n                        Add Fleet Information\n                    "
+                    )
+                  ]
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "pull-right" }, [
+              _c("a", { attrs: { href: "/dashboard/" + _vm.user.slug } }, [
+                _c("i", { staticClass: "fa fa-chevron-left text-success" }),
+                _vm._v(
+                  " \n                            Back\n                        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.fleets, function(fleet) {
+            return _c("div", { staticClass: "media col-md-4" }, [
+              _c("span", { staticClass: "circle" }, [_vm._v("T")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c(
+                  "p",
+                  [
+                    _c("i", { staticClass: "fa fa-bus fa-x2" }),
+                    _vm._v(" " + _vm._s(fleet.number_of_horses) + " horses "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("i", { staticClass: "fa fa-truck fa-x2" }),
+                    _vm._v(
+                      " " +
+                        _vm._s(fleet.number_of_trailers) +
+                        " trailers -\n\n                           "
+                    ),
+                    _vm._l(fleet.trailers, function(trailer) {
+                      return _c("span", [
+                        _vm._v(" " + _vm._s(trailer.name) + " ")
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-right" }, [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editModal(fleet)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-edit" }),
+                      _vm._v(
+                        "\n                                Edit\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deletefleet(fleet)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-trash text-danger" }),
+                      _vm._v(
+                        " \n                                Delete\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  )
+                ])
+              ])
+            ])
+          })
         ],
         2
       ),
@@ -69182,7 +69682,16 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v(_vm._s(_vm.submitTitle))]
+                      [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(_vm.submitTitle) +
+                            "\n                                            "
+                        ),
+                        _vm.loading
+                          ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                          : _vm._e()
+                      ]
                     )
                   ])
                 ]
@@ -69543,76 +70052,118 @@ var render = function() {
     _c("div", { staticClass: "d-flex justify-content-center h-100" }, [
       _c(
         "div",
+        { staticClass: "row" },
         [
-          _vm._l(_vm.traderefs, function(traderef) {
-            return _c(
-              "p",
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(traderef.name) +
-                    " " +
-                    _vm._s(traderef.phone) +
-                    " " +
-                    _vm._s(traderef.address) +
-                    " "
-                ),
-                _vm._l(traderef.capturers, function(datacapturer) {
-                  return _c("span", [
-                    _vm._v(
-                      " Inserted by " + _vm._s(datacapturer.uzer.organisation)
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editModal(traderef)
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deletetraderef(traderef)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete")]
-                )
-              ],
-              2
-            )
-          }),
+          _c("h1", { staticClass: "col-md-12" }, [
+            _c("i", { staticClass: "fa fa-share-alt fa-3x" }),
+            _vm._v("\n                    The Trade References for "),
+            _c("small", [_vm._v(_vm._s(_vm.user.organisation))])
+          ]),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.createModal($event)
+          _c("h2", { staticClass: "col-md-12 pull-right" }, [
+            _c(
+              "a",
+              {
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.createModal($event)
+                  }
                 }
-              }
-            },
-            [
-              _c("i", { staticClass: "fa fa-plus text-success" }),
-              _vm._v(" Add a traderef")
-            ]
-          )
+              },
+              [
+                _c("i", { staticClass: "fa fa-plus text-success" }),
+                _vm._v(
+                  " \n                        Add a Trade Reference\n                        "
+                ),
+                _vm.loading
+                  ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("h2", { staticClass: "col-md-12" }, [
+            _c("span", { staticClass: "pull-right" }, [
+              _c("a", { attrs: { href: "/dashboard/" + _vm.user.slug } }, [
+                _c("i", { staticClass: "fa fa-chevron-left text-success" }),
+                _vm._v(
+                  " \n                            Back\n                            \n                        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.traderefs, function(traderef) {
+            return _c("div", { staticClass: "media col-md-4" }, [
+              _c("span", { staticClass: "circle" }, [
+                _vm._v(_vm._s(traderef.name.slice(0, 1)))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c("p", [
+                  _c("i", { staticClass: "fa fa-institution" }),
+                  _vm._v(
+                    " " +
+                      _vm._s(traderef.name) +
+                      " \n                            "
+                  ),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editModal(traderef)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-edit" }),
+                      _vm._v(
+                        "\n                                Edit\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deletetraderef(traderef)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-trash text-danger" }),
+                      _vm._v(
+                        " \n                                Delete\n                                "
+                      ),
+                      _vm.loading
+                        ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-map-marker" }),
+                  _vm._v(" " + _vm._s(traderef.address) + "       "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-phone" }),
+                  _vm._v(
+                    " " + _vm._s(traderef.phone) + " \n                        "
+                  )
+                ])
+              ])
+            ])
+          })
         ],
         2
       ),
@@ -69823,7 +70374,16 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         attrs: { type: "submit" }
                       },
-                      [_vm._v(_vm._s(_vm.submitTitle))]
+                      [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(_vm.submitTitle) +
+                            "\n                                            "
+                        ),
+                        _vm.loading
+                          ? _c("i", { staticClass: "fa fa-spinner fa-pulse" })
+                          : _vm._e()
+                      ]
                     )
                   ])
                 ]

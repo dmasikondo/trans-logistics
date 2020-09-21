@@ -23,7 +23,7 @@ class ContactController extends Controller
     public function index(User $user)
     {
     	$contacts = Contact::where('user_id', $user->id)->get();
-        return $contacts->load(['capturers.uzer','user']);
+        return $contacts->load(['capturers.uzer']);
     }
     public function post(User $user)
     {

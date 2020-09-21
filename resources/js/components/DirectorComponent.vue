@@ -1,13 +1,51 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-            <div>
-                <p v-for="director in directors">
-                    {{director.name}} {{director.phone}} {{director.address}} <span v-for="datacapturer in director.capturers"> Inserted by {{datacapturer.uzer.organisation}}</span>
-                    <a href=""@click.prevent="editModal(director)">Edit</a>
-                    <a href=""@click.prevent="deletedirector(director)">Delete</a>
-                </p>
-                <a href="" @click.prevent="createModal"><i class="fa fa-plus text-success"></i> Add a director</a>
+            <div class="row">
+
+                <h1 class="col-md-12">
+                    <i class="fa fa-share-alt fa-3x"></i>
+                    The Directors for <small>{{user.organisation}}</small>
+                </h1>
+
+                <h2 class="col-md-12 pull-right">
+
+                    <a href="" @click.prevent="createModal">
+                        <i class="fa fa-plus text-success"></i> 
+                        Add a Director
+                        <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                    </a>
+                </h2>                
+                <h2 class="col-md-12">
+                    <span class="pull-right">
+                        <a :href="'/dashboard/' + user.slug">
+                            <i class="fa fa-chevron-left text-success"></i> 
+                            Back
+                            
+                        </a>                            
+                    </span>
+                </h2>
+                <div v-for="director in directors" class="media col-md-4">
+                    <span class="circle">{{director.name.slice(0,1)}}</span>
+                    <div class="media-body">
+                        <p>
+                           <i class="fa fa-user"></i> {{director.name}} 
+                            <a href=""@click.prevent="editModal(director)">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </a>
+                            <a href=""@click.prevent="deletedirector(director)">
+                                <i class="fa fa-trash text-danger"></i> 
+                                Delete
+                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                            </a>                            
+                                                                                <br>
+                            <i class="fa fa-map-marker"></i> {{director.address}}       <br>
+                            <i class="fa fa-phone"></i> {{director.phone}} 
+                        </p>
+                    </div>
+                </div>  
+
             </div>
 
 <!-- Modal -->   
@@ -56,7 +94,10 @@
                                 </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" type="submit">{{submitTitle}}</button>                                            
+                                        <button class="btn btn-primary" type="submit">
+                                            {{submitTitle}}
+                                            <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
+                                        </button>                                            
                                     </div>  
                             </form>                              
                         </div>
@@ -109,6 +150,7 @@
                 id:'',
                 directors: {},
                 errors: new Errors(),
+                loading: false,
             }
         },
         props: [
@@ -144,13 +186,14 @@
                     this.directors = response.data});
             },
             adddirector(){
+                this.loading = true; //the loading begin
                 axios.post('/directors/'+ this.user.slug,{
                     name: this.name,
                     phone: this.phone,
                     address: this.address, 
 
                 }).then((response) =>{ 
-                     window.location.href='/dashboard/'+this.user.slug; 
+                   //  window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.name= '';
                     this.phone = '';
@@ -161,17 +204,18 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' directors not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
 
             },
 
             editdirector(){
+                this.loading = true; //the loading begin
                 axios.put('/directors/'+ this.id,{
                     name: this.name,
                     phone: this.phone,
                     address: this.address,                   
                 }).then((response) =>{ 
-                    window.location.href='/dashboard/'+this.user.slug; 
+                   // window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.name= '';
                     this.phone = '';
@@ -182,20 +226,42 @@
                 }).catch((e) =>{
                     this.errors.record(e.response.data.errors);
                     this.message = e.response.data.message + ' directors not updated!';                    
-                });
+                }).finally(() => (this.loading = false)); // set loading to false when request finish
             },
 
             deletedirector(director){
-                axios.delete('/directors/'+director.id).then((response)=>{
-                    window.location.href='/dashboard/'+this.user.slug; 
-                    this.message = ''; 
-                    this.errors = new Errors(); 
-                    Fire.$emit('AfterdirectorWasUpdated');
-                    $('#directorModal').modal('hide');                     
-                }).catch((e) =>{
-                    this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' directors not updated!';                    
-                });
+                this.loading = true; //the loading begin
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Once Deleted, you will not be able to recover the director -- " +director.name +"!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText:'Yes, delete it!',
+                    cancelButtonText:'No, keep it',
+                    }).then((willDelete) => {                        
+                        if (willDelete.value) {                    
+                        axios.delete('/directors/'+director.id).then((response)=>{
+            //            window.location.href='/dashboard/'+this.user.slug; 
+                        this.message = ''; 
+                        this.errors = new Errors(); 
+                     Fire.$emit('AfterdirectorWasUpdated');
+                    $('#directorModal').modal('hide');                               
+                        }).catch((e)=>{
+                            this.errors.record(e.response.data.errors);
+                            this.message = e.response.data.message;
+                            Swal.fire("Failure! "+ this.message, {
+                            icon: "error",
+                        });                        
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish
+                        } 
+                        else if(willDelete.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire('Cancelled',
+                                        'Your director is safe',
+                                        'error'
+                            )
+                        }
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
+
             },
 
         },

@@ -5,25 +5,35 @@
 
                 <h1 class="col-md-12">
                     <i class="fa fa-share-alt fa-3x"></i>
-                    The Contact Details 
-                    <span class="pull-right">
-
-                        <a href="" @click.prevent="createModal">
-                            <i class="fa fa-plus text-success"></i> 
-                            Add a Contact
-                        </a>
-                    </span>
+                    The Contact Details for <small>{{user.organisation}}</small>
                 </h1>
+
+                <h2 class="col-md-12 pull-right">
+
+                    <a href="" @click.prevent="createModal">
+                        <i class="fa fa-plus text-success"></i> 
+                        Add a Contact
+                    </a>
+                </h2>                
+                <h2 class="col-md-12">
+                    <span class="pull-right">
+                        <a :href="'/dashboard/' + user.slug">
+                            <i class="fa fa-chevron-left text-success"></i> 
+                            Back
+                        </a>                            
+                    </span>
+                </h2>
                 <div v-for="contact in contacts" class="media col-md-4">
                     <span class="circle">{{contact.person.slice(0,1)}}</span>
                     <div class="media-body">
                         <p>
                            <i class="fa fa-user"></i> {{contact.person}} 
                             <a href=""@click.prevent="editModal(contact)">
+                                <i class="fa fa-edit"></i>
                                 Edit
-                                <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
                             </a>
                             <a href=""@click.prevent="deleteContact(contact)">
+                                <i class="fa fa-trash text-danger"></i> 
                                 Delete
                                 <i v-if="loading" class="fa fa-spinner fa-pulse"></i>
                             </a>                            
@@ -184,7 +194,7 @@
                     whatsapp: this.whatsapp, 
 
                 }).then((response) =>{ 
-                     window.location.href='/dashboard/'+this.user.slug; 
+              //       window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.person= '';
                     this.phone = '';
@@ -206,7 +216,7 @@
                     phone: this.phone,
                     whatsapp: this.whatsapp,                   
                 }).then((response) =>{ 
-                    window.location.href='/dashboard/'+this.user.slug; 
+                  //  window.location.href='/dashboard/'+this.user.slug; 
                     this.message = '';
                     this.person= '';
                     this.phone = '';
@@ -221,18 +231,38 @@
             },
 
             deleteContact(contact){
-                this.loading = true; //the loading begin
-                axios.delete('/contacts/'+contact.id).then((response)=>{
-                    window.location.href='/dashboard/'+this.user.slug; 
-                    this.message = ''; 
-                    this.errors = new Errors(); 
-                    Fire.$emit('AfterContactWasUpdated');
-                    $('#contactModal').modal('hide');                     
-                }).catch((e) =>{
-                    this.errors.record(e.response.data.errors);
-                    this.message = e.response.data.message + ' Contacts not updated!';                    
-                }).finally(() => (this.loading = false)); // set loading to false when request finish
-            },
+                    this.loading = true; //the loading begin
+                    Swal.fire({
+                    title: "Are you sure?",
+                    text: "Once Deleted, you will not be able to recover the contact -- " +contact.person +"!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText:'Yes, delete it!',
+                    cancelButtonText:'No, keep it',
+                    }).then((willDelete) => {                        
+                        if (willDelete.value) {                    
+                        axios.delete('/contacts/'+contact.id).then((response)=>{
+                      //  window.location.href='/dashboard/'+this.user.slug; 
+                        this.message = ''; 
+                        this.errors = new Errors(); 
+                        Fire.$emit('AfterContactWasUpdated');
+                    $('#contactModal').modal('hide');                               
+                        }).catch((e)=>{
+                            this.errors.record(e.response.data.errors);
+                            this.message = e.response.data.message;
+                            Swal.fire("Failure! "+ this.message, {
+                            icon: "error",
+                        });                        
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish
+                        } 
+                        else if(willDelete.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire('Cancelled',
+                                        'Your contact is safe',
+                                        'error'
+                            )
+                        }
+                    }).finally(() => (this.loading = false)); // set loading to false when request finish;
+                 },
 
         },
         mounted(){
