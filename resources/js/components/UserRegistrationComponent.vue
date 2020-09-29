@@ -29,7 +29,7 @@
                                 <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-user"></i></span> 
                                 </div>
-                                <input type="text" class="form-control" v-model="organisation" :class="{'is-invalid': errors.hasError('organisation')}" required>
+                                <input type="text" class="form-control" v-model="organisation" :class="{'is-invalid': errors.hasError('organisation')}" required autocomplete="false">
                                 <label class="floating-label">Organisation Name</label>
                                  <span v-if="errors.hasError('organisation')" class="invalid-feedback" role="alert">
                                     <strong>{{errors.get('organisation')}}</strong>
@@ -39,7 +39,7 @@
                                 <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span> 
                                 </div>
-                                <input type="email" class="form-control" v-model="email"  :class="{'is-invalid': errors.hasError('email')}"  required>
+                                <input type="email" class="form-control" v-model="email"  :class="{'is-invalid': errors.hasError('email')}"  required autocomplete="false">
                                 <label class="floating-label">Email</label>
                                  <span v-if="errors.hasError('email')" class="invalid-feedback" role="alert">
                                     <strong>{{errors.get('email')}}</strong>
@@ -50,7 +50,7 @@
                                 <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-key"></i></span> 
                                 </div>
-                                <input type="password" class="form-control" v-model="password"  :class="{'is-invalid': errors.hasError('password')}"  required>
+                                <input type="password" class="form-control" v-model="password"  :class="{'is-invalid': errors.hasError('password')}"  required autocomplete="false">
                                 <label class="floating-label">Password</label>
                                  <span v-if="errors.hasError('password')" class="invalid-feedback" role="alert">
                                     <strong>{{errors.get('password')}}</strong>
@@ -60,7 +60,7 @@
                                 <div class="input-group-prepend">
                                    <span class="input-group-text"><i class="fa fa-key"></i></span> 
                                 </div> 
-                                <input type="password" class="form-control" v-model="password_confirmation"  :class="{'is-invalid': errors.hasError('password_confirmation')}"  required>
+                                <input type="password" class="form-control" v-model="password_confirmation"  :class="{'is-invalid': errors.hasError('password_confirmation')}"  required autocomplete="false">
                                 <label class="floating-label">Confirm Password</label>
                                  <span v-if="errors.hasError('password_confirmation')" class="invalid-feedback" role="alert">
                                     <strong>{{errors.get('password_confirmation')}}</strong>

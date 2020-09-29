@@ -53,5 +53,7 @@ class Vehicle extends Model
      public function getRouteAttribute($desc)
      {
          return ucwords($desc);
-     }          
+     }  
+
+            
 }

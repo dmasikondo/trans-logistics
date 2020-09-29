@@ -9,6 +9,7 @@
 	@endcan
 
 				<div class="card">
+<!-- random image -->
 					<div class="card-img-top embed-responsive embed-responsive-21by9">
 						<img class="card-img-top embed-responsive-item" src="/images/{{$load->randomImage()}}" alt="image {{$load->randomImage()}}">
 					</div>
@@ -192,6 +193,7 @@
 				<span class="badge badge-default">{{$vehicles->count()}}</span>
 			</h3>
 			@foreach($vehicles as $vehicle)
+
 				<div class="media">
 					<span class="circle">{{substr($vehicle->user->organisation,0,1)}}</span>
 					<div class="media-body">
@@ -203,12 +205,10 @@
 							<small class="text-muted">Posted {{$vehicle->updated_at->diffForHumans()}}</small> 
 						</p>
 					</div>
-				</div>	
-
-					
-
+				</div>
 
 			@endforeach
+			
 		</div>
 
 

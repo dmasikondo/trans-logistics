@@ -35,6 +35,7 @@ Vue.component('delete-vehicle', require('./components/vehicle/DeleteVehicle.vue'
 Vue.component('vehicle-private-visibility', require('./components/vehicle/VehiclePrivateVisibility.vue').default);
 Vue.component('vehicle-public-visibility', require('./components/vehicle/VehiclePublicVisibility.vue').default);
 Vue.component('bid-component', require('./components/bid/BidComponent.vue').default);
+Vue.component('profile-component', require('./components/profile/ProfileComponent.vue').default);
 
 
 Vue.component(
@@ -56,6 +57,9 @@ window.Fire = new Vue();
 Vue.filter('formatDate', function(date) {
     return moment(date).format('MM/DD/YYYY');
 }); 
+/*Vue.filter('timeAgo', function(created){
+	return  moment(created).startOf('hour').fromNow();
+});*/
 /*Vue.filter('upText', function(text){
 	return text.charAt(0).toUpperCase() + text.slice(1);
 });
@@ -63,9 +67,7 @@ Vue.filter('formatDate', function(date) {
 Vue.filter('myDate', function(created){
 	return moment(created).format('MMMM Do YYYY, h:mm:ss a') + ' ' + moment(created).startOf('hour').fromNow();
 });
-Vue.filter('timeAgo', function(created){
-	return  moment(created).startOf('hour').fromNow();
-});*/
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

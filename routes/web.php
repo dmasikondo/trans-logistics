@@ -91,8 +91,15 @@ Route::post('/traderefs/{user:slug}', 'TraderefController@post');
 Route::put('/traderefs/{traderef:id}', 'TraderefController@update');
 Route::delete('/traderefs/{traderef:id}', 'TraderefController@destroy');
 
-// bid for consignments
 
+//profile doc
+Route::post('/profiles', 'ProfileController@store');
+Route::patch('/profiles', 'ProfileController@store');
+Route::get('/profiles/{user:slug}', 'ProfileController@show');
+Route::delete('/profiles/{profile:id}', 'ProfileController@destroy');
+
+
+// bid for consignments
 Route::get('/bids/{bid:slug}', 'BidController@show');
 
 Route::get('/organisation-contacts', 'RegistrationController@show');
@@ -101,6 +108,7 @@ Route::get('/organisation-fleets', 'RegistrationController@fleets');
 Route::get('/organisation-directors', 'RegistrationController@directors');
 Route::get('/organisation-traderefs', 'RegistrationController@traderefs');
 Route::get('/dashboard/{user:slug}','DashboardController@show');
+Route::get('/organisation-profile/{user:slug}', 'RegistrationController@profile');
 
 
 //pages

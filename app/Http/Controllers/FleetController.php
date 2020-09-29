@@ -27,7 +27,7 @@ class FleetController extends Controller
      */
     public function alltrailers()
     {
-       return Trailer::all();
+       return Trailer::orderBy('name','asc')->get();
     }
     public function index(User $user)
     {

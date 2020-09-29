@@ -132,7 +132,7 @@ class Load extends Model
 
     public function nameOfCreator(User $user)
     {
-        return (bool) $this->where('user_id',$user->id)->count();
+        return (bool) $this->user()->where('id',$user->id)->count();
 
     }
 

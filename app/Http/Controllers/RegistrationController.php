@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\User;
 
 class RegistrationController extends Controller
 {
@@ -67,5 +68,13 @@ class RegistrationController extends Controller
    {
    		$user = Auth::user();
    		return view('registration.traderefs', compact('user'));   	
-   }        
+   } 
+
+   public function profile(User $user)
+   {
+    //$profiles = CompanyProfile::where('user_id', $user->id)->get();
+    $user = $user->load('profiles');
+     return view('registration.profile', compact('user'));
+
+   }       
 }

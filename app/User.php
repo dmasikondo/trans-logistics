@@ -82,6 +82,13 @@ class User extends Authenticatable
         }
         
     }*/
+
+
+    public function profiles()
+    {
+        return $this->hasMany(CompanyProfile::class);
+    }
+
     /**
      * user hasnt filled contacts form
      */

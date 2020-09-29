@@ -181,13 +181,27 @@
 
 					<div class="col-md-4 mt-4">
 						<div class="card">
-							<div class="card-header">
+							<div class="card-header {{$user->profiles->isEmpty()? 'bg-danger': 'bg-primary'}}"">
 								Company Profile
 								<span class="fa fa-upload"></span>
-								<span class="fa fa-warning text-danger pull-right"></span>									
+								<span class="{{$user->profiles->isEmpty()? 'fa fa-warning text-warning': 'fa fa-check text-success'}}  pull-right"></span>									
 							</div>
 							<div class="card-body">
-								Upload Company Profile Doc
+						<!--- user has traderef information -->
+								@if(!$user->profiles->isEmpty())
+										<p>
+											<span class="badge badge-info">{{count($user->profiles)}} </span> 
+											Company documents uploaded
+										</p>
+										<a href="/organisation-profile/{{$user->slug}}" class="btn btn-outline-success">View / Update</a>
+								@else
+										<p>
+											Upload Company Profile Docs
+										</p>
+										<a href="/organisation-profile/{{$user->slug}}" class="btn btn-outline-danger">Update</a>									
+								@endif
+							<!-- end of user has director information -->								
+								
 							</div>
 						</div>
 					</div>

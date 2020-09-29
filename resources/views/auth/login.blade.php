@@ -14,7 +14,7 @@
 
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" autocomplete="off">
                         @csrf
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -34,7 +34,7 @@
                             <div class="input-group-prepend">
                                <span class="input-group-text"><i class="fa fa-key"></i></span> 
                             </div>                            
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('email') }}" required autofocus>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{ old('email') }}" required>
                             <label for="password" class="floating-label">{{ __('Password') }}</label>
 
                                 @error('password')
